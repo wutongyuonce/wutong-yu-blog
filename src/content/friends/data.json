@@ -59,8 +59,8 @@
   {
     "id": "miuo's blog",
     "name": "miuo's blog",
-    "link": "https://blog.miuo.me",
-    "avatar": "https://blog.miuo.me/avatar.avif",
+    "link": "https://miuo.me",
+    "avatar": "https://miuo.me/avatar.avif",
     "desc": "记录文章、笔记、实验和暂时不想丢掉的内容。",
     "category": "独立博客",
     "order": 4
