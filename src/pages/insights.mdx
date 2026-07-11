@@ -1,24 +1,14 @@
 ---
 title: Insights
-subtitle: 有些句子会在某个时刻击中你，有些启发则会在更久之后才慢慢显形
-description: 收藏语录、启发、哲理，以及那些值得反复回看的片刻
-bgType: snow
-ogImage: true
+description: Insights 页面预留空白内容，方便后续开发
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import StandardLayout from '~/layouts/StandardLayout.astro'
 import InsightsView from '~/components/views/InsightsView.astro'
 
 <BaseLayout
   title={frontmatter.title}
   description={frontmatter.description}
-  bgType={frontmatter.bgType}
-  ogImage={frontmatter.ogImage}
 >
-  <StandardLayout title={frontmatter.title} subtitle={frontmatter.subtitle} isCentered={true}>
-    <article class="mx-auto max-w-300 w-full" style="margin-top: -2em;">
-      <InsightsView />
-    </article>
-  </StandardLayout>
+  <InsightsView />
 </BaseLayout>
