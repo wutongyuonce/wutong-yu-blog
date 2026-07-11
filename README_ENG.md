@@ -36,9 +36,7 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 
 ## /insights
 
-![image-20260529193920920](img/image-20260529193920920.png)
-
-![image-20260529194007306](img/image-20260529194007306.png)
+The `/insights/` page is currently cleared into a blank placeholder page. The route is kept so the page can be redesigned and rebuilt later.
 
 ## /friends
 
@@ -60,7 +58,7 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 - Home page at `/`
 - Blog index at `/blogs/` and article pages at `/blogs/[slug]/`
 - Project showcase page at `/projects/`
-- Insights page at `/insights/` with a year-grouped timeline of quotes, reflections, and inspirations, plus expandable preview copy, optional images, and the `snow` background
+- Insights page at `/insights/`, currently kept as a blank placeholder route for future redevelopment
 - Friends page at `/friends/` with category-grouped link cards, a friend-request section, and light/dark theme support
 - Full-text blog search powered by Pagefind
 - Right-side article TOC for blog detail pages
@@ -113,7 +111,7 @@ pnpm format:write # format files with Prettier
 | `/blogs/` | Blog index |
 | `/blogs/[slug]/` | Blog post detail page |
 | `/projects/` | Project showcase |
-| `/insights/` | Insights page: quotes, reflections, and inspirations in a year-grouped timeline, with expandable preview copy, optional images, and the `snow` background |
+| `/insights/` | Insights page: currently a blank placeholder route with only the base page shell |
 | `/friends/` | Friends page: category-grouped link cards, request instructions, and page-level `cd ..` alignment |
 | `/search/` | Search page powered by Pagefind |
 
@@ -124,7 +122,7 @@ pnpm format:write # format files with Prettier
 | `src/content/home/index.md` | Homepage body content |
 | `src/content/blogs/**/*.{md,mdx}` | Blog posts rendered at `/blogs/` |
 | `src/content/projects/data.json` | Project card data |
-| `src/content/insights/**/*.{md,mdx}` | Insight entries (quotes, reflections, inspirations) |
+| `src/content/insights/**/*.{md,mdx}` | Insight content source files, not rendered on the page right now |
 | `src/content/friends/data.json` | Friends card data |
 | `src/content/schema.ts` | Collection schemas (page, post, project, insight, friend) |
 | `src/config.ts` | Site metadata, nav items, social links, and feature switches |
@@ -151,7 +149,7 @@ src/
     blogs/        # Blog posts (Markdown / MDX)
     home/         # Homepage content
     projects/     # Project data (JSON)
-    insights/     # Insight entries organized by year (Markdown)
+    insights/     # Insight content source files organized by year (currently not rendered)
     friends/      # Friends data (JSON)
     schema.ts     # Shared Zod schemas for all content collections
   layouts/        # BaseLayout, StandardLayout
@@ -160,7 +158,7 @@ src/
   utils/          # path, datetime, data, misc, toc helpers
 plugins/          # remark/rehype plugins, OG helpers
 public/           # Static assets such as favicon, fonts, and generated images
-doc/              # Project notes and customization documents
+docs/             # Project notes and customization documents
 ```
 
 ## Architecture Notes
@@ -184,17 +182,17 @@ src/components/* + styles/*  -> final UI output
 
 ## Documentation
 
-Project-specific notes are kept in `doc/`:
+Project-specific notes are kept in `docs/`:
 
-- `doc/项目解析.md` - Full project architecture and data flow analysis
-- `doc/feature/Insights模块更新说明.md` - Insights module design, content flow, and maintenance guide
-- `doc/feature/友链模块说明.md` - Friends module structure, data flow, and maintenance guide
-- `doc/feature/文章TOC与响应式导航说明.md` - TOC behavior and responsive navigation details
-- `doc/notes/Insights页面展开收起与字体说明.md` - Notes for the latest Insights expand/collapse behavior, typography, and sizing controls
-- `doc/notes/页面调整.md` - Blog reading experience and page-level adjustments
-- `doc/notes/页面间距统一.md` - Notes on page spacing fixes
-- `doc/notes/LogoButton图标替换说明.md` - Logo replacement from text to SVG with theme switching
-- `doc/notes/字体修改.md` - Adding and applying local fonts
+- `docs/项目解析.md` - Full project architecture and data flow analysis
+- `docs/feature/Insights模块更新说明.md` - Current Insights module status, wiring, and restoration notes
+- `docs/feature/友链模块说明.md` - Friends module structure, data flow, and maintenance guide
+- `docs/feature/文章TOC与响应式导航说明.md` - TOC behavior and responsive navigation details
+- `docs/notes/Insights页面清空说明.md` - Change note for clearing the Insights page into a placeholder
+- `docs/notes/页面调整.md` - Blog reading experience and page-level adjustments
+- `docs/notes/页面间距统一.md` - Notes on page spacing fixes
+- `docs/notes/LogoButton图标替换说明.md` - Logo replacement from text to SVG with theme switching
+- `docs/notes/字体修改.md` - Adding and applying local fonts
 
 ## Positioning
 

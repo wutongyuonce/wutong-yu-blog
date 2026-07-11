@@ -1,6 +1,6 @@
 # Wutong-Yu-Blog
 
-[English](README_ENG.md) | [1w5+字数博客项目解析，深入了解 Astro](doc/)
+[English](README_ENG.md) | [1w5+字数博客项目解析，深入了解 Astro](docs/)
 
 [![Astro](https://img.shields.io/badge/Astro-5-ff5a03?logo=astro&logoColor=white)](https://astro.build)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -40,9 +40,7 @@
 
 ## Insights 页面
 
-![image-20260529193920920](img/image-20260529193920920.png)
-
-![image-20260529194007306](img/image-20260529194007306.png)
+当前 `/insights/` 页面已清空为预留开发页，仅保留基础页面壳与空白主体，方便后续重新设计和开发。
 
 ## Friends 页面
 
@@ -64,7 +62,7 @@
 - 首页 `/`
 - 博客索引 `/blogs/` 与文章页 `/blogs/[slug]/`
 - 项目展示页 `/projects/`
-- Insights 页 `/insights/`，按年份分组的时间线展示语录、启发与反思，支持正文预览展开、可选配图和 `snow` 背景
+- Insights 页 `/insights/`，当前为预留空白页，保留独立路由，方便后续重新开发
 - Friends 页 `/friends/`，按分类展示友链卡片，包含申请友链说明区块，并适配明暗主题
 - 基于 Pagefind 的博客全文搜索
 - 文章详情页右侧目录
@@ -117,7 +115,7 @@ pnpm format:write # 格式化代码（Prettier）
 | `/blogs/` | 博客索引页 |
 | `/blogs/[slug]/` | 博客文章详情页 |
 | `/projects/` | 项目展示页 |
-| `/insights/` | Insights 页：按年份时间线展示语录、启发与反思，支持正文预览展开、可选配图与 `snow` 背景 |
+| `/insights/` | Insights 页：当前为预留空白页，仅保留独立路由与基础页面壳 |
 | `/friends/` | Friends 页：按分类展示友情链接卡片，支持申请友链说明与页面级 `cd ..` 对齐 |
 | `/search/` | 基于 Pagefind 的搜索页 |
 
@@ -128,7 +126,7 @@ pnpm format:write # 格式化代码（Prettier）
 | `src/content/home/index.md` | 首页正文内容 |
 | `src/content/blogs/**/*.{md,mdx}` | 博客文章，渲染在 `/blogs/` 下 |
 | `src/content/projects/data.json` | 项目卡片数据 |
-| `src/content/insights/**/*.{md,mdx}` | Insight 条目（语录、启发、反思） |
+| `src/content/insights/**/*.{md,mdx}` | Insight 条目内容源，当前页面暂未渲染这些内容 |
 | `src/content/friends/data.json` | 友链卡片数据 |
 | `src/content/schema.ts` | 内容集合的 schema 定义（页面、文章、项目、Insight、Friend） |
 | `src/config.ts` | 站点元信息、导航项、社交链接与功能开关 |
@@ -155,7 +153,7 @@ src/
     blogs/        # 博客文章（Markdown / MDX）
     home/         # 首页内容
     projects/     # 项目数据（JSON）
-    insights/     # Insight 条目，按年份归档（Markdown）
+    insights/     # Insight 条目内容源，按年份归档（当前页面暂未使用）
     friends/      # 友链数据（JSON）
     schema.ts     # 所有内容集合的 Zod schema 定义
   layouts/        # BaseLayout, StandardLayout
@@ -164,7 +162,7 @@ src/
   utils/          # 路径、日期、数据、杂项、目录工具函数
 plugins/          # remark/rehype 插件、OG 辅助
 public/           # 静态资源：favicon、字体、生成的图片等
-doc/              # 项目笔记与定制说明文档
+docs/             # 项目笔记与定制说明文档
 ```
 
 ## 架构说明
@@ -188,17 +186,17 @@ src/components/* + styles/*  -> 最终 UI 输出
 
 ## 文档
 
-项目相关说明文档存放在 `doc/` 目录下：
+项目相关说明文档存放在 `docs/` 目录下：
 
-- `doc/项目解析.md` — 完整的项目架构与数据流分析
-- `doc/feature/Insights模块更新说明.md` — Insights 模块设计、内容链路与维护指南
-- `doc/feature/友链模块说明.md` — Friends 模块结构、数据链路与维护说明
-- `doc/feature/文章TOC与响应式导航说明.md` — 目录行为与响应式导航细节
-- `doc/notes/Insights页面展开收起与字体说明.md` — Insights 页面最近的展开收起、字体与排版说明
-- `doc/notes/页面调整.md` — 博客阅读体验与页面级调整
-- `doc/notes/页面间距统一.md` — 页面间距修复记录
-- `doc/notes/LogoButton图标替换说明.md` — Logo 从文字替换为 SVG 及主题切换适配
-- `doc/notes/字体修改.md` — 本地字体的添加与应用
+- `docs/项目解析.md` — 完整的项目架构与数据流分析
+- `docs/feature/Insights模块更新说明.md` — Insights 模块当前状态、链路与后续恢复说明
+- `docs/feature/友链模块说明.md` — Friends 模块结构、数据链路与维护说明
+- `docs/feature/文章TOC与响应式导航说明.md` — 目录行为与响应式导航细节
+- `docs/notes/Insights页面清空说明.md` — Insights 页面清空为预留页的变更记录
+- `docs/notes/页面调整.md` — 博客阅读体验与页面级调整
+- `docs/notes/页面间距统一.md` — 页面间距修复记录
+- `docs/notes/LogoButton图标替换说明.md` — Logo 从文字替换为 SVG 及主题切换适配
+- `docs/notes/字体修改.md` — 本地字体的添加与应用
 
 ## 定位
 
