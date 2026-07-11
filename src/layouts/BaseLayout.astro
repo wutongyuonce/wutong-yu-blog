@@ -13,7 +13,7 @@ import ToTopButton from '~/components/widgets/ToTopButton.astro'
 import Backdrop from '~/components/base/Backdrop.astro'
 
 import { SITE, UI, FEATURES } from '~/config'
-import { resolvePath, withBasePath } from '~/utils/path'
+import { ensureTrailingSlash, resolvePath, withBasePath } from '~/utils/path'
 
 import type { BgType } from '~/types'
 
@@ -29,9 +29,13 @@ interface Props {
 const { title, description, ogImage, bgType, pubDate, lastModDate } =
   Astro.props
 const pathname = Astro.url.pathname
+const currentPath = ensureTrailingSlash(pathname)
 const isHomePage = pathname === withBasePath('/')
 const isInsightsPage = pathname === resolvePath('/insights')
 const isFriendsPage = pathname === resolvePath('/friends')
+const isBlogDetailPage =
+  currentPath.startsWith(resolvePath('/blogs')) &&
+  currentPath !== resolvePath('/blogs')
 
 const footerClasses = ['slide-enter animate-delay-1000! mx-auto print:hidden']
 const footerStyle: Record<string, string> = {}
@@ -46,6 +50,9 @@ if (isFriendsPage) {
   footerStyle.width = '100%'
   footerStyle.maxWidth = '75rem'
   footerStyle.marginTop = '0rem'
+} else if (isBlogDetailPage) {
+  footerClasses.push('prose')
+  footerStyle.marginTop = '4rem'
 } else {
   footerClasses.push('prose')
   footerStyle.marginTop = '-1rem'
