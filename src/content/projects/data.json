@@ -1,16 +1,16 @@
 [
   {
     "id": "XingClaw",
-    "link": "https://github.com/wutongyuonce/pi-deep-dive",
-    "desc": "A deep-dive analysis and source code walkthrough of Pi",
-    "icon": "i-carbon:user-feedback",
+    "link": "https://github.com/wutongyuonce/XingClaw",
+    "desc": "miniopenclaw agent",
+    "icon": "i-carbon:chat-bot",
     "category": "Agent"
   },
   {
     "id": "pi-deep-dive",
-    "link": "https://github.com/wutongyuonce/XingClaw",
-    "desc": "miniopenclaw agent",
-    "icon": "i-carbon:chat-bot",
+    "link": "https://github.com/wutongyuonce/pi-deep-dive",
+    "desc": "A deep-dive analysis and source code walkthrough of Pi",
+    "icon": "i-carbon:user-feedback",
     "category": "Agent"
   },
   {
@@ -26,13 +26,6 @@
     "desc": "my personal website",
     "icon": "i-carbon:license-third-party",
     "category": "Frontend"
-  },
-  {
-    "id": "AdaptiveBufferedThreadPoolExecutor",
-    "link": "https://github.com/wutongyuonce/AdaptiveBufferedThreadPoolExecutor",
-    "desc": "一个自适应缓冲线程池执行器，基于JDK线程池扩展",
-    "icon": "i-carbon:partition-same",
-    "category": "Backend"
   },
   {
     "id": "fire-detection",
