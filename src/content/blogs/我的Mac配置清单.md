@@ -12,35 +12,35 @@ search: true
 
 资源站：https://appstorrent.ru/
 
-clashverge
-
-[飞书mac软件库](https://my.feishu.cn/wiki/ZVKtwAqo7iijQKkTsSpcKYdpn4e?table=tblMpToRGHkgYmxy&view=vewQkmvMUv)
+[clashverge](https://github.com/Clash-Verge-rev/clash-verge-rev/releases)
 
 office全家桶
 
-CleanMyKeyBoard
+CleanMyKeyBoard：清洁键盘
 
-Runcat\stats
+Runcat/stats：电脑状态
 
-TopNotch RoundCorners打开
+TopNotch：刘海隐藏
 
-Ice
+Ice：顶部状态栏隐藏
 
-mos
+Mac Mouse Fix：鼠标平滑
 
 monitor control
 
-localsend
+localsend：传输文件
 
-wins
+wins：分屏
 
-obs
+[launchos](launchosapp.com)：启动台
 
-typora
+obs：录屏
 
-amphetamin
+typora：markdown 编辑器
 
-wallspace
+wallspace：壁纸
+
+FineTune
 
 超级右键
 
@@ -48,32 +48,31 @@ wallspace
 
 [steam](https://my.feishu.cn/wiki/NEkswmH6xiQYO4kAynkcZWL9njg)
 
-chrome
+chrome、tabbit：浏览器
 
 [homebrew](https://brew.sh/)：brew install/uninstall
 
-```bash
-# 将初始化命令写入 zsh 配置，下次自动生效
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile 
-# 立即生效当前终端
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
+> ```bash
+> # 将初始化命令写入 zsh 配置，下次自动生效
+> echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile 
+> # 立即生效当前终端
+> eval "$(/opt/homebrew/bin/brew shellenv)"
+> ```
+>
+> https://my.feishu.cn/wiki/ClTywsO0vi7JAzkftWfcHURwndx
+>
+> ```zsh
+> /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+> ```
+>
 
-https://my.feishu.cn/wiki/ClTywsO0vi7JAzkftWfcHURwndx
+AppCleaner/Pearcleaner：清理工具
 
-```zsh
-/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+keka：压缩工具
 
-AppCleaner/clean my mac
+IINA：视频播放器
 
-keka  betterzip专业
-
-IINA
-
-iterm2/termius
-
-bartender（付费）/iBar（免费，AppStore）
+iterm2、[kaku](https://github.com/tw93/kaku)：终端
 
 Bob（Apple Store，翻译软件）
 
@@ -82,11 +81,23 @@ Bob（Apple Store，翻译软件）
 - **输入翻译**：按下输入翻译快捷键（默认 `⌥` `A`），输入需要翻译的文本，Enter 键翻译
 - **截图 OCR**：按下截图 OCR 快捷键（默认 `⇧` `⌥` `S`），截取需要识别的区域即可识别文本
 
-Downie
+Downie：视频下载器
+
+PixPin：截图软件
 
 [crossover/whisky](https://my.feishu.cn/wiki/Scc3w0TSFi5jzck3IJNcTmVjnqd)
 
-final cut pro
+final cut pro、剪映：剪辑
+
+Deck：mac 剪切板
+
+[Slidepad](https://slidepad.app)：侧边栏弹出
+
+qq、vx、腾讯会议、qq音乐、网易云、滴答清单、小宇宙、Pomodoro、telegram、discord、百度网盘、阿里云盘
+
+飞书、语雀
+
+开发相关：chatgpt、cursor、kimi、trae、vscode、JetBrains Toolbox（IDEA、Pycharm、Goland）、Navicat、Bruno、Apifox、Postman、Docker、SwitchHosts、CraftAgents、warp、zshrc、Pencil、Open Design
 
 ## 2 设置
 
@@ -281,7 +292,7 @@ git config --global core.excludesfile ~/.gitignore_global
 
 此后所有新仓库都会自动忽略 `.DS_Store`。
 
-## 6 终端配置 iterm2+oh-my-zsh+tmux
+## 6 终端配置 iterm2+oh-my-zsh+tmux+yazi/kaku
 
 相对路径相关符号：
 
@@ -346,10 +357,16 @@ Idea\pycharm\vscode 配置导入
 | **[fastfetch](https://github.com/fastfetch-cli/fastfetch)** | 系统信息展示工具（`neofetch` 的更快替代品），显示 OS、内核、Shell、CPU、内存等 |
 | **[tldr](https://tldr.sh/)**                                | 简化版 man 手册，提供常用命令的实用示例 → `tldr -u` 用于更新缓存 |
 | nvm(node.js、npm)、pnpm                                     | JavaScript 的包管理工具，用于安装、管理和共享项目依赖；其中 npm 是 Node.js 自带的默认包管理器，而 pnpm 通过硬链接和符号链接更高效地节省磁盘空间并提升安装速度。 |
+| yazi                                                        |                                                              |
+| tmux                                                        | “终端复用器”（Terminal Multiplexer）                         |
+| gh                                                          | GitHub CLI                                                   |
+| pipx                                                        | Python 生态中一个专门为命令行工具设计的“应用管理器”。它通过自动创建隔离环境，解决了传统 `pip install` 方式带来的依赖冲突和权限问题，让你可以安全、便捷地安装和使用各种 Python 编写的优秀命令行工具。 |
 
 ```bash
-brew install git wget httpie tree fastfetch tldr
+brew install git wget httpie tree fastfetch tldr protobuf sqlite tmux yazi gh pipx
 ```
+
+`brew install protobuf` 命令安装了一个名为 `protoc` 的编译工具，它负责把 `.proto` 接口定义文件转化为各种编程语言的代码，是实现高效、跨语言数据交换的桥梁。
 
 **验证是否成功**：
 
@@ -416,19 +433,6 @@ npm install -g pnpm
 # 给 npm 配置国内镜像源
 npm config set registry https://registry.npmmirror.com
 ```
-
-git配置：在 `～/.zprofile` 中添加
-
-```bash
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-```bash
-git -v
-which git
-```
-
-然后配置username和usermail，还有端口配置，见git笔记
 
 ### **安装编译器（Xcode Command Line Tools）**
 
@@ -663,7 +667,7 @@ brew install openjdk@21
 添加 JDK 到 jenv：
 
 ```java
-jenv add /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+jenv add /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
 ```
 
 查看和切换 JDK
@@ -677,8 +681,8 @@ jenv local 11          # 当前目录使用 JDK 11（生成 .java-version 文件
 执行以下命令：
 
 ```
-sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk \
-             /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk \
+             /Library/Java/JavaVirtualMachines/openjdk-21.jdk
 ```
 
 **只是向 macOS 系统“注册”了一个 JDK 位置**，并不会改变你当前的终端环境、`jenv` 设置，也不会干扰 IDEA 的项目配置。
@@ -947,7 +951,7 @@ mkdir -p ～/.m2
 >
 > - 如果不想改本地仓库，**直接删除 `<localRepository>` 整行即可**，Maven 会用默认路径 `～/.m2/repository`
 
-### mysql+navicat
+### mysql
 
 ```bash
 # 查看可安装版本（可选）
@@ -993,8 +997,10 @@ brew uninstall mysql && rm -rf /opt/homebrew/var/mysql
 推荐使用专业工具（如 `g`、`gvm` 或 `goenv`），避免手动切换 `GOROOT`/`PATH` 的麻烦。
 
 下面提供 **两种主流方案**：
-✅ **方案一：使用 `g`（最轻量，推荐）**
-✅ **方案二：使用 `goenv`（兼容 rbenv/pyenv 风格）**
+
+**方案一：使用 `g`（最轻量，推荐）**
+
+**方案二：使用 `goenv`（兼容 rbenv/pyenv 风格）**
 
 > 无需 Homebrew 安装 Go 本体（但工具本身可用 brew 安装，也可手动安装）
 
@@ -1187,6 +1193,14 @@ grep -n "GOROOT\|go" ~/.zshrc
 
 ## 8 其他技巧
 
+跳过应用安全检测：
+
+```sh
+xattr -dr com.apple.quarantine /Applications/zshrc.app
+```
+
+
+
 通过 VS Code 自带功能安装 `code` 命令
 
 1. **打开 VS Code**。
@@ -1285,7 +1299,7 @@ dock栏双指点击图标-退出，点击竖线可以控制大小、进行配置
 
 打开终端，输入以下命令：
 
-```bash
+```Bash
 sudo nvram BootPreference=%00
 ```
 
@@ -1293,14 +1307,14 @@ sudo nvram BootPreference=%00
 
 这个命令同时也会取消连接电源时自动开机，如果你想单独取消开盖开机和连接电源开机中的某一项，可以把命令最后这两个数字换一下，就像这两个
 
-```bash
+```Bash
 sudo nvram BootPreference=%01
 sudo nvram BootPreference=%02
 ```
 
 数字01是单独取消开盖开机，数字02单独尖连接电源时开机，而数字00则是都取消。 最后如果要恢复默认设置，用这行命令即可
 
-```bash
+```Bash
 sudo nvram -d BootPreference
 ```
 
@@ -1315,12 +1329,6 @@ caffeinate -d
 ```
 
 当你需要恢复自动休眠功能时，点击终端左上角的关闭按钮，点击终止，Mac就会继续执行你设置的自动睡眠时间了。
-
-
-
-**可以自定义Safari首页**
-
-导入浏览器收藏夹
 
 
 

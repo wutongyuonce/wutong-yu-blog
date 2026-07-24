@@ -10,8 +10,6 @@ search: true
 
 [【跳转到上一篇：JUC 并发编程 1—多线程基础】](/blogs/juc并发编程/juc-并发编程-1多线程基础/)
 
-[【跳转到下一篇：JUC 并发编程 3—JUC 核心组件与并发实践（一）】](/blogs/juc并发编程/juc-并发编程-3juc-核心组件与并发实践一/)
-
 ## 六、Java 内存模型（Java Memory Model，JMM）
 
 ![jmm-20230823200720](/juc-img/jmm-20230823200720.png)
