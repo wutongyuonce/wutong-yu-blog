@@ -12,27 +12,29 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 
 ## /
 
-![image-20260529193305258](img/image-20260529193305258.png)
+![image-20260728183838004](img/image-20260728183838004.png)
 
-![image-20260529193326714](img/image-20260529193326714.png)
+![image-20260728183859951](img/image-20260728183859951.png)
 
 ## /blogs
 
-![image-20260529193357228](img/image-20260529193357228.png)
+![image-20260728183948184](img/image-20260728183948184.png)
 
-![image-20260529193413365](img/image-20260529193413365.png)
+![image-20260728183937914](img/image-20260728183937914.png)
 
 ### /blogs/xxx
 
-![image-20260529193439741](img/image-20260529193439741.png)
+![image-20260728184014075](img/image-20260728184014075.png)
 
-<img src="img/image-20260529193537037.png" alt="image-20260529193537037" width="70%" />
+
+
+<img src="img/image-20260728184054150.png" alt="image-20260728184054150" style="zoom:40%;" />
 
 ## /projects
 
-![image-20260529193851772](img/image-20260529193851772.png)
+![image-20260728184135951](img/image-20260728184135951.png)
 
-![image-20260529193807310](img/image-20260529193807310.png)
+![image-20260728184148235](img/image-20260728184148235.png)
 
 ## /insights
 
@@ -40,9 +42,9 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 
 ## /friends
 
-![image-20260529194107706](img/image-20260529194107706.png)
+![image-20260728184217117](img/image-20260728184217117.png)
 
-![image-20260529194037575](img/image-20260529194037575.png)
+![image-20260728184206954](img/image-20260728184206954.png)
 
 ## Overview
 
