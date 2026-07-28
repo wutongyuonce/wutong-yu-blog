@@ -3,6 +3,7 @@ interface Props {
   title?: string
   subtitle?: string
   isCentered?: boolean
+  isArticle?: boolean
   isSearchable?: boolean
   searchFilter?: string
   class?: string
@@ -12,6 +13,7 @@ const {
   title,
   subtitle,
   isCentered = false,
+  isArticle = false,
   isSearchable,
   searchFilter,
   class: className,
@@ -19,16 +21,28 @@ const {
 ---
 
 <header
-  class={`prose mx-auto mb-16${isCentered ? ' text-center' : ''}`}
+  class:list={[
+    'page-header prose mx-auto',
+    { 'text-center': isCentered, 'post-header': isArticle },
+  ]}
 >
   {title && <h1 class="page-title">{title}</h1>}
-  {subtitle && <p class="mt--9! op-50 italic">{subtitle}</p>}
+  {
+    subtitle && (
+      <p class={`${isArticle ? 'mt--2!' : 'mt--8!'} op-50 italic`}>
+        {subtitle}
+      </p>
+    )
+  }
   <slot name="head" />
 </header>
 {
   Astro.slots.has('article') && (
     <article
-      class="slide-enter-content prose mx-auto"
+      class:list={[
+        'slide-enter-content prose mx-auto',
+        { 'post-content': isArticle },
+      ]}
       data-pagefind-body={isSearchable ? '' : undefined}
       data-pagefind-filter={
         isSearchable && searchFilter ? searchFilter : undefined
@@ -38,6 +52,16 @@ const {
     </article>
   )
 }
+
+<style>
+  .page-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .post-header {
+    margin-bottom: 1.75rem;
+  }
+</style>
 {
   Astro.slots.has('default') && (
     <div class:list={['mx-auto', className]}>

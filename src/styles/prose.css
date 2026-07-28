@@ -316,6 +316,80 @@
 .prose > :last-child {
   margin-bottom: 0;
 }
+
+/* Article pages use a denser reading rhythm than landing pages. */
+.prose.post-content {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (min-width: 1280px) {
+  .prose.post-header,
+  .prose.post-content {
+    max-width: 70ch;
+  }
+}
+
+.prose.post-content h1 {
+  font-size: 2.125em;
+  margin-bottom: 0.75em;
+}
+
+.prose.post-content h2 {
+  font-size: 1.6em;
+  font-weight: 800;
+  margin-top: 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+.prose.post-content h3 {
+  color: var(--fg-deep);
+  font-size: 1.1875em;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.prose.post-content h4,
+.prose.post-content h5,
+.prose.post-content h6 {
+  color: var(--fg);
+  font-size: 1em;
+  margin-top: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.prose.post-content p,
+.prose.post-content ol,
+.prose.post-content ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose.post-content li {
+  margin: 0;
+}
+
+.prose.post-content li + li {
+  margin-top: 0.2em;
+}
+
+.prose.post-content li > ul,
+.prose.post-content li > ol {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+.prose.post-content li > p {
+  margin: 0 !important;
+}
+
+.prose.post-content > p + ul,
+.prose.post-content > p + ol,
+.prose.post-content > ul + p,
+.prose.post-content > ol + p {
+  margin-top: 0;
+}
 .prose b {
   color: var(--fg-deep);
 }

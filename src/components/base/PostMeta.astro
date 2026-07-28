@@ -7,16 +7,17 @@ interface Props {
   lastModDate: string | undefined
   minutesRead: number
   tags: string[]
+  hasSubtitle: boolean
 }
 
-const { pubDate, lastModDate, minutesRead, tags } = Astro.props
+const { pubDate, lastModDate, minutesRead, tags, hasSubtitle } = Astro.props
 
 const isMinimal = UI.postView.postMetaStyle === 'minimal'
 ---
 
 {
   isMinimal ? (
-    <div class="mt--6! op-50 lt-md:text-sm">
+    <div class={`${hasSubtitle ? 'mt--2!' : 'mt--4!'} op-50 lt-md:text-sm`}>
       <time datetime={pubDate}>{formatDate(pubDate)}</time>
       {lastModDate && (
         <time datetime={lastModDate}> · Updated {formatDate(lastModDate)}</time>
@@ -26,8 +27,10 @@ const isMinimal = UI.postView.postMetaStyle === 'minimal'
     </div>
   ) : (
     <div
-      class="flex justify-start items-center gap-x-4 gap-y-1 flex-wrap
-          mt--6! lt-md:text-sm op-50"
+      class:list={[
+        'flex justify-start items-center gap-x-4 gap-y-1 flex-wrap lt-md:text-sm op-50',
+        hasSubtitle ? 'mt--2!' : 'mt--4!',
+      ]}
     >
       <div>
         <span class="i-ri-calendar-line mr-1.2" />

@@ -60,9 +60,9 @@ frontmatter to <code>false</code> or remove it to publish the post.`
 ---
 
 <BaseLayout {title} {description} {ogImage} {pubDate} {lastModDate}>
-  <StandardLayout {title} {subtitle} {isSearchable} {searchFilter}>
+  <StandardLayout {title} {subtitle} isArticle {isSearchable} {searchFilter}>
     <Fragment slot="head">
-      <PostMeta {pubDate} {lastModDate} {minutesRead} {tags} />
+      <PostMeta {pubDate} {lastModDate} {minutesRead} {tags} hasSubtitle={!!subtitle} />
     </Fragment>
     <Fragment slot="article">
       {isDraft && <Warning html={WARNING} />}

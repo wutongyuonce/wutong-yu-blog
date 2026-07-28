@@ -23,7 +23,7 @@ const groupedBlogItems = await getGroupedPostsByYear(collectionType)
         const idx = group.items[0].idx
 
         return (
-          <section data-year={group.year} class="mb-16">
+          <section data-year={group.year} class="blog-year-group mb-16">
             <Categorizer {idx} text={group.year} />
 
             {group.items.map(({ data, id, minutesRead, idx }) => (
@@ -47,3 +47,9 @@ const groupedBlogItems = await getGroupedPostsByYear(collectionType)
     )}
   </div>
 }
+
+<style>
+  .blog-year-group:last-child {
+    margin-bottom: 0;
+  }
+</style>

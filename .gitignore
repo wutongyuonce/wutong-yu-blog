@@ -28,3 +28,5 @@ pnpm-debug.log*
 
 # local archive
 .local
+
+.pnpm-store

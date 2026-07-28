@@ -38,24 +38,20 @@ const isBlogDetailPage =
   currentPath !== resolvePath('/blogs')
 
 const footerClasses = ['slide-enter animate-delay-1000! mx-auto print:hidden']
-const footerStyle: Record<string, string> = {}
+const footerStyle: Record<string, string> = { marginTop: '1.5rem' }
 
 if (isFriendsPage) {
   footerClasses.push('w-full')
   footerStyle.width = 'min(68vw, 90rem)'
   footerStyle.maxWidth = '100%'
-  footerStyle.marginTop = '2rem'
 } else if (isInsightsPage) {
   footerClasses.push('w-full')
   footerStyle.width = '100%'
   footerStyle.maxWidth = '75rem'
-  footerStyle.marginTop = '0rem'
 } else if (isBlogDetailPage) {
   footerClasses.push('prose')
-  footerStyle.marginTop = '4rem'
 } else {
   footerClasses.push('prose')
-  footerStyle.marginTop = '-1rem'
 }
 
 let style: Record<string, string> = {}
@@ -100,7 +96,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
     <NavBar />
 
     <!-- Main -->
-    <main id="main" class="px-7 py-10">
+    <main id="main" class="px-7 pt-4 pb-10">
       <!-- Content -->
       <slot />
       {

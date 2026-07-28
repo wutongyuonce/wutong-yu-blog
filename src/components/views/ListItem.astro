@@ -35,12 +35,9 @@ const {
 } = Astro.props
 ---
 
-<div class="slide-enter" style={{ '--enter-stage': idx }} data-tags={tags}>
+<div class="slide-enter" style={{ '--enter-stage': idx }}>
   <Link
-    class:list={[
-      'list-item',
-      { 'list-item--with-tags': !!tags && tags.length > 0 },
-    ]}
+    class="list-item"
     href={
       redirect
         ? redirect
@@ -49,8 +46,8 @@ const {
     external={redirect ? true : false}
     enableNewTabWarning={redirect ? true : false}
   >
-    <span slot="title" class="list-item__title">{title}</span>
-    <span slot="end" class="list-item__meta">
+    <span class="list-item__title">{title}</span>
+    <span class="list-item__meta">
       {
         video && (
           <span
@@ -89,26 +86,27 @@ const {
           · {platform}
         </span>
       )}
-      {
-        tags && tags.length > 0 && (
-          <>
-            <span class="list-item__muted op-40 text-sm">· </span>
-            <span class="list-item__tags op-40 text-sm ws-nowrap inner-x-scroll">
-              {tags.join(' / ')}
-            </span>
-          </>
-        )
-      }
     </span>
+    {
+      tags && tags.length > 0 && (
+        <span class="list-item__tags op-40 text-sm ws-nowrap inner-x-scroll">
+          {tags.join(' / ')}
+        </span>
+      )
+    }
   </Link>
 </div>
 
 <style>
   .list-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'title meta'
+      'tags tags';
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+    column-gap: 0.75rem;
+    row-gap: 0.35rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
     overflow: hidden;
@@ -116,17 +114,15 @@ const {
     transition: opacity 0.3s ease-in-out;
   }
 
-  .list-item--with-tags {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .list-item__title {
+    grid-area: title;
+    min-width: 0;
     font-size: 1.125rem;
     line-height: 1.35;
   }
 
   .list-item__meta {
+    grid-area: meta;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -139,13 +135,17 @@ const {
   }
 
   .list-item__tags {
+    grid-area: tags;
     max-width: 100%;
   }
 
   @media (max-width: 767.9px) {
     .list-item {
-      flex-direction: column;
-      align-items: flex-start;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'title'
+        'meta'
+        'tags';
     }
   }
 </style>
