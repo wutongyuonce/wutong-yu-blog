@@ -3,6 +3,7 @@ title: JUC 并发编程 2——Java 内存模型与底层同步机制
 description: JUC Concurrent programming——Java Memory Model and Low-Level Synchronization Mechanisms
 pubDate: 2026-03-01
 lastModDate: ''
+tags: [Java, JUC, Java 内存模型]
 ogImage: false
 toc: true
 search: true
@@ -805,4 +806,3 @@ pause 指令能让自旋失败时 cpu 睡眠一小段时间再继续自旋，从
 
 1. 使用 `AtomicReference` 类保证对象之间的原子性，把多个变量放到一个对象里面进行 CAS 操作；
 2. 使用锁，锁内的临界区代码可以保证只有当前线程能操作。
-

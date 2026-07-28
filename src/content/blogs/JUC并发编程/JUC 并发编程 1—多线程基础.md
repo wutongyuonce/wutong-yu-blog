@@ -3,6 +3,7 @@ title: JUC 并发编程 1——多线程基础
 description: JUC Concurrent programming——multithreaded foundation
 pubDate: 2026-03-01
 lastModDate: ''
+tags: [Java, JUC, 多线程]
 ogImage: false
 toc: true
 search: true
@@ -1834,4 +1835,3 @@ while (!success) {
 >
 > - **虚拟线程（Java 21+）**：极大降低线程创建成本，简化异步编程
 > - **无锁数据结构**：`ConcurrentLinkedQueue`, `Disruptor`（高性能队列）
-

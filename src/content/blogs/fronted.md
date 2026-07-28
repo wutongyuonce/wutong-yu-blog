@@ -3,6 +3,7 @@ title: "从多页到混合：Web 应用架构演进的完整图谱(个人站点�
 description: "From Multi-page to Hybrid: A Complete Map of Web Application Architecture Evolution"
 pubDate: 2026-03-16
 lastModDate: ''
+tags: [Web 架构, SSR, SSG]
 ogImage: false
 toc: true
 search: true

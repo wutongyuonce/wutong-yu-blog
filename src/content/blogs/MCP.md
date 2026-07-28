@@ -2,6 +2,7 @@
 title: MCP（Model Context Protocol）
 description: MCP tutorial
 pubDate: 2026-05-15
+tags: [MCP, AI Agent, Function Calling]
 ogImage: false
 toc: true
 search: true
@@ -1564,4 +1565,3 @@ Claude 在调用工具之前会提醒用户，只有当用户确认允许后才�
 > }
 > }
 > ```
-
