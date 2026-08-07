@@ -21,8 +21,9 @@ Start by confirming the repository root contains `package.json` and reading the 
 2. Write YAML frontmatter. `title` (maximum 60 characters) and `pubDate` are required. Use `YYYY-MM-DD`; use the user's requested date or today's local date. Add optional fields only when they convey real intent.
 3. Use `draft: true` when the user asks for a draft or does not explicitly ask to publish. Set it to `false` or omit it only for a requested public post.
 4. Keep `description` concise and factual. Set `toc: false` only for very short content; use `search: false` only when the post should be excluded from Pagefind. `ogImage` defaults to automatic generation, so omit it unless disabling or supplying a custom image.
-5. Place new static images in an appropriately named `public/` subdirectory and reference them with an absolute site path such as `/article-images/diagram.png`. For `cover`, use a valid remote URL or a valid local image reference accepted by the content schema. Include descriptive `coverAlt` when a cover is used.
-6. Keep Markdown readable: use headings in order, fenced code blocks with a language, meaningful image alt text, and direct links. Do not invent citations, dates, or claims.
+5. For images used in the post body, copy each image into a dedicated `public/` subdirectory named after the post — one folder per blog post — and reference it with an absolute site path rooted at that folder, e.g. for the post "Prompt Caching 的工程策略: ..." use `public/Prompt Caching/image.png` and reference it in Markdown as `/Prompt Caching/image.png`. For `cover`, use a valid remote URL or a valid local image reference accepted by the content schema. Include descriptive `coverAlt` when a cover is used.
+6. If the post body starts with a top-level `# H1` heading, remove it — the `title` in frontmatter already serves as the page heading. Keep only the YAML frontmatter at the very top, then the body content starting from `## H2` onward.
+7. Keep Markdown readable: use headings in order, fenced code blocks with a language, meaningful image alt text, and direct links. Do not invent citations, dates, or claims.
 
 Minimal public-post frontmatter:
 

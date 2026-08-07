@@ -8,8 +8,6 @@ toc: true
 search: true
 ---
 
-# 从零写 CLI：Python 与 JavaScript / TypeScript 实战教程
-
 > 本文讲的是可发布、可被脚本调用的命令行程序（CLI），而不是只给自己临时运行的一行脚本。示例命令叫 `helixent`，但结构可直接用于任何项目，包括 Trajex 这类「CLI 只是 Core 的薄入口」的项目。
 
 ## 1. 先建立正确的心智模型

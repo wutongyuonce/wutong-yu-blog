@@ -8,8 +8,6 @@ toc: true
 search: true
 ---
 
-# 开发习惯
-
 ## 1 所有配置项不能写死——.env + python-dotenv
 
 **第一步：创建 `.env`、`.env.example`文件，所有敏感配置写在这里。**
