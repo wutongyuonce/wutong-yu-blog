@@ -16,31 +16,31 @@
 
 首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。正文展示个人介绍、技术栈、GitHub 统计和社交链接。
 
-![image-20260728183838004](img/image-20260728183838004.png)
+![home_light](img/home_light.png)
 
-![image-20260728183859951](img/image-20260728183859951.png)
+![home_dark](img/home_dark.png)
 
 ## Blogs 页面
 
-![image-20260728183948184](img/image-20260728183948184.png)
+![blogs_light](img/blogs_light.png)
 
-![image-20260728183937914](img/image-20260728183937914.png)
+![blogs_dark](img/blogs_dark.png)
 
 ### blog 单页宽页面
 
-![image-20260728184014075](img/image-20260728184014075.png)
+![blog](img/blog.png)
 
 ### 窄页面
 
-<img src="img/image-20260728184054150.png" alt="image-20260728184054150" style="zoom:40%;" />
+<img src="img/blog_narrow.png" alt="blog_narrow" style="zoom:40%;" />
 
 ## Projects 页面
 
 项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
 
-![image-20260728184135951](img/image-20260728184135951.png)
+![projects_light](img/projects_light.png)
 
-![image-20260728184148235](img/image-20260728184148235.png)
+![projects_dark](img/projects_dark.png)
 
 ## Insights 页面
 
@@ -50,9 +50,9 @@
 
 友链申请区为邮箱与参考格式的双栏面板，移动端自动变为单栏。
 
-![image-20260728184217117](img/image-20260728184217117.png)
+![friends_light](img/friends_light.png)
 
-![image-20260728184206954](img/image-20260728184206954.png)
+![friends_dark](img/friends_dark.png)
 
 ## 概览
 
