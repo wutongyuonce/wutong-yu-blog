@@ -1,21 +1,18 @@
-Hi! I'm ***WutongYu***. This is my open-source Astro BLog, which is inspired by *[lin-stephanie](https://github.com/lin-stephanie)‘s [astro-antfustyle-theme](https://github.com/lin-stephanie/astro-antfustyle-theme)*. 
+Hi! I'm ***WutongYu***. This is my open-source Astro Blog, which is inspired by *[lin-stephanie](https://github.com/lin-stephanie)‘s [astro-antfustyle-theme](https://github.com/lin-stephanie/astro-antfustyle-theme)*.
 
 I'm an student at :link[Hohai University]{id=https://www.hhu.edu.cn .square}. Recently i'm applying for Msc cs at :link[HKU]{id=https://www.hku.hk .square} / :link[CUHK]{id=https://www.cuhk.edu.hk img=/cuhk.png .square} / :link[HKUST]{id=https://hkust.edu.hk .square}.
 
-<br>
+***Stack***： :link[Agent]{id=https://claude.com/product/claude-code .square} :link[SpingBoot]{id=https://spring.io/projects/spring-boot .square} :link[FastAPI]{id=https://fastapi.tiangolo.com/zh/ .square}  :link[Vue]{id=https://vuejs.org img=/vue.png .square} :link[MySQL]{id=https://www.mysql.com/cn/ .square} :link[SQLite]{id=https://sqlitebrowser.org .square}
 
-***Coding Languages includes***: :link[Java]{id=https://www.java.com/zh-CN/ .square} :link[TS]{id=https://www.typescriptlang.org .square} :link[Golang]{id=https://golang.google.cn .square} :link[Python]{id=https://www.python.org .square} :link[SQL]{id=https://www.mysql.com/cn/ .square}
-
-***Working on***: :link[Agent]{id=https://claude.com/product/claude-code .square} :link[SpingBoot]{id=https://spring.io/projects/spring-boot .square} :link[SpingCloud]{id=https://spring.io/projects/spring-cloud .square} :link[Vue]{id=https://vuejs.org img=/vue.png .square}
-
-<br>
-
-Fun Facts：*Valorant* and *Steam* gamer / fan of *:link[TWICE]{id=https://twice.jype.com} / :link[Idle]{id=https://www.instagram.com/i_dle_official/}*
+<div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
+  <img src="https://github-readme-stats-fast.vercel.app/api?username=wutongyuonce&show_icons=true" alt="GitHub Stats" style="width: calc(57% - 0.5rem); margin: 0;" />
+  <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=wutongyuonce&layout=compact" alt="GitHub Stats" style="width: calc(43% - 0.5rem); margin: 0;" />
+</div>
 
 ---
 
 <p>
-  <span class="inline-block mr-1.5 mb-2">feel free to chat with me on</span>
+  <span class="inline-block mr-1.5 mb-2">Feel free to chat with me on</span>
   <span class="inline-flex flex-wrap gap-2 op-75">
     <a href="https://github.com/wutongyuonce">
       <span i-simple-icons-github></span> GitHub</a>

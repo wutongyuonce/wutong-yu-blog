@@ -31,13 +31,9 @@ const slug = (value: string) =>
 >
   {
     !wide ? (
-      <span class="categorizer__label">
-        {text}
-      </span>
+      <span class="categorizer__label">{text}</span>
     ) : (
-      <span class="categorizer__label">
-        {text}
-      </span>
+      <span class="categorizer__label">{text}</span>
     )
   }
 </div>
@@ -63,28 +59,22 @@ const slug = (value: string) =>
   }
 
   .categorizer--wide .categorizer__label {
-    top: -1.5rem;
-    left: var(--wide-left);
-    font-size: 5em;
-    opacity: 0.35;
-    -webkit-text-stroke-width: 1.5px;
+    position: static;
+    display: block;
+    color: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    opacity: 0.45;
+    text-transform: uppercase;
+    -webkit-text-stroke: 0;
   }
 
   :global(.dark) .categorizer--wide .categorizer__label {
     opacity: 0.2;
   }
 
-  @media (max-width: 1023.9px) {
-    .categorizer--wide .categorizer__label {
-      left: -1rem;
-      font-size: 4.5em;
-    }
-  }
-
-  @media (max-width: 767.9px) {
-    .categorizer--wide .categorizer__label {
-      top: 0.5rem;
-      font-size: 3.6em;
-    }
+  .categorizer--wide {
+    height: auto;
   }
 </style>

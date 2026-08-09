@@ -34,9 +34,9 @@ const socialIcons = socialLinks
   )
   .map((item) => (item as IconSocialItem | ResponsiveSocialItem).icon)
 
-const projectIcons = (projecstData as Array<{ icon: string }>).map(
-  (item) => item.icon
-)
+const projectIcons = (projecstData as Array<{ icon?: string }>)
+  .map((item) => item.icon)
+  .filter((icon): icon is string => Boolean(icon))
 
 export default defineConfig({
   // Astro 5 no longer pipes `src/content/**/*.{md,mdx}` through Vite

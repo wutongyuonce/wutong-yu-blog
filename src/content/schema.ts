@@ -1,5 +1,5 @@
-import { z } from 'astro:content'  // 导入 Zod 验证库
-import type { SchemaContext } from 'astro:content'  // 导入类型定义
+import { z } from 'astro:content' // 导入 Zod 验证库
+import type { SchemaContext } from 'astro:content' // 导入类型定义
 
 /* =====================================================
    文章 Schema - 用于博客文章
@@ -9,11 +9,11 @@ export const postSchema = ({ image }: SchemaContext) =>
     // 文章标题（必填，最多60字符）
     title: z
       .string()
-      .max(60)  // SEO 最佳实践建议60字符以内
+      .max(60) // SEO 最佳实践建议60字符以内
       .describe(
         '**必填**。文章标题，限制 **60 字符**。遵循 Moz 的建议，确保 90% 的标题在搜索结果中正常显示。'
       )
-      .transform((value) => value.trim()),  // 自动去除首尾空格
+      .transform((value) => value.trim()), // 自动去除首尾空格
 
     // 文章副标题
     subtitle: z
@@ -31,7 +31,7 @@ export const postSchema = ({ image }: SchemaContext) =>
 
     // 标签列表
     tags: z
-      .array(z.string())  // 字符串数组
+      .array(z.string()) // 字符串数组
       .default([])
       .describe('文章标签。不需要时留空数组或删除。'),
 
@@ -53,12 +53,12 @@ export const postSchema = ({ image }: SchemaContext) =>
 
     // 发布日期（必填）
     pubDate: z.coerce
-      .date()  // z.coerce 会自动转换各种日期格式
+      .date() // z.coerce 会自动转换各种日期格式
       .describe('**必填**。发布日期。'),
 
     // 最后修改日期（可选）
     lastModDate: z
-      .union([z.coerce.date(), z.literal('')])  // 可以是日期或空字符串
+      .union([z.coerce.date(), z.literal('')]) // 可以是日期或空字符串
       .optional()
       .describe('最后修改日期。不需要时留空。'),
 
@@ -68,8 +68,8 @@ export const postSchema = ({ image }: SchemaContext) =>
       .default(true)
       .describe(
         '预计阅读时间（分钟）。\n' +
-        '- true：自动计算\n' +
-        '- false/0：隐藏不显示'
+          '- true：自动计算\n' +
+          '- false/0：隐藏不显示'
       ),
 
     // 是否包含音频内容
@@ -88,19 +88,20 @@ export const postSchema = ({ image }: SchemaContext) =>
     platform: z
       .string()
       .default('')
-      .describe('音视频内容的发布平台名称（如 YouTube、Spotify）。不需要时留空。'),
+      .describe(
+        '音视频内容的发布平台名称（如 YouTube、Spotify）。不需要时留空。'
+      ),
 
     // OG 图片
     ogImage: z
       .union([z.string(), z.boolean()])
       .default(true)
-      .describe('社交分享图片。true=自动生成，false=禁用，字符串=使用自定义图片。'),
+      .describe(
+        '社交分享图片。true=自动生成，false=禁用，字符串=使用自定义图片。'
+      ),
 
     // 是否生成目录（Table of Contents）
-    toc: z
-      .boolean()
-      .default(true)
-      .describe('是否为文章生成目录。'),
+    toc: z.boolean().default(true).describe('是否为文章生成目录。'),
 
     // 是否支持搜索
     search: z
@@ -118,9 +119,7 @@ export const postSchema = ({ image }: SchemaContext) =>
     draft: z
       .boolean()
       .default(false)
-      .describe(
-        '标记为草稿。true 时仅在开发环境可见，生产构建时会被排除。'
-      ),
+      .describe('标记为草稿。true 时仅在开发环境可见，生产构建时会被排除。'),
   })
 
 /* =====================================================
@@ -128,20 +127,16 @@ export const postSchema = ({ image }: SchemaContext) =>
    ===================================================== */
 export const projectSchema = z.object({
   // 项目 ID/名称（必填）
-  id: z
-    .string()
-    .describe('**必填**。要显示的项目名称。'),
+  id: z.string().describe('**必填**。要显示的项目名称。'),
 
   // 项目链接（必填）
   link: z
     .string()
-    .url('无效的 URL 格式。')  // 必须是有效的 URL
+    .url('无效的 URL 格式。') // 必须是有效的 URL
     .describe('**必填**。项目页面或仓库的链接。'),
 
   // 项目描述（必填）
-  desc: z
-    .string()
-    .describe('**必填**。项目简短描述。'),
+  desc: z.string().describe('**必填**。项目简短描述。'),
 
   // 图标
   icon: z
@@ -151,15 +146,14 @@ export const projectSchema = z.object({
       '图标格式必须为 `i-<collection>-<icon>` 或 `i-<collection>:<icon>`，遵循 UnoCSS 规范。'
     )
     .describe(
-      '**必填**。项目图标，遵循 UnoCSS 图标规范。' +
-      '格式示例：i-logos-vue、i-ri:twitter-fill\n' +
-      '可用的图标：https://icones.js.org/'
-    ),
+      '**可选**。项目图标，遵循 UnoCSS 图标规范。' +
+        '格式示例：i-logos-vue、i-ri:twitter-fill\n' +
+        '可用的图标：https://icones.js.org/'
+    )
+    .optional(),
 
   // 项目分类（必填）
-  category: z
-    .string()
-    .describe('**必填**。项目的分类。'),
+  category: z.string().describe('**必填**。项目的分类。'),
 })
 
 /* =====================================================
@@ -225,9 +219,7 @@ export const insightSchema = z.object({
     .describe('简短描述，用于 SEO 或列表摘要。')
     .transform((value) => value.trim()),
 
-  pubDate: z.coerce
-    .date()
-    .describe('**必填**。Insight 的记录日期。'),
+  pubDate: z.coerce.date().describe('**必填**。Insight 的记录日期。'),
 
   category: z
     .string()
@@ -237,7 +229,9 @@ export const insightSchema = z.object({
   image: z
     .string()
     .default('')
-    .describe('Insight 右侧展示图片，使用 /public 下的路径。为空表示不展示图片。')
+    .describe(
+      'Insight 右侧展示图片，使用 /public 下的路径。为空表示不展示图片。'
+    )
     .transform((value) => value.trim()),
 
   imageAlt: z

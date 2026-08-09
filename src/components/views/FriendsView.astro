@@ -19,12 +19,12 @@ const isEmpty = groups.length === 0
           <span class="friends-chip">Friends</span>
           <h2>友链系统已经接入完成</h2>
           <p>
-            当前还没有友链数据，直接编辑 <code>src/content/friends/data.json</code>{' '}
-            即可开始添加站点卡片。
+            当前还没有友链数据，直接编辑{' '}
+            <code>src/content/friends/data.json</code> 即可开始添加站点卡片。
           </p>
         </div>
 
-        <FriendsApplyPanel copy="如果你也想把站点放到这里，把站点名称、链接、头像和一句话描述发到我的邮箱。" />
+        <FriendsApplyPanel />
       </section>
     ) : (
       <section class="friends-shell slide-enter">
@@ -35,7 +35,9 @@ const isEmpty = groups.length === 0
                 <header class="friends-group__header">
                   <div class="friends-group__title-wrap">
                     <span class="friends-chip">{group.category}</span>
-                    <p class="friends-group__meta">{group.items.length} 个站点</p>
+                    <p class="friends-group__meta">
+                      {group.items.length} 个站点
+                    </p>
                   </div>
                 </header>
 
@@ -70,7 +72,9 @@ const isEmpty = groups.length === 0
                         </div>
 
                         {item.data.siteLabel && (
-                          <p class="friend-card__label">{item.data.siteLabel}</p>
+                          <p class="friend-card__label">
+                            {item.data.siteLabel}
+                          </p>
                         )}
 
                         <p class="friend-card__desc">{item.data.desc}</p>
@@ -83,10 +87,7 @@ const isEmpty = groups.length === 0
           </div>
         </div>
 
-        <FriendsApplyPanel
-          copy="如果你也希望出现在这里，把站点名称、链接、头像和一句话描述发到我的邮箱。"
-          hint="建议顺手附上站点简介，方便我直接整理成卡片。"
-        />
+        <FriendsApplyPanel />
       </section>
     )
   }
@@ -97,8 +98,8 @@ const isEmpty = groups.length === 0
     width: min(68vw, 90rem);
     max-width: 100%;
     margin: -1.6rem auto 0;
-    --friends-shell-bg: color-mix(in srgb, var(--c-bg) 97%, var(--c-text) 3%);
-    --friends-panel-bg: color-mix(in srgb, var(--c-bg) 98%, var(--c-text) 2%);
+    --friends-shell-bg: transparent;
+    --friends-panel-bg: transparent;
     --friends-card-bg: color-mix(in srgb, var(--c-bg) 99%, var(--c-text) 1%);
     --friends-card-hover: color-mix(in srgb, var(--c-bg) 93%, var(--c-text) 7%);
     --friends-border: color-mix(in srgb, var(--c-text) 10%, transparent);
@@ -109,10 +110,14 @@ const isEmpty = groups.length === 0
   }
 
   :global(.dark) .friends-page {
-    --friends-shell-bg: color-mix(in srgb, var(--c-bg) 91%, var(--c-text) 9%);
-    --friends-panel-bg: color-mix(in srgb, var(--c-bg) 93%, var(--c-text) 7%);
+    --friends-shell-bg: transparent;
+    --friends-panel-bg: transparent;
     --friends-card-bg: color-mix(in srgb, var(--c-bg) 94%, var(--c-text) 6%);
-    --friends-card-hover: color-mix(in srgb, var(--c-bg) 87%, var(--c-text) 13%);
+    --friends-card-hover: color-mix(
+      in srgb,
+      var(--c-bg) 87%,
+      var(--c-text) 13%
+    );
     --friends-border: color-mix(in srgb, var(--c-text) 14%, transparent);
     --friends-border-strong: color-mix(in srgb, var(--c-text) 24%, transparent);
     --friends-muted: color-mix(in srgb, var(--c-text) 68%, transparent);
@@ -159,15 +164,7 @@ const isEmpty = groups.length === 0
   }
 
   .friends-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 1.9rem;
-    padding: 0.2rem 0.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--friends-border);
     color: var(--friends-subtle);
-    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
     font-size: 0.82rem;
     letter-spacing: 0.02em;
   }

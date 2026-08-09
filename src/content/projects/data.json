@@ -3,35 +3,60 @@
     "id": "XingClaw",
     "link": "https://github.com/wutongyuonce/XingClaw",
     "desc": "miniopenclaw agent",
-    "icon": "i-carbon:chat-bot",
+    "category": "Agent"
+  },
+  {
+    "id": "Trajex",
+    "link": "https://github.com/wutongyuonce/Trajex",
+    "desc": "数万行散落的 Claude Code、Codex 与 Pi JSONL 会话，索引至同一个 SQLite 中：Agent 可通过 CLI 实现毫秒级查询，用户可通过 App 直观浏览",
     "category": "Agent"
   },
   {
     "id": "pi-deep-dive",
     "link": "https://github.com/wutongyuonce/pi-deep-dive",
     "desc": "A deep-dive analysis and source code walkthrough of Pi",
-    "icon": "i-carbon:user-feedback",
     "category": "Agent"
+  },
+  {
+    "id": "skills",
+    "link": "https://github.com/wutongyuonce/skills",
+    "desc": "A deep-dive analysis and source code walkthrough of Pi",
+    "category": "Personal"
+  },
+  {
+    "id": "pi-extensions",
+    "link": "https://github.com/wutongyuonce/pi-extensions",
+    "desc": "Extensions of Pi",
+    "category": "Personal"
   },
   {
     "id": "MODULAR-RAG-MCP-SERVER",
     "link": "https://github.com/wutongyuonce/MODULAR-RAG-MCP-SERVER",
     "desc": "MODULAR-RAG-MCP-SERVER",
-    "icon": "i-carbon:base-document-set",
     "category": "RAG"
+  },
+  {
+    "id": "PageIndexRag-Web",
+    "link": "https://github.com/wutongyuonce/PageIndexRag-Web",
+    "desc": "PageIndexRag-Web",
+    "category": "RAG"
+  },
+  {
+    "id": "RepoMirror",
+    "link": "https://github.com/wutongyuonce/RepoMirror",
+    "desc": "RepoMirror",
+    "category": "APP"
   },
   {
     "id": "wutong-yu-blog",
     "link": "https://github.com/wutongyuonce/wutong-yu-blog",
     "desc": "my personal website",
-    "icon": "i-carbon:license-third-party",
     "category": "Frontend"
   },
   {
     "id": "fire-detection",
     "link": "https://github.com/wutongyuonce/fire-detection",
     "desc": "a real-time fire-detection system using yolo-8",
-    "icon": "i-carbon:fire",
     "category": "Backend"
   }
 ]
