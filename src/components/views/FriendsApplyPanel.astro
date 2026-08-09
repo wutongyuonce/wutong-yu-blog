@@ -1,91 +1,135 @@
 ---
-interface Props {
-  copy: string
-  hint?: string
-}
-
-const { copy, hint } = Astro.props
 const email = '15088484799@163.com'
 ---
 
-<aside class="friends-apply">
-  <div class="friends-apply__head">
-    <span class="friends-chip">申请友链</span>
-    <h3>来信即可</h3>
-  </div>
-  <p class="friends-apply__copy">{copy}</p>
-  <a class="friends-apply__mail" href={`mailto:${email}`}>
-    {email}
-  </a>
-  {hint && <p class="friends-apply__hint">{hint}</p>}
+<aside class="friends-apply" aria-label="申请友链">
+  <section class="friends-apply__contact">
+    <h3>邮箱</h3>
+    <a class="friends-apply__mail" href={`mailto:${email}`}>{email}</a>
+  </section>
+
+  <section class="friends-apply__format">
+    <h3>参考格式</h3>
+    <dl class="friends-apply__template">
+      <div>
+        <dt>站点名称</dt>
+        <dd>你的站点名称</dd>
+      </div>
+      <div>
+        <dt>站点链接</dt>
+        <dd>https://example.com</dd>
+      </div>
+      <div>
+        <dt>头像链接</dt>
+        <dd>https://example.com/avatar.png</dd>
+      </div>
+      <div>
+        <dt>站点描述</dt>
+        <dd>一句话介绍你的站点</dd>
+      </div>
+    </dl>
+  </section>
 </aside>
 
 <style>
   .friends-apply {
     display: grid;
-    gap: 0.75rem;
-    padding: 1.35rem 1.35rem 1.45rem;
+    grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
     border: 1px solid var(--friends-border);
     border-radius: 1.8rem;
     background: var(--friends-panel-bg);
+    overflow: hidden;
   }
 
-  .friends-apply__head {
+  .friends-apply__contact,
+  .friends-apply__format {
     display: grid;
-    gap: 0.55rem;
+    align-content: start;
+    gap: 1rem;
+    padding: 1.4rem 1.5rem;
   }
 
-  .friends-apply__head h3,
-  .friends-apply__copy,
-  .friends-apply__hint {
+  .friends-apply__format {
+    border-left: 1px solid var(--friends-border);
+  }
+
+  .friends-apply h3 {
     margin: 0;
-  }
-
-  .friends-apply__head h3 {
-    font-size: 1.14rem;
-    color: color-mix(in srgb, var(--c-text) 92%, transparent);
-  }
-
-  .friends-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 1.9rem;
-    width: fit-content;
-    padding: 0.2rem 0.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--friends-border);
     color: var(--friends-subtle);
-    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
     font-size: 0.82rem;
+    font-weight: 500;
     letter-spacing: 0.02em;
-  }
-
-  .friends-apply__copy,
-  .friends-apply__hint {
-    color: var(--friends-muted);
-    font-size: 0.95rem;
-    line-height: 1.75;
   }
 
   .friends-apply__mail {
     width: fit-content;
-    padding: 0.42rem 0.78rem;
-    border: 1px solid var(--friends-border);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
-    color: color-mix(in srgb, var(--c-text) 86%, transparent);
-    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--c-text) 92%, transparent);
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    text-decoration-color: var(--friends-border-strong);
+    text-underline-offset: 0.28rem;
   }
 
   .friends-apply__mail:hover {
-    border-color: var(--friends-border-strong);
+    text-decoration-color: currentColor;
+  }
+
+  .friends-apply__template {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border: 1px solid var(--friends-border);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .friends-apply__template > div {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.68rem 0.85rem;
+  }
+
+  .friends-apply__template > div + div {
+    border-top: 1px solid var(--friends-border);
+  }
+
+  .friends-apply__template dt,
+  .friends-apply__template dd {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .friends-apply__template dt {
+    color: var(--friends-muted);
+  }
+
+  .friends-apply__template dd {
+    color: color-mix(in srgb, var(--c-text) 84%, transparent);
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 720px) {
     .friends-apply {
-      padding: 1rem;
+      grid-template-columns: 1fr;
       border-radius: 1.25rem;
+    }
+
+    .friends-apply__contact,
+    .friends-apply__format {
+      padding: 1.1rem;
+    }
+
+    .friends-apply__format {
+      border-top: 1px solid var(--friends-border);
+      border-left: 0;
+    }
+
+    .friends-apply__template > div {
+      grid-template-columns: 4.8rem minmax(0, 1fr);
+      gap: 0.7rem;
     }
   }
 </style>

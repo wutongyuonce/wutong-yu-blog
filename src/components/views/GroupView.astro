@@ -38,15 +38,42 @@ data = projects
   isEmpty ? (
     <Warning html={WARNING} />
   ) : (
-    <>
+    <div class="project-groups">
       {Object.keys(data).map((key, idx) => (
-        <div class="slide-enter" style={{ '--enter-stage': idx }}>
+        <section
+          class="project-group slide-enter"
+          style={{ '--enter-stage': idx }}
+        >
           <Categorizer text={key} wide={true} />
-          <div class="mt-6">
+          <div class="project-group__items">
             <GroupItem items={data[key]} />
           </div>
-        </div>
+        </section>
       ))}
-    </>
+    </div>
   )
 }
+
+<style>
+  .project-groups {
+    display: grid;
+    gap: 2rem;
+    margin: 1.5rem auto 0;
+  }
+
+  .project-group {
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .project-group__items {
+    min-width: 0;
+  }
+
+  @media (max-width: 767.9px) {
+    .project-groups {
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+  }
+</style>

@@ -12,6 +12,8 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 
 ## /
 
+The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustration. It switches to a vertical layout on narrow screens, while the body presents the profile, stack, GitHub stats, and social links.
+
 ![image-20260728183838004](img/image-20260728183838004.png)
 
 ![image-20260728183859951](img/image-20260728183859951.png)
@@ -32,6 +34,8 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 
 ## /projects
 
+Projects are grouped in a compact responsive grid with small category labels. The project `icon` field is optional, and the current project data is intentionally icon-free.
+
 ![image-20260728184135951](img/image-20260728184135951.png)
 
 ![image-20260728184148235](img/image-20260728184148235.png)
@@ -41,6 +45,8 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 The `/insights/` page is currently cleared into a blank placeholder page. The route is kept so the page can be redesigned and rebuilt later.
 
 ## /friends
+
+The request area uses a two-column email and submission-format panel that collapses to one column on mobile.
 
 ![image-20260728184217117](img/image-20260728184217117.png)
 
@@ -53,18 +59,18 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 - Content: Markdown / MDX via Astro Content Collections
 - Search: Pagefind (blogs only)
 - UX: light/dark theme switching with view transitions
-- Content extras: article TOC, reading-friendly blog layout, automatic OG image generation
+- Content extras: article TOC, reading-friendly blog layout, and an optional OG image generation pipeline
 
 ## Feature Highlights
 
 - Home page at `/`
 - Blog index at `/blogs/` and article pages at `/blogs/[slug]/`
-- Project showcase page at `/projects/`
+- Project showcase page at `/projects/` with compact category grids and optional icons
 - Insights page at `/insights/`, currently kept as a blank placeholder route for future redevelopment
-- Friends page at `/friends/` with category-grouped link cards, a friend-request section, and light/dark theme support
+- Friends page at `/friends/` with category-grouped cards, an email/submission-format panel, and light/dark theme support
 - Full-text blog search powered by Pagefind
 - Right-side article TOC for blog detail pages
-- Automatic OG image generation for posts and core pages
+- OG image generation remains available, but its global switch is currently disabled
 - Four built-in background effects: `plum`, `dot`, `rose`, and `snow`
 - Social links and navigation configured from a single config file
 
@@ -109,12 +115,12 @@ pnpm format:write # format files with Prettier
 
 | Route | Purpose |
 | :--- | :--- |
-| `/` | Homepage |
+| `/` | Homepage with a custom header, retro desktop, and profile content |
 | `/blogs/` | Blog index |
 | `/blogs/[slug]/` | Blog post detail page |
-| `/projects/` | Project showcase |
+| `/projects/` | Compact categorized project grid with optional icons |
 | `/insights/` | Insights page: currently a blank placeholder route with only the base page shell |
-| `/friends/` | Friends page: category-grouped link cards, request instructions, and page-level `cd ..` alignment |
+| `/friends/` | Friends page: category-grouped cards, email/submission format, and page-level `cd ..` alignment |
 | `/search/` | Search page powered by Pagefind |
 
 ## Content And Customization
@@ -143,6 +149,7 @@ src/
   components/
     backgrounds/  # Background, Dot, Plum, Rose, Snow
     base/         # Head, Link, Footer, Backdrop, PostMeta, Divider
+    home/         # HomeHeader, TinyDesktop
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
     views/        # RenderPage, RenderPost, ListView, GroupView, InsightsView, FriendsView
@@ -193,6 +200,7 @@ Project-specific notes are kept in `docs/`:
 - `docs/notes/Insights页面清空说明.md` - Change note for clearing the Insights page into a placeholder
 - `docs/notes/页面调整.md` - Blog reading experience and page-level adjustments
 - `docs/notes/页面间距统一.md` - Notes on page spacing fixes
+- `docs/notes/2026-08-09-页面更新说明.md` - Summary of the latest home, blogs, projects, friends, and OG configuration updates
 - `docs/notes/LogoButton图标替换说明.md` - Logo replacement from text to SVG with theme switching
 - `docs/notes/字体修改.md` - Adding and applying local fonts
 
@@ -213,7 +221,7 @@ Retained core experience:
 - Blog-only search via Pagefind
 - Article TOC on post pages
 - Theme switching with view transitions
-- OG image generation for active pages and posts
+- Optional OG image generation pipeline (currently disabled globally)
 - Multiple background effects (`plum`, `dot`, `rose`, `snow`)
 
 MIT

@@ -14,6 +14,8 @@
 
 ## Home 页面
 
+首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。正文展示个人介绍、技术栈、GitHub 统计和社交链接。
+
 ![image-20260728183838004](img/image-20260728183838004.png)
 
 ![image-20260728183859951](img/image-20260728183859951.png)
@@ -34,6 +36,8 @@
 
 ## Projects 页面
 
+项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
+
 ![image-20260728184135951](img/image-20260728184135951.png)
 
 ![image-20260728184148235](img/image-20260728184148235.png)
@@ -43,6 +47,8 @@
 当前 `/insights/` 页面已清空为预留开发页，仅保留基础页面壳与空白主体，方便后续重新设计和开发。
 
 ## Friends 页面
+
+友链申请区为邮箱与参考格式的双栏面板，移动端自动变为单栏。
 
 ![image-20260728184217117](img/image-20260728184217117.png)
 
@@ -55,18 +61,18 @@
 - 内容：通过 Astro Content Collections 管理 Markdown / MDX
 - 搜索：Pagefind（仅限博客）
 - 体验：支持明/暗主题切换与视图转场
-- 内容增强：文章目录、阅读友好的博客排版、自动生成 OG 图片
+- 内容增强：文章目录、阅读友好的博客排版、可选的 OG 图片生成链路
 
 ## 功能亮点
 
 - 首页 `/`
 - 博客索引 `/blogs/` 与文章页 `/blogs/[slug]/`
-- 项目展示页 `/projects/`
+- 项目展示页 `/projects/`，支持紧凑分类网格和可选图标
 - Insights 页 `/insights/`，当前为预留空白页，保留独立路由，方便后续重新开发
-- Friends 页 `/friends/`，按分类展示友链卡片，包含申请友链说明区块，并适配明暗主题
+- Friends 页 `/friends/`，按分类展示友链卡片，包含邮箱与申请格式面板，并适配明暗主题
 - 基于 Pagefind 的博客全文搜索
 - 文章详情页右侧目录
-- 文章与核心页面的自动 OG 图片生成
+- 保留 OG 图片生成能力，当前全局开关已关闭
 - 四种内置背景效果：`plum`、`dot`、`rose`、`snow`
 - 统一的配置文件控制社交链接与导航栏
 
@@ -111,12 +117,12 @@ pnpm format:write # 格式化代码（Prettier）
 
 | 路由 | 用途 |
 | :--- | :--- |
-| `/` | 首页 |
+| `/` | 首页：自定义标题区、复古桌面与个人内容 |
 | `/blogs/` | 博客索引页 |
 | `/blogs/[slug]/` | 博客文章详情页 |
-| `/projects/` | 项目展示页 |
+| `/projects/` | 项展示页：紧凑分类网格，图标可选 |
 | `/insights/` | Insights 页：当前为预留空白页，仅保留独立路由与基础页面壳 |
-| `/friends/` | Friends 页：按分类展示友情链接卡片，支持申请友链说明与页面级 `cd ..` 对齐 |
+| `/friends/` | Friends 页：按分类展示友情链接卡片，支持申请邮箱、参考格式与页面级 `cd ..` 对齐 |
 | `/search/` | 基于 Pagefind 的搜索页 |
 
 ## 内容与定制
@@ -145,6 +151,7 @@ src/
   components/
     backgrounds/  # Background, Dot, Plum, Rose, Snow
     base/         # Head, Link, Footer, Backdrop, PostMeta, Divider
+    home/         # HomeHeader, TinyDesktop
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
     views/        # RenderPage, RenderPost, ListView, GroupView, InsightsView, FriendsView
@@ -195,6 +202,7 @@ src/components/* + styles/*  -> 最终 UI 输出
 - `docs/notes/Insights页面清空说明.md` — Insights 页面清空为预留页的变更记录
 - `docs/notes/页面调整.md` — 博客阅读体验与页面级调整
 - `docs/notes/页面间距统一.md` — 页面间距修复记录
+- `docs/notes/2026-08-09-页面更新说明.md` — 首页、Blogs、Projects、Friends 与 OG 配置的本次更新汇总
 - `docs/notes/LogoButton图标替换说明.md` — Logo 从文字替换为 SVG 及主题切换适配
 - `docs/notes/字体修改.md` — 本地字体的添加与应用
 
@@ -215,7 +223,7 @@ src/components/* + styles/*  -> 最终 UI 输出
 - 仅限博客的 Pagefind 搜索
 - 文章页目录
 - 明暗主题切换与视图转场
-- 活跃页面与文章的 OG 图片自动生成
+- 可选的 OG 图片生成链路（当前全局关闭）
 - 多种背景效果（`plum`、`dot`、`rose`、`snow`）
 
 MIT

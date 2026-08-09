@@ -1,0 +1,43 @@
+---
+import TinyDesktop from '~/components/home/TinyDesktop.astro'
+
+interface Props {
+  title: string
+  subtitle?: string
+}
+
+const { title, subtitle } = Astro.props
+---
+
+<div class="home-title-row">
+  <div class="home-title-copy">
+    <h1 class="page-title">{title}</h1>
+    {subtitle && <p class="home-title-subtitle op-50 italic">{subtitle}</p>}
+  </div>
+  <TinyDesktop />
+</div>
+
+<style>
+  .home-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(2rem, 7vw, 6rem);
+  }
+
+  .home-title-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .home-title-subtitle {
+    margin-top: -2rem !important;
+  }
+
+  @media (max-width: 720px) {
+    .home-title-row {
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+  }
+</style>

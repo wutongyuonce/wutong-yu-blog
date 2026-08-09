@@ -93,14 +93,15 @@ export const UI: Ui = {
  */
 export const FEATURES: Features = {
   slideEnterAnim: [true, { enterStep: 60 }],
-  ogImage: [
-    true,
-    {
-      authorOrBrand: `${SITE.title}`,
-      fallbackTitle: `${SITE.description}`,
-      fallbackBgType: 'plum',
-    },
-  ],
+  ogImage: false,
+  // ogImage: [
+  //   true,
+  //   {
+  //     authorOrBrand: `${SITE.title}`,
+  //     fallbackTitle: `${SITE.description}`,
+  //     fallbackBgType: 'plum',
+  //   },
+  // ],
   toc: [
     true,
     {
