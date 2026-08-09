@@ -1,10 +1,6 @@
-Hello! I'm ***WutongYu***. This is my personal website, which is inspired by *[lin-stephanie](https://github.com/lin-stephanie)‘s [astro-antfustyle-theme](https://github.com/lin-stephanie/astro-antfustyle-theme)*. 
-
-It's also an open-source Astro theme available for anyone to use. Detailed documentation is placed under the [/doc](https://github.com/wutongyuonce/wutong-yu-blog/tree/main/doc) folder.
+Hi! I'm ***WutongYu***. This is my open-source Astro BLog, which is inspired by *[lin-stephanie](https://github.com/lin-stephanie)‘s [astro-antfustyle-theme](https://github.com/lin-stephanie/astro-antfustyle-theme)*. 
 
 I'm an student at :link[Hohai University]{id=https://www.hhu.edu.cn .square}. Recently i'm applying for Msc cs at :link[HKU]{id=https://www.hku.hk .square} / :link[CUHK]{id=https://www.cuhk.edu.hk img=/cuhk.png .square} / :link[HKUST]{id=https://hkust.edu.hk .square}.
-
-I'm also looking for an *INTERN* opportunity regarding *backend/agent engineering*. You can visit and download ***[my resume here]()***.
 
 <br>
 
@@ -14,22 +10,12 @@ I'm also looking for an *INTERN* opportunity regarding *backend/agent engineerin
 
 <br>
 
-You can see ***[all my blogs list here](https://wutongyu.site/blogs/) (tech stack notes and random blogs)***.
-
-You can see ***[all my projects list here](https://wutongyu.site/projects/)***.
-
-<br>
-
-Beyond programming, I enjoy playing fps games like *Valorant* and also *Steam* games.
-
-I'm alse a fan of kpop groups like *:link[TWICE]{id=https://twice.jype.com} / :link[Idle]{id=https://www.instagram.com/i_dle_official/}*.
-
-I have got a *7.5* score in *IELTS*, so if you are a native speaker, feel free to chat with me on social media.
+Fun Facts：*Valorant* and *Steam* gamer / fan of *:link[TWICE]{id=https://twice.jype.com} / :link[Idle]{id=https://www.instagram.com/i_dle_official/}*
 
 ---
 
 <p>
-  <span class="inline-block mr-1.5 mb-2">Find me on</span>
+  <span class="inline-block mr-1.5 mb-2">feel free to chat with me on</span>
   <span class="inline-flex flex-wrap gap-2 op-75">
     <a href="https://github.com/wutongyuonce">
       <span i-simple-icons-github></span> GitHub</a>
@@ -37,8 +23,9 @@ I have got a *7.5* score in *IELTS*, so if you are a native speaker, feel free t
       <span i-simple-icons-instagram></span> Instagram</a>
     <a href="https://space.bilibili.com/521627597">
       <span i-simple-icons-bilibili></span> Bilibili</a>
+    <a href="https://x.com/Yu2002964143523">
+      <span i-simple-icons-x></span> X</a>
   </span>
 </p>
-
 
 Or mail me via ***15088484799@163.com***
