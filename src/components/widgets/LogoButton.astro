@@ -12,16 +12,12 @@ import { SITE } from '~/config'
 >
   <div class="logo-container">
     <img
-      class="logo-icon img-light"
-      src={withBasePath('/cat-icon-2.svg')}
+      class="logo-icon"
+      src={withBasePath('/avatar.webp')}
       alt=""
       aria-hidden="true"
-    />
-    <img
-      class="logo-icon img-dark"
-      src={withBasePath('/cat-icon.svg')}
-      alt=""
-      aria-hidden="true"
+      width="48"
+      height="48"
     />
   </div>
 </Link>
@@ -48,17 +44,14 @@ import { SITE } from '~/config'
     height: 3rem;
     display: block;
     object-fit: cover;
+    box-sizing: border-box;
+    border: 2px solid rgb(31 41 55 / 72%);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 18%);
   }
 
-  .img-dark {
-    display: none;
-  }
-
-  :global(html.dark) .img-light {
-    display: none;
-  }
-
-  :global(html.dark) .img-dark {
-    display: block;
+  :global(html.dark) .logo-icon {
+    border-color: rgb(255 255 255 / 78%);
+    box-shadow: 0 1px 5px rgb(0 0 0 / 55%);
   }
 </style>
