@@ -64,5 +64,15 @@
     "desc": "记录文章、笔记、实验和暂时不想丢掉的内容。",
     "category": "独立博客",
     "order": 4
+  },
+  {
+    "id": "wibus-log",
+    "name": "Wibus.log",
+    "link": "https://blog.wibus.ren",
+    "avatar": "https://avatars.githubusercontent.com/u/62133302?v=4",
+    "desc": "Notes on Being Human",
+    "category": "独立博客",
+    "siteLabel": "Wibus",
+    "order": 5
   }
 ]
