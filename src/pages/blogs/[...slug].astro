@@ -6,7 +6,7 @@ import RenderPost from '~/components/views/RenderPost.astro'
 import { getFilteredPosts } from '~/utils/data'
 
 // 【静态路径生成函数】
-// Astro 会在构建时执行这个函数，生成所有静态页面
+// Astro 默认会在构建时执行这个函数，生成所有静态页面
 export async function getStaticPaths() {
   // 获取类型为 'blogs' 的所有文章数据
   const posts = await getFilteredPosts('blogs')

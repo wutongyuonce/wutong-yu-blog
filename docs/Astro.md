@@ -414,6 +414,30 @@ const users = ['Alice', 'Bob', 'Charlie']
 | **服务端**（Astro 组件脚本） | 构建时的 Node.js | 读文件、访问数据库、调用 API、导入模块 | 访问 `window`、`document`、`localStorage` |
 | **客户端**（浏览器）         | 用户的浏览器     | DOM 操作、事件监听、用户交互           | 读服务器文件、访问环境变量                |
 
+#### `Astro` 对象从哪来：编译器注入
+
+**`Astro` 不是全局对象**，而是 Astro 编译器编译 `.astro` 文件时，自动在 frontmatter 脚本外层包一层并注入的局部变量（包含 `props`、`url`、`request` 等）。所以组件内**无需 import** 就能直接使用 `Astro.props`，但它只在 `.astro` 文件内有意义：
+
+```ts
+// Astro 编译后自动生成的包裹代码（你看不到）
+async function render() {
+  const Astro = { props, url, request, ... }  // ← 自动注入
+  // ↓ 你的代码从这里开始
+  const { post } = Astro.props
+  // ↑ 你的代码到这里结束
+}
+```
+
+它看起来像"全局对象"，但实际是**每个 `.astro` 组件独有的作用域变量**。对比各文件的"魔法变量"来源：
+
+| 变量             | 在哪个文件可用     | 来源         |
+| :--------------- | :----------------- | :----------- |
+| `Astro`          | 所有 `.astro` 组件 | 编译器注入   |
+| `frontmatter`    | `.mdx` / `.md` 页面 | 编译器注入 |
+| `Astro.props`    | 接收 props 的组件   | 由父级传入   |
+
+注意：**不能在 `.astro` 之外用 `Astro`**。普通 `.ts` / `.js` 工具函数里不存在 `Astro.props`，数据应由组件内取到后再传给纯函数，单向流入。
+
 ### 核心增强
 
 #### 一、组件化
