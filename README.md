@@ -44,12 +44,6 @@
   <img src="img/image-20260811171922648.png" alt="图片" width="600">
 </p>
 
-### 窄页面
-
-<p align="center">
-  <img src="img/blog_narrow.png" alt="图片" width="600">
-</p>
-
 ## Projects 页面
 
 项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
