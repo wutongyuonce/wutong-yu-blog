@@ -10,45 +10,65 @@
 
 A streamlined Astro 5 personal site inspired by the Antfu-style visual language. This repository focuses on a small, opinionated feature set: homepage, blog, projects, insights, friends, and search, while keeping the codebase easy to extend.
 
-## /
+## Home Page
 
 The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustration. It switches to a vertical layout on narrow screens, while the body presents the profile, stack, GitHub stats, and social links.
 
-![home_light](img/home_light.png)
+<p align="center">
+  <img src="img/image-20260811171526952.png" alt="图片" width="600">
+</p>
 
-![home_dark](img/home_dark.png)
+<p align="center">
+  <img src="img/image-20260811171642255.png" alt="图片" width="600">
+</p>
 
-## /blogs
+## Blogs Page
 
-![blogs_light](img/blogs_light.png)
+<p align="center">
+  <img src="img/image-20260811171725271.png" alt="图片" width="600">
+</p>
 
-![blogs_dark](img/blogs_dark.png)
+<p align="center">
+  <img src="img/image-20260811171738632.png" alt="图片" width="600">
+</p>
 
-### /blogs/xxx
+### Specific blog Page
 
-![blog](img/blog.png)
+<p align="center">
+  <img src="img/image-20260811171828205.png" alt="图片" width="600">
+</p>
 
-<img src="img/blog_narrow.png" alt="blog_narrow" style="zoom:40%;" />
+<p align="center">
+  <img src="img/blog_narrow.png" alt="图片" width="600">
+</p>
 
-## /projects
+## Projects Page
 
 Projects are grouped in a compact responsive grid with small category labels. The project `icon` field is optional, and the current project data is intentionally icon-free.
 
-![projects_light](img/projects_light.png)
+<p align="center">
+  <img src="img/image-20260811172019351.png" alt="图片" width="600">
+</p>
 
-![projects_dark](img/projects_dark.png)
+<p align="center">
+  <img src="img/image-20260811172058012.png" alt="图片" width="600">
+</p>
 
-## /insights
+## Insights Page
 
 The `/insights/` page is currently cleared into a blank placeholder page. The route is kept so the page can be redesigned and rebuilt later.
 
-## /friends
+## Friends Page
 
 The request area uses a two-column email and submission-format panel that collapses to one column on mobile.
 
-![friends_light](img/friends_light.png)
+<p align="center">
+  <img src="img/image-20260811172126534.png" alt="图片" width="600">
+</p>
 
-![friends_dark](img/friends_dark.png)
+<p align="center">
+  <img src="img/image-20260811172156509.png" alt="图片" width="600">
+</p>
 
 ## Overview
 
