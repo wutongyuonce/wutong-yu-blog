@@ -2,7 +2,7 @@ Hi! I'm ***WutongYu***. This is my open-source Astro Blog, which is inspired by 
 
 I'm an student at :link[Hohai University]{id=https://www.hhu.edu.cn .square}. Recently i'm applying for Msc cs at :link[HKU]{id=https://www.hku.hk .square} / :link[CUHK]{id=https://www.cuhk.edu.hk img=/cuhk.png .square} / :link[HKUST]{id=https://hkust.edu.hk .square}.
 
-***Stack***： :link[Agent]{id=https://claude.com/product/claude-code .square} :link[SpingBoot]{id=https://spring.io/projects/spring-boot .square} :link[FastAPI]{id=https://fastapi.tiangolo.com/zh/ .square}  :link[Vue]{id=https://vuejs.org img=/vue.png .square} :link[MySQL]{id=https://www.mysql.com/cn/ .square} :link[SQLite]{id=https://sqlitebrowser.org .square}
+![Skills](https://skillicons.dev/icons?i=git,github,c,html,css,js,ts,py,fastapi,java,spring,md,mysql,sqlite,redis,linux,nodejs,vue,react,astro)
 
 <div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
   <img src="https://github-readme-stats-fast.vercel.app/api?username=wutongyuonce&show_icons=true" alt="GitHub Stats" style="width: calc(57% - 0.5rem); margin: 0;" />
