@@ -95,7 +95,7 @@
 }
 .prose h1 {
   color: var(--fg-deeper);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 2.25em;
   margin-top: 0;
   margin-bottom: 0.8888889em;
@@ -103,7 +103,7 @@
 }
 .prose h2 {
   color: var(--fg-deep);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.6em;
   margin-top: 2em;
   margin-bottom: 1em;
@@ -111,7 +111,7 @@
 }
 .prose h3 {
   color: inherit;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.4em;
   margin-top: 1.6em;
   margin-bottom: 0.6em;
@@ -119,7 +119,7 @@
 }
 .prose h4 {
   color: inherit;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.2em;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -127,7 +127,7 @@
 }
 .prose h5 {
   color: inherit;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.1em;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -135,7 +135,7 @@
 }
 .prose h6 {
   color: inherit;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1em;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -323,6 +323,10 @@
   line-height: 1.65;
 }
 
+.prose.post-header {
+  font-size: 1rem;
+}
+
 @media (min-width: 1280px) {
   .prose.post-header,
   .prose.post-content {
@@ -337,7 +341,7 @@
 
 .prose.post-content h2 {
   font-size: 1.6em;
-  font-weight: 800;
+  font-weight: 600;
   margin-top: 1.1rem;
   margin-bottom: 1.1rem;
 }
@@ -345,7 +349,7 @@
 .prose.post-content h3 {
   color: var(--fg-deep);
   font-size: 1.1875em;
-  font-weight: 700;
+  font-weight: 500;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
 }
