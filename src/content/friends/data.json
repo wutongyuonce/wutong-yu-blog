@@ -30,10 +30,19 @@
     "order": 3
   },
   {
+    "id": "Armin Ronacher",
+    "name": "Armin Ronacher",
+    "link": "https://lucumr.pocoo.org/",
+    "avatar": "https://lucumr.pocoo.org/static/avatar-large.jpg",
+    "desc": "Founder of Earendil",
+    "category": "大佬们",
+    "siteLabel": "Earendil, pi",
+    "order": 4
+  },
+  {
     "id": "Hazenix的后端札记",
     "name": "Hazenix的后端札记",
     "link": "https://blog.hazenix.top",
-    "avatar": "https://blog.hazenix.top/assets/avatar-C7oPo7sC.jpg",
     "desc": "全栈偏后端，写技术也写生活。",
     "category": "独立博客",
     "order": 1

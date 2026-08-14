@@ -63,18 +63,22 @@ const { maxGroupColumns, showGroupItemColorOnHover } = UI.groupView
     min-width: 0;
     padding: 0.75rem 0.875rem;
     border-radius: 0.625rem;
-    background: #88888808;
+    background: #f0f0f0;
     border-bottom: none !important;
     font-size: 1.1rem;
     transition: background-color 0.2s ease;
   }
 
   .group-card:hover {
-    background: #88888814;
+    background: #e8e8e8;
+  }
+
+  :global(.dark) .group-card {
+    background: #ffffff14;
   }
 
   :global(.dark) .group-card:hover {
-    background: #88888820;
+    background: #ffffff24;
   }
 
   .group-card__icon-wrap {
