@@ -17,45 +17,31 @@
 首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。正文展示个人介绍、技术栈、GitHub 统计和社交链接。
 
 <p align="center">
-  <img src="img/image-20260811171526952.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-18-40.png" alt="图片" width="600">
 </p>
 
 <p align="center">
-  <img src="img/image-20260811171642255.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
 </p>
 
 ## Blogs 页面
 
 <p align="center">
-  <img src="img/image-20260811171725271.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
 </p>
+
+### blog 页面
 
 <p align="center">
-  <img src="img/image-20260811171738632.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-22-28.png" alt="图片" width="600">
 </p>
-
-### blog 单页宽页面
-
-<p align="center">
-  <img src="img/image-20260811171828205.png" alt="图片" width="600">
-</p>
-
-<p align="center">
-  <img src="img/image-20260811171922648.png" alt="图片" width="600">
-</p>
-
 ## Projects 页面
 
 项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
 
 <p align="center">
-  <img src="img/image-20260811172019351.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-23-54.png" alt="图片" width="600">
 </p>
-
-<p align="center">
-  <img src="img/image-20260811172058012.png" alt="图片" width="600">
-</p>
-
 ## Insights 页面
 
 当前 `/insights/` 页面已清空为预留开发页，仅保留基础页面壳与空白主体，方便后续重新设计和开发。
@@ -65,13 +51,8 @@
 友链申请区为邮箱与参考格式的双栏面板，移动端自动变为单栏。
 
 <p align="center">
-  <img src="img/image-20260811172126534.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
 </p>
-
-<p align="center">
-  <img src="img/image-20260811172156509.png" alt="图片" width="600">
-</p>
-
 ## 概览
 
 - 框架：Astro 5 + TypeScript

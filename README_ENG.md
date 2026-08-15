@@ -14,45 +14,34 @@ A streamlined Astro 5 personal site inspired by the Antfu-style visual language.
 
 The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustration. It switches to a vertical layout on narrow screens, while the body presents the profile, stack, GitHub stats, and social links.
 
-<p align="center">
-  <img src="img/image-20260811171526952.png" alt="图片" width="600">
-</p>
+
 
 <p align="center">
-  <img src="img/image-20260811171642255.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-18-40.png" alt="图片" width="600">
 </p>
 
+
+<p align="center">
+  <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
+</p>
 ## Blogs Page
 
 <p align="center">
-  <img src="img/image-20260811171725271.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
 </p>
+### blog Page
 
 <p align="center">
-  <img src="img/image-20260811171738632.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-22-28.png" alt="图片" width="600">
 </p>
-
-### Specific blog Page
-
-<p align="center">
-  <img src="img/image-20260811171828205.png" alt="图片" width="600">
-</p>
-
-<p align="center">
-  <img src="img/blog_narrow.png" alt="图片" width="600">
-</p>
-
 ## Projects Page
 
 Projects are grouped in a compact responsive grid with small category labels. The project `icon` field is optional, and the current project data is intentionally icon-free.
 
 <p align="center">
-  <img src="img/image-20260811172019351.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-23-54.png" alt="图片" width="600">
 </p>
 
-<p align="center">
-  <img src="img/image-20260811172058012.png" alt="图片" width="600">
-</p>
 
 ## Insights Page
 
@@ -63,12 +52,9 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 The request area uses a two-column email and submission-format panel that collapses to one column on mobile.
 
 <p align="center">
-  <img src="img/image-20260811172126534.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
 </p>
 
-<p align="center">
-  <img src="img/image-20260811172156509.png" alt="图片" width="600">
-</p>
 
 ## Overview
 
