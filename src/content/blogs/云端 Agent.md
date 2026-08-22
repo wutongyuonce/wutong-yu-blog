@@ -5,27 +5,70 @@ pubDate: 2026-08-14
 tags: [Agent, Cloudflare, Sandbox]
 ---
 
-“云端 Agent 可以采用存算分离的设计，首先就是为什么不采用存算一体的架构，因为存算一体的架构绑定在同一个实例上，这就导致在长程任务中这个实例不一定一直在计算但是需要常驻运行，成本很高，而且一旦实例崩溃了就什么都没有了，而云端 Agent 本质上是将本地 Agent 的‘状态存储’与‘计算推理’从同一进程实例中解耦。
+## “Your agent needs a computer, not a container.”
 
-具体来说，**存储层**按数据冷热程度进行细分：热状态（如当前 Step、Plan、Checkpoint）存放在 Redis 中以支持高速读写；对话记录与任务元数据落库 Postgres；长期记忆和知识库交由向量数据库（如 Milvus）管理；而工具脚本、用户文件等产物则持久化到对象存储（S3/OSS），比如说 Cloudflare 最近开源的 computer 项目就是**利用 SQLite + R2 构建了一个统一的虚拟文件系统，并通过 FUSE 技术挂载到容器沙箱中，整个容器就是一个 agent 的工作台，Agent 只需要调用这个工作台的工具，所有变更均通过 FUSE 实时同步回存储层**。**计算层**则运行在无状态的云端沙箱（Sandbox）中，专注于 LLM 推理、上下文拼接和工具执行。
+<img src="/cloud-agent-img/PixPin_2026-08-22_13-18-57.png" alt="PixPin_2026-08-22_13-18-57" style="zoom:40%;" />
 
-**具体的执行流程**是：网关接收用户终端发起的请求后，先从存储层加载 Prompt 和历史记忆拼装上下文，再动态创建临时沙箱，从存储层拉取虚拟文件系统包括代码库等，然后开始进行推理；执行的中间状态会同步写入 Checkpoint 进行持久化，一旦任务进入空闲或等待用户确认状态，就立即回收计算沙箱以释放资源，待后续唤醒时直接从 Checkpoint 恢复断点续跑。这样的话就分离了存储和运算，避免了常驻实例带来的资源浪费。
+云端 Agent 比较直接的理解是**存算分离**，这里的算是 agent 运行所需的运算，存是各种状态、产物的存储，也就是将本地 Agent 的‘状态存储’与‘计算推理’从同一进程实例中解耦。
 
-用户关闭终端不会停止云端 Agent 的运行，唯一终端的方式是用户终端发起中断或者云端的任务执行完成、结果写入外部存储，当用户终端/前端不在运行时，可以配置主动通知通过邮件或者 IM(Instant Messaging) 主动推送。“
+但实际上更准确来说云端 agent 是把 **agent 运行中思考、规划、调用工具**和**执行工作的工作区 sandbox** 分开。因为外部工作区不只是存储层，也可以是既能读写文件、又能执行命令、安装依赖的容器环境。云端 Agent 的无状态运行实例可以随时拉起，有状态的存储实例则常驻在云端，没有 Agent 实例运行时自动休眠。
 
-> 问题：如果云端agent存了很多内容，当你本地 APP 停止运行后再去运行，去拉取内容，问题是， 拉取内容时，前面已经有一部分内容，且拉取内容的过程中，agent又产生了很多内容，怎么样把这两个内容拼到一起返回给前端？
->
-> * 核心矛盾在于：本地缓存的内容、拉取期间产生的新内容，以及新旧内容之间的衔接一致性
->
-> * 解决这个问题的关键，是让所有内容拥有全局有序且连续的标识，然后进行锚定拼接
->
-> * 基于游标的增量拉取 + 前端去重拼接（最推荐）：
->
->   Agent产生的每条内容自带一个连续递增的序列号（或严格递增的时间戳）。本地存最后一条的序列号，拉取时带上这个“游标”，服务端只返回这个游标之后的新内容。前端拿到新旧两段后，利用序列号自行拼接。即便拉取过程中Agent又生成了内容，也不影响本次拉取结果，下次再拉即可。
+至于为什么不是存算一体，那样的话 agent 运行时和执行工作区绑定在同一个实例上，由于 Agent 肯定不是一直在运行，常驻实例会导致计算资源的浪费，同时一旦实例崩溃了会导致持久化的状态包括存储产物丢失。
 
-## 存算分离
+Agent Harness 是“大脑”，Tools 是“手”，Computer/Workspace/Sandbox 是“操作环境”。
 
-存算分离，简单来说就是把 Agent 的 **"记忆和状态"（存）** 与 **"思考和执行"（算）** 从同一个进程/实例中拆分开来，让它们各自独立管理、独立伸缩。
+Agent 有两部分工具，一部分是 Agent 自带的，一部分则是外部 sandbox 提供的，RPC、HTTP、MCP 等。
+
+标题这句话不是说 Container 没用，而是说 Agent 需要的是一个持续存在、可观察、可操作的工作环境，而不只是一次性的命令执行器。
+
+Computer 关注 Agent 的体验和状态：
+
+- 有持久文件；
+- 有 shell、浏览器和工具；
+- 有登录会话；
+- 可以暂停后恢复；
+- 可以在同一个环境中继续工作。
+
+Container 只是实现这些能力的一种底层后端，而且通常比较重。
+
+* **Cloudflare Computer** 的方向是把 Cloudflare 服务器提供的 Durable Object（其实就是一个有状态的 Worker 实例）封装成一个 workspace 统一工作区，提供了执行命令的运行后端和以 SQLite 为基础的文件系统，也可以链接远程的 R2 对象存储来保存大文件。让 Agent 先使用便宜的 Isolate 运行后端，只有少数操作切换到 Container。
+* **Grok Bot 项目**的工作区更重，直接就是一个完整的 Linux VM 系统，包含文件系统、浏览器、终端等，Agent 可以通过 MCP、Browser Use、Computer Use 等方式操作这台电脑。
+
+| 对比维度 | Container                       | Cloudflare Computer                             |
+| -------- | ------------------------------- | ----------------------------------------------- |
+| 本质     | 隔离的 Linux 命令执行环境       | 面向 Agent 的完整电脑抽象                       |
+| 主要能力 | Shell、进程、系统工具、依赖安装 | 文件系统、持久化工作区、命令执行、Git、工具封装 |
+| 状态     | 默认随容器生命周期变化          | 工作区状态由 DO SQLite/R2 持久化                |
+| 关系     | 可以作为 Computer 的运行后端    | 可以选择 Container，也可以选择其他运行后端      |
+
+### 隔离层次
+
+Sandbox、Container、Linux VM、Computer/Workspace 不是同一层概念：
+
+```text
+Linux VM                 运行环境 / 虚拟硬件边界
+Container                运行环境 / 共享宿主内核
+Sandbox                  权限与影响范围的控制机制或产品封装
+Computer / Workspace    Agent 可持续工作的用户抽象
+```
+
+其中 Sandbox 是最容易被误解的词：它可能由操作系统权限、Container、MicroVM 或完整 VM 实现。
+
+### 运行流程
+
+1. 网关接收用户 WebSocket / SSE 请求
+2. 从数据库加载 Prompt 和配置
+3. 创建临时的 Worker
+4. 从向量库检索记忆，拼接上下文
+5. 调用 LLM，调用工作区/Sandbox 提供的各类工具
+6. 中间状态写入 Checkpoint（支持断点恢复）
+7. 空闲时回收 Sandbox Worker，产物上传对象存储
+
+用户关闭前端不会停止云端 Agent 的运行，唯一终端的方式是用户发起中断或者云端的任务执行完成、结果写入存储，当用户端不在运行时，可以配置主动通知通过邮件或者 IM(Instant Messaging) 主动推送。
+
+### 存算分离
+
+存算分离，简单来说就是把 Agent 的**"记忆和状态"（存）**与**"思考和执行"（算）**从同一个进程/实例中拆分开来，让它们各自独立管理、独立伸缩。
 
 **1、为什么要分离？**
 
@@ -59,15 +102,17 @@ tags: [Agent, Cloudflare, Sandbox]
 
 - **工作产物**（用户文件、工具、动态 Skills）→ 对象存储（如 S3/OSS）
 
-  对于代码修改这类产物，存储方式正是**记录变更前后的差异（diff）或完整的文件快照**。这既保留了完整历史，也方便回溯。
-
   > **对象存储的本质是一个“扁平的、全球性的键值对（Key-Value）仓库”。**
   >
-  > 它只认 **Key（键）** 和 **Value（值）**。
+  > S3 是 AWS 提供的对象存储，R2 是 Cloudflare 提供的、兼容 S3 API 的对象存储。两者都按 Bucket 和 Object 管理文件。还有阿里云的 OSS 等。
   >
-  > - **Key**：通常是字符串（如 `/workspace/index.js` 或 `user-123/photo.jpg`）。
-  > - **Value**：文件的实际二进制内容（字节流）。
-  > - **附加属性（元数据）**：对象存储还会附带一些元数据（如 Content-Type、ETag、大小、上传时间）。
+  > ```bash
+  > Bucket（桶）
+  >   └── Object（对象）
+  >         ├── Key：文件名/路径字符串（如 `/workspace/index.js` 或 `user-123/photo.jpg`）
+  >         ├── Value：文件的实际二进制内容（字节流）
+  >         └── Metadata：附加属性（元数据），如 Content-Type、ETag、大小、上传时间
+  > ```
   >
   > **它能存啥？能存一切二进制字节流（Anything as bytes）。**
   >
@@ -77,6 +122,7 @@ tags: [Agent, Cloudflare, Sandbox]
   > - 甚至整个 SQLite 数据库文件本身！
   >
   > **它不能存啥？**
+  >
   > 不能存“正在被高频随机读写”的数据（比如 Redis 缓存），也不能存“需要原地修改某一行”的数据（比如 MySQL 的表）。因为对象存储是**“整体写入，整体覆盖”**（PutObject），不支持在文件中间追加内容（除非分片上传，但那也是全量替换）。
 
 2、计算层（"算"）
@@ -89,112 +135,6 @@ tags: [Agent, Cloudflare, Sandbox]
 - 决策与规划逻辑
 
 计算层通常是**无状态**的，运行在云端沙箱（Sandbox）中，按需创建、用完即回收。
-
-**3、一个典型的执行流程**
-
-1. 网关接收用户请求
-2. 从数据库加载 Prompt 和配置
-3. 创建临时 Workspace 和 Sandbox
-4. 从向量库检索记忆，拼接上下文
-5. 调用 LLM，在 Sandbox 中执行工具
-6. 中间状态写入 Checkpoint（支持断点恢复）
-7. 空闲时回收 Sandbox，产物上传对象存储
-
-## [Cloudflare Computer](https://github.com/cloudflare/computer)
-
-**Cloudflare Computer 最核心的设计哲学，就是把“Agent（大脑）”和“环境（身体）”打包抽象成一台“虚拟计算机（Computer）”。**
-
-**Cloudflare Computer 不是做了一个“沙箱管理工具”，而是重新定义了“远程计算机”的 API 形态——让 AI Agent 拥有一台永不丢失数据的云端电脑。**
-
-Cloudflare Computer 在云端 Agent 架构中的**精确定位**是：作为 **“工作产物”** 的存储层。
-
-主链路执行流程（时序顺序）：
-
-**第一步：抽象入口（定义这台“电脑”）**
-
-开发者不直接操作沙箱或数据库，而是创建一个 **`Workspace`**（工作区）对象。
-
-👉 **这相当于“买了一台新电脑”**。`Workspace` 是这台电脑的“总控台”，后续所有操作（读写文件、执行命令）都通过它发起。
-
-**第二步：环境调度（给电脑通电开机）**
-
-`Workspace` 根据任务需求，在云端拉起执行后端：
-
-- **轻量任务**（如简单的文件检索）：启动 **Isolate（隔离体）**——毫秒级启动，像“单片机”。
-- **重型任务**（如 `npm install`）：启动 **Container（容器）**——完整的 Linux 环境，像“高性能工作站”。
-
-👉 **这相当于“给电脑插上电，决定用哪块CPU”**。
-
-**第三步：操作执行（Agent 使用电脑干活）**
-
-Agent（你的 AI 程序）通过 `Workspace.runtime` 调用标准工具：
-
-- `read('path')`：读取文件
-- `write('path', 'data')`：修改文件
-- `exec('npm run build')`：执行系统命令
-
-👉 **这相当于“人（Agent）在用键盘鼠标操作电脑”**。
-
-**第四步：状态持久化（电脑的硬盘实时备份云端）**
-
-当 Agent 执行 `write` 或 `exec` 产生文件变更时：
-
-- **FUSE 拦截**：沙箱内的写操作被 FUSE（用户态文件系统）拦截。
-
-- **RPC 同步**：变更数据通过 RPC 通道实时传输。
-
-- **SQLite 落盘**：数据最终写入 Durable Object 内的 SQLite 数据库（大文件溢出到 R2）。
-
-  > Durable Object 是 Cloudflare 实现“存算一体”的关键技术。它通过将计算（Worker逻辑） 与存储（SQLite数据库） 结合在一个全局唯一且自动协调的实例中，让你无需关心复杂的数据一致性、并发锁或基础设施管理，就能轻松构建强大的有状态应用。
-  >
-  > - **“算”**：指 Durable Object 实例里运行的 JavaScript 逻辑。
-  > - **“存”**：指 Durable Object 附带的 SQLite 存储。
-
-👉 **这相当于“你在电脑上按 Ctrl+S 保存文件，但硬盘不在电脑里，而在云端的保险柜里，且实时同步”**。
-
-### FUSE
-
-在 Linux 系统中，读写文件通常要走**内核态**（Kernel），需要写 C 语言驱动，非常重。**FUSE（Filesystem in Userspace，用户态文件系统）**的伟大之处在于：它允许开发者在**普通用户空间**（不需要改内核代码）写一个程序，来假装自己是一个文件系统。大部分现代 Linux 发行版都默认支持 FUSE。
-
-在 Cloudflare Computer 这种架构中，调用链是这样的：
-
-1. **沙箱内的 Agent 执行**：`fs.writeFile('/workspace/index.js', 'console.log("hi")')`
-2. **操作系统拦截**：Linux 内核发现 `/workspace` 这个目录是用 FUSE 挂载的，于是不往硬盘写，而是把这段数据打包成一个 RPC（远程过程调用）请求。
-3. **转发给用户态代理**：请求被发送到宿主机上的一个 FUSE 守护进程（Daemon）。
-4. **落地持久化**：这个守护进程拿到数据后，直接写入远端的 **SQLite 数据库**（Cloudflare 的方案）或 **对象存储（S3/OSS）**。
-5. **返回确认**：数据库写入成功后，返回一个“写入成功”的信号，原路返回给沙箱内的 Agent。
-
-### 为什么 SQLite 能支撑整个文件系统？
-
-**因为文件系统本质上就是一张“巨大的映射表（元数据）”，而 SQLite 正是存储“映射关系”的绝佳数据库。**
-
-一个文件系统（如 ext4/NTFS）在硬盘上无非就是两样东西：
-
-- **元数据（Metadata）**：文件名、路径、大小、创建时间、权限（755）、以及**这些数据块在硬盘上的物理地址（指针）**。
-- **数据块（Data Blocks）**：文件的实际二进制内容（比如 `console.log("hi")` 的 ASCII 码）。
-
-**在 Cloudflare Computer 的架构中，SQLite 直接把“硬盘物理地址”替换成了“数据库行（Row）”**：
-
-- 你在 `/workspace/index.js` 里写内容，SQLite 并不是把它当“文件”存，而是当成**表中的一行数据**。
-- 表结构大概是：`CREATE TABLE files ( path TEXT PRIMARY KEY, content BLOB, size INT, mode INT, ... )`。
-- 当你执行 `fs.readFile('/workspace/index.js')`，FUSE 拦截后，底层执行的其实是 `SELECT content FROM files WHERE path = '/workspace/index.js'`。
-
-**划重点**：SQLite 支持 **BLOB（二进制大对象）** 类型，可以直接存储文件的内容（字节流）。加上 SQLite 是**嵌入式数据库**，不需要独立的服务器进程，且支持 ACID 事务（保证写入原子性，防止断电丢数据），所以在单机或单租户场景下，它完全可以充当“文件系统的存储引擎”。
-
-### 分层存储（Tiered Storage）策略
-
-- **SQLite（热数据存储）**：存**小文件（< 1MB）** 和**所有文件的元数据（路径、权限、修改时间）**。因为 SQLite 查路径特别快（B-Tree 索引）。
-- **对象存储（S3/R2，冷数据存储）**：存**大文件（> 1MB）**，比如图片、视频、`.tar.gz` 包。
-
-**配合机制**：当你 `writeFile` 一个大文件时，FUSE 守护进程会做两件事：
-
-1. 把大文件的二进制流**上传到 S3**，S3 返回一个唯一的 `Key`（比如 `uuid-v4.bin`）。
-2. 在 SQLite 的 `files` 表里，`content` 字段不存二进制，而是存**字符串**：`s3://bucket/uuid-v4.bin`，同时标记 `size`。
-
-当你 `readFile` 时：
-
-1. SQLite 查出这条记录，发现 `content` 以 `s3://` 开头。
-2. 守护进程向 S3 发起 `GET` 请求，把数据流拉下来，通过 FUSE 喂给 Agent。
 
 ## [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/)
 
@@ -257,7 +197,7 @@ Agent 结束
 ```
 
 ```py
-minisweagent/
+minisweagen
 ├── agents/          Agent 控制流程
 ├── environments/    命令执行环境
 ├── models/          大模型接口和动作处理
@@ -276,13 +216,326 @@ agent = DefaultAgent(
 result = agent.run("修复项目中的 bug")
 ```
 
-## “Your agent needs a computer, not a container.”
+## [Cloudflare Computer](https://github.com/cloudflare/computer)
 
-| 性             | Docker 方案 (临时容器) | Cloudflare Computer                    |
-| :------------- | :--------------------- | :------------------------------------- |
-| **核心思想**   | 给 Agent 一个**容器**  | 给 Agent 一台**电脑**                  |
-| **状态持久性** | 会话结束即销毁         | **跨会话持久保存**                     |
-| **启动速度**   | 慢 (500ms - 3s+)       | **极快 (Sub-5ms)**                     |
-| **资源成本**   | 高（容器常驻）         | **低（按需使用，可休眠）**             |
-| **任务匹配**   | 所有任务都用容器       | **轻量任务用 Isolate，重量任务用容器** |
-| **架构模式**   | “大脑”和“双手”绑定     | **“大脑”与“双手”分离**                 |
+> 1. **DO 是 Cloudflare 的有状态基础设施，提供实例身份、生命周期和 SQLite 持久化存储；**
+> 2. **Cloudflare Computer SDK 基于 DO 的持久化层（额外的 R2）及具体运行后端，封装一套统一的文件、命令和 Git 操作 API 作为 Workspace 工作区，即 Agent 的“云端电脑”；**
+> 3. **Agent 不直接操作 DO，也不直接操作 SQLite/R2，而是通过 Workspace API 控制云端电脑，操作文件、执行命令和调用 Git。**
+
+### 1、Worker、DO(Durable Object)
+
+Cloudflare 在全球有成千上万台物理机，收到你的请求后，它会随机抓一个闲着没事干的“临时工”（Worker 进程）来跑你的代码。
+
+普通 Worker 更像一次性的无状态请求处理器：请求来了就执行，执行结束后内存中的状态不能依赖。而 **Durable Object（DO）是一种特殊类型的 Cloudflare Worker。**
+
+这里的“特殊”，主要在于它是**按唯一名称或 ID 寻址的、有状态(带持久化存储)的 Worker**：
+
+- 每个 DO 实例有自己的持久化状态，底层可以使用 **DO 自带的 SQLite 存储**。
+- 同一个 DO 实例由同一个唯一 ID 标识；同一个用户的请求可以始终路由到同一个实例。
+- 任意数量的 Worker 都可以通过绑定访问同一个 DO。
+- DO 内部以单线程方式处理请求，适合做单个用户、房间、任务或工作区的状态协调。
+- 实例空闲时可以被回收，但 SQLite 中的数据仍然保留；下次请求到来时，实例会重新唤醒。
+
+Worker 配置中的绑定，就是 Worker 访问 DO 的“门禁卡”：
+
+```jsonc
+// wrangler.jsonc
+{
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      { "name": "Agent", "class_name": "Agent" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Agent"] }
+  ]
+}
+```
+
+定位和调用 DO 的过程可以概括为：
+
+1. Worker 用 `env.Agent.idFromName("user-123")` 为用户生成稳定的实例 ID。
+2. Worker 用 `env.Agent.get(id)` 取得 `DurableObjectStub`。
+3. Worker 通过 stub 调用 DO 的方法；实例如果尚未运行，会被 Cloudflare 唤醒。
+4. DO 在自己的执行环境中完成逻辑，并把状态写入 SQLite。
+5. DO 返回结果；空闲后实例可以回收，数据下次仍可继续使用。
+
+因此，Worker 是无状态的入口和路由层，DO 是有状态的执行和协调层。Worker 可以负责鉴权、参数校验和定位，DO 负责修改自己的持久化状态。
+
+### 2、Cloudflare Computer
+
+Cloudflare Computer 则是一个 npm SDK，基于 DO 的持久化层（额外的 R2）及具体运行后端，封装一套统一的文件、命令和 Git 操作 API 作为 Workspace 工作区，即 Agent 的“云端电脑”。让 Agent 可以像使用一台电脑一样完成工作，并把工作产物持久化下来。
+
+| 能力                       | 作用                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| `Workspace`                | 一台云端电脑的总控台                                         |
+| `ws.fs`                    | 读取、写入和编辑文件                                         |
+| `ws.runtime.exec`          | 把命令交给 Isolate、Container 等 runtime 后端执行 Shell 或程序 |
+| `ws.git`                   | 执行 Git 相关操作                                            |
+| `createAITools(workspace)` | 把电脑能力包装成 LLM 工具                                    |
+
+<img src="/cloud-agent-img/_image2.webp" style="zoom: 50%;" />
+
+<img src="/cloud-agent-img/_image3.webp" style="zoom: 50%;" />
+
+工作区还支持可选的执行运行时 `Workspace.runtime`，使您能够在文件系统上运行代码。所有运行时都支持相同的接口 `exec(string, options)`，提供了两种默认选项：
+
+- Isolate：一个基于隔离环境的运行环境，使用 [just-bash](https://justbash.dev/) 将 shell 代码转换为 JavaScript，并在一个[动态 Worker](https://developers.cloudflare.com/dynamic-workers/)中运行。此处，文件系统可以通过 Worker 绑定直接访问。
+
+  适合场景：文件检索、简单脚本、轻量命令
+
+- Container：一个容器运行时，使用 [Cloudflare Containers](https://developers.cloudflare.com/containers/) 提供完整的 Linux 环境。在此处，文件系统通过用户空间文件系统（FUSE）挂载提供，确保文件对容器可用，并将更改同步回去。
+
+  适合场景：`npm install`、编译项目、需要 Shell/系统依赖的命令
+
+> **FUSE**（Filesystem in Userspace，用户态文件系统）允许程序在用户空间实现文件系统，不需要修改 Linux 内核。它可以把远端工作区表现成沙箱或容器中的普通目录。
+>
+> **`computerd`** 是 Cloudflare Computer 在 Container 后端里的一个**沙箱内文件系统守护进程**。
+>
+> 名字可以理解为：
+>
+> ```
+> computer + daemon
+> ```
+>
+> 也就是“Computer 的后台服务”。
+>
+> 它主要做三件事：
+>
+> ```
+> DO SQLite
+>    ↑↓ RPC
+> computerd
+>    ↑↓ FUSE
+> 容器里的 /workspace 目录
+> ```
+>
+> 1. `computerd` 在容器/沙箱里运行。
+>
+> 2. 它通过 FUSE 把 `/workspace` 挂载成一个普通目录。
+>
+> 3. 容器执行：
+>
+>    ```bash
+>    echo "hello" > /workspace/a.txt
+>    ```
+>
+> 4. Linux 将这个文件写入操作交给 FUSE。
+> 5. `computerd` 捕获变更，通过 RPC 发回 Workspace/DO。
+> 6. DO 将变更提交到 SQLite；大文件场景再写入 R2。
+
+#### SQLite、R2
+
+在 Cloudflare 的设计文档中，文件系统的核心就是 SQLite 中的一张表：
+
+```sql
+CREATE TABLE cf_workspace_{namespace} (
+    path TEXT PRIMARY KEY,          -- 文件路径
+    parent_path TEXT NOT NULL,      -- 父目录路径，用于加速目录列表
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,             -- 'file' | 'directory' | 'symlink'
+    size INTEGER DEFAULT 0,
+    storage_backend TEXT DEFAULT 'inline', -- 'inline' 或 'r2'
+    r2_key TEXT,                    -- 当 storage_backend = 'r2' 时，存储 R2 的 Key
+    content TEXT,                   -- 小文件的内容 (inline)
+    created_at INTEGER,
+    modified_at INTEGER
+    -- ... 其他元数据
+);
+```
+
+可以看到，`content` 字段既可以直接存小文件的文本或 Base64 编码的二进制数据，也可以配合 `storage_backend` 和 `r2_key` 字段，指向存储在 R2 的大文件。
+
+##### 为什么 SQLite 能支撑整个文件系统？
+
+**因为文件系统本质上就是一张“巨大的映射表（元数据）”，而 SQLite 正是存储“映射关系”的绝佳数据库。**
+
+一个文件系统（如 ext4/NTFS）在硬盘上无非就是两样东西：
+
+- **元数据（Metadata）**：文件名、路径、大小、创建时间、权限（755）、以及**这些数据块在硬盘上的物理地址（指针）**。
+- **数据块（Data Blocks）**：文件的实际二进制内容（比如 `console.log("hi")` 的 ASCII 码）。
+
+**在 Cloudflare Computer 的架构中，SQLite 直接把“硬盘物理地址”替换成了“数据库行（Row）”**
+
+并且 SQLite 支持 **BLOB（二进制大对象）** 类型，可以直接存储文件的内容（字节流）。加上 SQLite 是**嵌入式数据库**，不需要独立的服务器进程，且支持 ACID 事务（保证写入原子性，防止断电丢数据），所以在单机或单租户场景下，它完全可以充当“文件系统的存储引擎”。
+
+##### 分层存储（Tiered Storage）策略
+
+- **SQLite（热数据存储）**：存**小文件（< 1MB）** 和**所有文件的元数据（路径、权限、修改时间）**。因为 SQLite 查路径特别快（B-Tree 索引）。
+- **对象存储（S3/R2，冷数据存储）**：存**大文件（> 1MB）**，比如图片、视频、`.tar.gz` 包。
+
+**配合机制**：
+
+* 当你 `writeFile` 一个大文件时：
+  1. 大文件的二进制流**上传到 S3**，S3 返回一个唯一的 `Key`（比如 `uuid-v4.bin`）；
+  2. 在 SQLite 的 `files` 表里，`content` 字段不存二进制，而是存**字符串**：`s3://bucket/uuid-v4.bin`，同时标记 `size`。
+
+* 当你 `readFile` 时：
+  1. SQLite 查出这条记录，发现 `content` 以 `s3://` 开头；
+  2. 守护进程向 S3 发起 `GET` 请求，把数据流拉下来喂给 Agent。
+
+### 3、云端 Agent
+
+1、项目结构与部署：
+
+```
+本地项目
+├── frontend/              # 聊天框、终端 UI
+│   ├── src/
+│   └── package.json
+│
+├── src/
+│   ├── index.ts           # Worker 入口、Agent 循环
+│   └── agent-do.ts        # Durable Object 类
+│
+├── package.json           # @cloudflare/computer、ai 等依赖
+├── wrangler.jsonc         # Worker、DO、SQLite、R2 配置
+└── tsconfig.json
+        ↓
+npm install
+npm run build / wrangler deploy
+        ↓
+Cloudflare 部署产物
+├── Worker 代码
+├── DO 代码
+├── 打包后的 Computer SDK
+└── 前端静态资源（如果由 Worker 托管）
+        ↓
+请求到来或 DO 被唤醒
+        ↓
+直接加载已部署代码运行
+```
+
+同一个项目只需要安装一次：
+
+```bash
+npm install @cloudflare/computer ai
+```
+
+Computer SDK 会部署到 Worker 和 DO 类，但两边的代码职责不同：
+
+- **Worker 侧**导入 `getWorkspace`、`createAITools`，负责找到 DO、取得 Workspace，并把 Workspace 包装成 LLM 工具。
+- **DO 侧**导入 `withWorkspace`，把 Durable Object 类增强成能够承载 Workspace 状态的 DO。
+
+2、运行形态与流程：
+
+```bash
+用户界面
+  └── 浏览器里的聊天框 / 终端 UI
+        ↓ HTTP / WebSocket / SSE
+Cloudflare Worker 接收请求、鉴权、运行 Agent 循环
+  ├── env.Agent.idFromName(userId)：根据用户 ID 找到对应的 DO id
+  ├── env.Agent.get(id) → DurableObjectStub：获得 DO stub
+  └── getWorkspace(stub)：把 DO stub 包装成可操作的 Workspace
+  └── createAITools(workspace)：把电脑能力包装成 LLM 工具
+  └── 调用 Computer Workspace 工具
+          ├── ws.fs.writeFile()：读写文件
+		               ↓ RPC
+              DO 文件 API → 持久化到 DO SQLite / R2（较大的二进制）
+          ├── ws.runtime.exec("npm test")：选择运行后端执行命令
+                                  ↓ RPC
+                     Isolate / Container / Worker JavaScript
+          └── git：Git 操作
+```
+
+因此，Cloudflare Computer 在这里主要承担的是**工作产物的存储和执行环境**，而不是 LLM 本身。它让云端 Agent 拥有一台可恢复的云端电脑：Worker 可以回收，DO 实例可以休眠，Agent 下次仍能从同一个用户的工作区继续工作。
+
+### 4、[代码示例](https://github.com/cloudflare/computer/tree/main/examples)
+
+#### 定义 Agent DO 和 Workspace
+
+```ts
+import { withWorkspace } from "@cloudflare/computer";
+import { DurableObject } from "cloudflare:workers";
+
+export class Agent extends withWorkspace(
+  class extends DurableObject<Env> {},
+  (self) => ({ storage: self.ctx.storage }),
+) {}
+```
+
+#### 在 Worker 中运行 Agent
+
+```ts
+import { getWorkspace } from "@cloudflare/computer";
+import { createAITools } from "@cloudflare/computer/tools";
+import { generateText } from "ai";
+
+export default {
+  async fetch(req, env) {
+    const userId = "user-123"; // 实际项目中应来自鉴权结果
+    const id = env.Agent.idFromName(userId);
+    const stub = env.Agent.get(id);
+
+    using workspace = await getWorkspace(stub);
+    const tools = createAITools({ workspace });
+
+    const { text } = await generateText({
+      model,
+      tools,
+      prompt: "读取当前工作区，完成用户交代的任务。",
+    });
+
+    return new Response(text);
+  },
+} satisfies ExportedHandler<Env>;
+```
+
+`idFromName(userId)` 使每个用户拥有稳定的工作区；`createAITools(workspace)` 把 `read`、`write`、`edit`、`exec` 等能力交给模型；`using` 用于在调用完成后释放 Workspace/stub 资源。
+
+## [Grok Bot](https://docs.x.ai/grok-bot/overview)
+
+<img src="/cloud-agent-img/PixPin_2026-08-19_13-19-56.png" alt="PixPin_2026-08-19_13-19-56" style="zoom:33%;" />
+
+Grok Bot 的官方定义是：每个用户拥有**一台持久化的托管 Linux VM**，里面有 browser、filesystem、terminal；多个有名字、有持久状态的 Agent Bot 共享这台电脑、文件和登录会话。[Grok Bot 官方说明](https://docs.x.ai/grok-bot/overview)
+
+Cloudflare Computer 更像一层“Agent 工作空间运行时”：文件状态由 Durable Object + SQLite 持久化；简单任务可以在 isolate 中执行，需要真实 Linux、npm 或原生二进制时，再挂到 Container 中运行。官方 README 也明确把它定义为 virtual filesystem，并提供 container、isolate shell、isolate JavaScript 三种后端。[Cloudflare 官方博客](https://blog.cloudflare.com/cloudflare-computer/)
+
+所以一句话：
+
+> Grok Bot 是“给 Agent 一台已经存在的云端电脑”；Cloudflare Computer 是“给开发者一套组装 Agent 电脑的基础设施”。
+
+### 存算分离如何落地
+
+笔记的核心论点——把「状态存储」和「计算推理」从同一进程解耦——Grok Bot 用「一台持久电脑 + 无状态大脑」来实现：
+
+| 笔记里的概念         | Grok Bot 的对应实现                                                        |
+| :------------------- | :------------------------------------------------------------------------- |
+| 存算一体（进程绑定） | 传统「工作流 builder / 一次性会话」：任务结束环境即销毁，上下文清零        |
+| **存储层（持久状态）** | 一台**持久化云端 VM**：浏览器、文件系统、终端、登录态、记忆、偏好          |
+| **计算层（无状态执行）** | Bot 的推理 + 工具/电脑操作；**关闭 App 或笔记本不停止**，云端继续跑      |
+| 断点续跑 / Checkpoint | **Update / Recover / Reset Agent Computer**，三者都「preserve durable state」 |
+
+### 存储层：一台「电脑」就是全部状态
+
+Grok Bot 没有把存储拆成 Redis / Postgres / 向量库暴露给用户，而是**把整个状态抽象成一个文件系统**：
+
+- **`/workspace`** = 共享工作区，对应笔记里的「工作产物 → 对象存储」，要求 Bot 把耐久文件放这里
+- **浏览器 cookies / 登录态** = 一种长期记忆（登录一次，其他 Bot 复用）
+- **记忆 + 偏好 + 文件 + 浏览器会话** 跨 turn 持久
+- 「临时目录、手装的包、未提交的应用状态」明确标注为**可丢弃**，重要结果必须拷进 `/workspace`
+
+> 这和 Cloudflare Computer 的「对外暴露普通文件系统、内部持久化状态」思路相近；FUSE 是否参与，取决于具体执行后端是否把工作区挂载成容器内目录。
+
+### 计算层：双通道执行
+
+笔记里执行层是「沙箱里跑工具」，Grok Bot 把执行拆成**两条优先级明确的路径**：
+
+1. **Connector / MCP（首选）**——结构化调用，比「点网页」可靠
+2. **Browser Use / Computer Use（兜底）**——对没有干净 API 的应用/网站，直接操作浏览器和桌面，browser use 使用 playwright-core + Chrome CDP
+
+文档明确说 “Prefer a connector when one is available”，这回答了「什么时候用 API、什么时候用电脑操作」的工程取舍。
+
+### 多 Agent 协作：人不当路由器
+
+- Bot 之间**互相发消息**、在线程/群聊里共享上下文、**传递任务所有权（handoff）**
+- 多个 Bot 并行跑
+- 交接时「无需重复 setup」（因为共享电脑）
+
+### 自动化：Skill / Routine / 演示学习
+
+- **Skill** = 可复用的指令集（何时用、输入、步骤、验证、返回、审批边界）——对应笔记里的「动态 Skills」
+- **Routine** = 定时/事件触发的自动化（一个 Bot 最多 50 个 routine）
+- **Teach by demonstration**：录下你**实际操作电脑的步骤**（最长 10 分钟，不录麦克风），Bot 学成 skill
+- 事件触发靠 Cursor 账户集成（Slack / GitHub）
