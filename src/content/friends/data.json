@@ -83,5 +83,14 @@
     "category": "独立博客",
     "siteLabel": "Wibus",
     "order": 5
+  },
+  {
+    "id": "joye-personal-blog",
+    "name": "Joye Personal Blog",
+    "link": "https://joyehuang.me/",
+    "avatar": "https://joyehuang.me/favicon/favicon.ico",
+    "desc": "Stay hungry, stay foolish",
+    "category": "独立博客",
+    "order": 6
   }
 ]
