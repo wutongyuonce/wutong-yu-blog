@@ -2,64 +2,70 @@
 const email = '15088484799@163.com'
 const friendInfo = {
   name: 'Wutong Yu',
+  desc: 'Record of Technology, Open Source, and Personal Thoughts',
   link: 'https://www.wutongyu.site/',
   avatar: 'https://www.wutongyu.site/avatar.webp',
-  desc: '记录技术、开源与个人思考。',
 }
+
+const friendTemplate = `Name: ${friendInfo.name}
+Desc: ${friendInfo.desc}
+Link: ${friendInfo.link}
+Avatar: ${friendInfo.avatar}`
+
+const referenceTemplate = `Name: 你的站点名称
+Desc: 一句话介绍你的站点
+Link: https://example.com
+Avatar: https://example.com/avatar.png`
 ---
 
 <aside class="friends-apply" aria-label="申请友链">
   <section class="friends-apply__contact">
-    <h3>邮箱</h3>
-    <a class="friends-apply__mail" href={`mailto:${email}`}>{email}</a>
-
-    <div class="friends-apply__divider" aria-hidden="true"></div>
-
     <div class="friends-apply__owner">
       <h3>我的友链信息</h3>
-      <dl class="friends-apply__template">
-        <div>
-          <dt>站点名称</dt>
-          <dd>{friendInfo.name}</dd>
-        </div>
-        <div>
-          <dt>站点链接</dt>
-          <dd>{friendInfo.link}</dd>
-        </div>
-        <div>
-          <dt>头像链接</dt>
-          <dd>{friendInfo.avatar}</dd>
-        </div>
-        <div>
-          <dt>站点描述</dt>
-          <dd>{friendInfo.desc}</dd>
-        </div>
-      </dl>
+      <div class="friends-apply__code-wrap">
+        <pre id="friend-info">{friendTemplate}</pre>
+        <button
+          class="friends-apply__copy"
+          type="button"
+          data-copy-target="friend-info"
+        >
+          复制
+        </button>
+      </div>
     </div>
   </section>
 
   <section class="friends-apply__format">
     <h3>参考格式</h3>
-    <dl class="friends-apply__template">
-      <div>
-        <dt>站点名称</dt>
-        <dd>你的站点名称</dd>
-      </div>
-      <div>
-        <dt>站点链接</dt>
-        <dd>https://example.com</dd>
-      </div>
-      <div>
-        <dt>头像链接</dt>
-        <dd>https://example.com/avatar.png</dd>
-      </div>
-      <div>
-        <dt>站点描述</dt>
-        <dd>一句话介绍你的站点</dd>
-      </div>
-    </dl>
+    <textarea aria-label="友链参考格式" spellcheck="false"
+      >{referenceTemplate}</textarea
+    >
+    <p class="friends-apply__email">
+      欢迎发送至我的邮箱：<a href={`mailto:${email}`}>{email}</a>
+    </p>
   </section>
 </aside>
+
+<script>
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-copy-target]')
+    .forEach((button) => {
+      button.addEventListener('click', async () => {
+        const target = document.getElementById(button.dataset.copyTarget ?? '')
+        if (!target) return
+
+        try {
+          await navigator.clipboard.writeText(target.textContent ?? '')
+          button.textContent = '已复制'
+        } catch {
+          button.textContent = '复制失败'
+        }
+        setTimeout(() => {
+          button.textContent = '复制'
+        }, 1600)
+      })
+    })
+</script>
 
 <style>
   .friends-apply {
@@ -83,11 +89,6 @@ const friendInfo = {
     border-left: 1px solid var(--friends-border);
   }
 
-  .friends-apply__divider {
-    height: 1px;
-    background: var(--friends-border);
-  }
-
   .friends-apply__owner {
     display: grid;
     gap: 1rem;
@@ -101,54 +102,65 @@ const friendInfo = {
     letter-spacing: 0.02em;
   }
 
-  .friends-apply__mail {
-    width: fit-content;
-    color: color-mix(in srgb, var(--c-text) 92%, transparent);
-    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-    text-decoration-color: var(--friends-border-strong);
-    text-underline-offset: 0.28rem;
+  .friends-apply__code-wrap {
+    position: relative;
   }
 
-  .friends-apply__mail:hover {
-    text-decoration-color: currentColor;
-  }
-
-  .friends-apply__template {
-    display: grid;
-    gap: 0;
+  .friends-apply pre,
+  .friends-apply textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 8.4rem;
     margin: 0;
+    padding: 0.9rem 1rem;
     border: 1px solid var(--friends-border);
     border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  .friends-apply__template > div {
-    display: grid;
-    grid-template-columns: 5.5rem minmax(0, 1fr);
-    gap: 1rem;
-    padding: 0.68rem 0.85rem;
-  }
-
-  .friends-apply__template > div + div {
-    border-top: 1px solid var(--friends-border);
-  }
-
-  .friends-apply__template dt,
-  .friends-apply__template dd {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .friends-apply__template dt {
-    color: var(--friends-muted);
-  }
-
-  .friends-apply__template dd {
-    color: color-mix(in srgb, var(--c-text) 84%, transparent);
+    background: color-mix(in srgb, var(--c-text) 4%, transparent);
+    color: color-mix(in srgb, var(--c-text) 88%, transparent);
+    font:
+      0.9rem/1.65 ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      monospace;
     overflow-wrap: anywhere;
+  }
+
+  .friends-apply pre {
+    white-space: pre-wrap;
+  }
+
+  .friends-apply textarea {
+    resize: vertical;
+  }
+
+  .friends-apply__copy {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--friends-border);
+    border-radius: 0.55rem;
+    background: var(--c-bg);
+    color: var(--friends-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.78rem;
+  }
+
+  .friends-apply__copy:hover {
+    color: var(--c-text);
+  }
+
+  .friends-apply__email {
+    margin: 0;
+    color: var(--friends-muted);
+    font-size: 0.9rem;
+  }
+
+  .friends-apply__email a {
+    color: inherit;
+    overflow-wrap: anywhere;
+    text-underline-offset: 0.2rem;
   }
 
   @media (max-width: 720px) {
@@ -167,9 +179,10 @@ const friendInfo = {
       border-left: 0;
     }
 
-    .friends-apply__template > div {
-      grid-template-columns: 4.8rem minmax(0, 1fr);
-      gap: 0.7rem;
+    .friends-apply pre,
+    .friends-apply textarea {
+      padding: 0.8rem;
+      font-size: 0.82rem;
     }
   }
 </style>
