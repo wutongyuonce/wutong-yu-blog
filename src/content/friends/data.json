@@ -92,5 +92,14 @@
     "desc": "Stay hungry, stay foolish",
     "category": "独立博客",
     "order": 6
+  },
+  {
+    "id": "joshua-chen-blog",
+    "name": "Joshua Chen Blog",
+    "link": "https://blog.joshua2008.top/",
+    "avatar": "https://blog.joshua2008.top/images/avatar.webp",
+    "desc": "AI Agent & Full-Stack Developer",
+    "category": "独立博客",
+    "order": 7
   }
 ]
