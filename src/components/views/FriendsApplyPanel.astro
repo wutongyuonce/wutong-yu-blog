@@ -1,11 +1,41 @@
 ---
 const email = '15088484799@163.com'
+const friendInfo = {
+  name: 'Wutong Yu',
+  link: 'https://www.wutongyu.site/',
+  avatar: 'https://github.com/wutongyuonce.png?size=96',
+  desc: '记录技术、开源与个人思考。',
+}
 ---
 
 <aside class="friends-apply" aria-label="申请友链">
   <section class="friends-apply__contact">
     <h3>邮箱</h3>
     <a class="friends-apply__mail" href={`mailto:${email}`}>{email}</a>
+
+    <div class="friends-apply__divider" aria-hidden="true"></div>
+
+    <div class="friends-apply__owner">
+      <h3>我的友链信息</h3>
+      <dl class="friends-apply__template">
+        <div>
+          <dt>站点名称</dt>
+          <dd>{friendInfo.name}</dd>
+        </div>
+        <div>
+          <dt>站点链接</dt>
+          <dd>{friendInfo.link}</dd>
+        </div>
+        <div>
+          <dt>头像链接</dt>
+          <dd>{friendInfo.avatar}</dd>
+        </div>
+        <div>
+          <dt>站点描述</dt>
+          <dd>{friendInfo.desc}</dd>
+        </div>
+      </dl>
+    </div>
   </section>
 
   <section class="friends-apply__format">
@@ -51,6 +81,16 @@ const email = '15088484799@163.com'
 
   .friends-apply__format {
     border-left: 1px solid var(--friends-border);
+  }
+
+  .friends-apply__divider {
+    height: 1px;
+    background: var(--friends-border);
+  }
+
+  .friends-apply__owner {
+    display: grid;
+    gap: 1rem;
   }
 
   .friends-apply h3 {
