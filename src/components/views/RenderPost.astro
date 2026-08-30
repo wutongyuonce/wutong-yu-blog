@@ -29,7 +29,7 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
 const title = frontmatter.title
 const description = frontmatter.description
 const intro =
-  post.body
+  (post.body ?? '')
     .split('\n')
     .find((line) => line.trim() && !line.startsWith('#') && !line.startsWith('```'))
     ?.trim() ?? ''
