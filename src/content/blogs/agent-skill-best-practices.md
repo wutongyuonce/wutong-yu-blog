@@ -1,7 +1,7 @@
 ---
 title: 创建 Agent Skill 的最佳实践
 description: 从简洁性、触发发现、渐进式披露、脚本化和验证等方面，整理专业 Agent Skill 的设计方法。
-pubDate: 2026-08-31
+pubDate: 2026-04-15
 tags: [Agent, Skill, Context Engineering]
 ogImage: false
 toc: true
@@ -256,4 +256,4 @@ Agent 严格依据 YAML frontmatter 加载 skill。要单独测试 LLM 如何理
 
 ## [npx skills](https://github.com/vercel-labs/skills) 进行 SKILL 维护
 
-![Skill 101：可以自动更新的 Skill-diagram-2](img/Skill 101：可以自动更新的 Skill-diagram-2.png)
+![Skill 101：可以自动更新的 Skill-diagram-2](/agent-skill/skill-101-auto-updating.png)
