@@ -1,6 +1,6 @@
 ---
-title: memU PR #675：Pi Coding Agent 专用 Host Adapter 实现报告
-description: 从 session 解析、记忆流水线、检索安装与调度边界，拆解 memU PR #675 的 Pi 适配器实现。
+title: "memU PR #675：Pi Coding Agent 专用 Host Adapter 实现报告"
+description: "从 session 解析、记忆流水线、检索安装与调度边界，拆解 memU PR #675 的 Pi 适配器实现。"
 pubDate: 2026-09-06
 tags: [memU, Pi Coding Agent, Agent, 记忆系统]
 ogImage: false

@@ -10,6 +10,10 @@ search: true
 draft: false
 ---
 
+核对时间：2026-09-04。只记你**主动装过**的 formula，不记 openssl、sqlite 这类依赖。Apple Silicon，前缀是 `/opt/homebrew`。没有 cask。
+
+---
+
 ## 1. 先把 Homebrew 本身用起来
 
 Homebrew 是 macOS 上的包管理器。它装的东西分两种：
@@ -482,3 +486,11 @@ sox --i in.wav                   # 看格式信息
 | sox | 14.4.2 | `sox` | 音频处理 |
 
 已从本机移除、不必再找的：Homebrew `node`（改用 nvm）、Homebrew `rust`（改用 rustup）、`postgresql@14`（改用 `@17`）、`tldr`、`zlib`、oh-my-zsh 相关的 `zsh-completions`。
+
+---
+
+## 10. 下一步
+
+- `which node`、`jenv version`、`mvn -v` 对一下，确认 Node / Java 链路。
+- 要用 MySQL 时再 `brew services start mysql`，用完可以停。
+- 要用 Postgres 时再 `brew services start postgresql@17`，用完可以停。
