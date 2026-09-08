@@ -14,6 +14,8 @@ Context Engineering 最重要的工程技巧之一就是**不要重复算同样�
 
 <img src="/KV-Prefix-Prompt-Semantic-Caching/HQzFEXmaQAAzsnc.png" alt="KV、Prefix、Prompt 与 Context Caching 关系图" style="zoom:50%;" />
 
+<img src="/KV-Prefix-Prompt-Semantic-Caching/Screenshot_20260904_152838_com_twitter_android_M.jpg" alt="KV、Prefix、Prompt 与 Context Caching 原文截图" style="zoom:50%;" />
+
 <img src="/KV-Prefix-Prompt-Semantic-Caching/image-20260724171231080.png" alt="缓存层次示意图" style="zoom:45%;" />
 
 - **KV Cache（算法层）**：单请求内的动态规划，算完就扔。
@@ -83,32 +85,40 @@ print("cache length:", past_key_values.get_seq_length()) # 24
 
 ### 长上下文主要是显存问题
 
-KV cache 的存在决定了长上下文需要考虑的关键问题：**显存问题**。
+长下文的显存问题主要来自两方面：
+
+* 显存杀手 1：KV Cache（存储杀手）→ GQA 出手
+* 显存杀手 2：注意力矩阵（计算/激活杀手）→ Sparse Attention 出手
 
 KV cache 大小**由模型形状决定，随 token 数线性增长**。70B 模型、BF16 精度下，单个 128K 上下文的 cache 约 **40GB**，接近整个模型 4-bit 量化后的体积。
 
-#### 长上下文 cache 的瘦身手段
+#### KV Cache 到底占多少显存
+
+<img src="/KV-Prefix-Prompt-Semantic-Caching/image-20260908190831017.png" alt="KV Cache 显存计算示例" style="zoom:35%;" />
+
+<img src="/KV-Prefix-Prompt-Semantic-Caching/image-20260908190920619.png" alt="不同模型的 KV Cache 显存占用" style="zoom:33%;" />
+
+<img src="/KV-Prefix-Prompt-Semantic-Caching/image-20260908190948537.png" alt="长上下文下的 KV Cache 显存占用" style="zoom:35%;" />
+
+<img src="/KV-Prefix-Prompt-Semantic-Caching/image-20260908185938017.png" alt="KV Cache 显存估算" style="zoom:35%;" />
+
+#### KV Cache 的瘦身手段
 
 | 手段 | 本质 | 思路 | 取舍 |
 |---|---|---|---|
-| GQA（分组查询注意力） | 减少份数 | 一组 query head 共享一个 key/value head | 好处：cache 变小，同时每字节数据的 FLOPs 变高，这在带宽受限的解码阶段是好事，等于把有限的带宽用在刀刃上 |
+| MHA ➡️ GQA（分组查询注意力） | 减少份数 | 一组 query head 共享一个 key/value head | 好处：cache 变小，同时每字节数据的 FLOPs(浮点运算次数) 变高，这在带宽受限的解码阶段是好事，等于把有限的带宽用在刀刃上 |
 | MLA（多头潜在注意力，DeepSeek 系） | 减每份的体积 | 把整套 K/V 压缩成一个潜在向量 | 好处：cache 大幅缩小；代价：每次 attention 前要先做一次投影运算把 latent 还原成 K/V，多一步计算换大量内存 |
 | Cache 量化 | 减每份的位数 | KV 存成低精度（如 4-bit） | 好处：容量约翻倍；代价比权重量化更大：K/V 直接参与每步 attention 的计算，误差会一步步累积，不像权重那样能被其他参数抵消，每次访问要量化/反量化，短上下文可能更慢，内存吃紧时用 |
 
 现在的主流模型（Llama 3、Mistral、Qwen 系列）默认就是 GQA。
 
-量化代码示例：
+在标准的 MHA 中，假设有 **8 个头**：
 
-```python
-# requires: pip install optimum-quanto
-out = model.generate(
-    **inputs, do_sample=False, max_new_tokens=20,
-    cache_implementation="quantized",
-    cache_config={"nbits": 4, "backend": "quanto"},
-)
-```
+- 内存里有 **8 个 W~Q~ 矩阵**（Q0 ~ Q7）。
+- 内存里有 **8 个 W~K~ 矩阵**（K0 ~ K7）。
+- 内存里有 **8 个 W~V~ 矩阵**（V0 ~ V7）。
 
-注意：量化后端要求 group size 能整除 head 维度，不常规的架构可能直接拒绝该配置。
+现在来看 GQA。假设有 **8 个 Q 头**，但只有 **4 个 KV 头**（分组为：Q0,Q1 共享 KV0；Q2,Q3 共享 KV1……）。
 
 ### cache 的生命周期：默认随请求释放，多轮对话会全额重算
 
@@ -191,7 +201,7 @@ A B 的 KV 还能复用的关键原因是 Transformer 的 self-attention 通常�
 
 ### 两种实现
 
-- **vLLM APC（Automatic Prefix Caching）**：采用固定大小的 KV block
+- **vLLM APC（Automatic Prefix Caching 自动前缀缓存）**：采用固定大小的 KV block
 
   ```
   block 1：token 1~16 的所有层 K/V
