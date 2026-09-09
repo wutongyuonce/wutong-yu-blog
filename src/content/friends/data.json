@@ -110,5 +110,14 @@
     "desc": "写代码是因为爱。",
     "category": "独立博客",
     "order": 8
+  },
+  {
+    "id": "innei",
+    "name": "Innei",
+    "link": "https://innei.in/",
+    "avatar": "https://avatars.githubusercontent.com/u/41265413?v=5",
+    "desc": "Innei's personal blog on frontend and full-stack development — TypeScript, React, Next.js, AI engineering, indie hacking, travel and life.",
+    "category": "独立博客",
+    "order": 9
   }
 ]
