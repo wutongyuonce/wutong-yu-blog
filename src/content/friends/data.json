@@ -119,5 +119,14 @@
     "desc": "Innei's personal blog on frontend and full-stack development — TypeScript, React, Next.js, AI engineering, indie hacking, travel and life.",
     "category": "独立博客",
     "order": 9
+  },
+  {
+    "id": "nyakku",
+    "name": "Nyakku",
+    "link": "https://nyakku.moe",
+    "avatar": "https://nyakku.moe/avatar.jpg",
+    "desc": "一个小透明的透明世界",
+    "category": "独立博客",
+    "order": 10
   }
 ]
