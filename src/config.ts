@@ -53,10 +53,16 @@ export const UI: Ui = {
       icon: 'i-uil-github-alt',
     },
     {
-      link: 'https://leetcode.cn/u/angry-i3anzaihkg/',
-      title: 'LeetCode',
+      link: 'https://x.com/Yu2002964143523',
+      title: 'X',
       displayMode: 'alwaysIcon',
-      icon: 'i-simple-icons-leetcode',
+      icon: 'i-simple-icons-x',
+    },
+    {
+      link: 'https://www.xiaohongshu.com/user/profile/64842572000000001f005e63',
+      title: 'Xiaohongshu',
+      displayMode: 'alwaysIcon',
+      icon: 'i-simple-icons-xiaohongshu',
     },
   ],
   navBarLayout: {
