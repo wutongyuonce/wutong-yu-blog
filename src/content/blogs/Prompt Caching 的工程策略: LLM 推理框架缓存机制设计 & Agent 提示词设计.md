@@ -2,11 +2,7 @@
 title: "Prompt Caching 的工程策略: LLM 推理框架缓存机制设计 & Agent 提示词设计"
 subtitle: 以前缀稳定性为中心，理解会话树、工具加载与上下文压缩
 description: 从 token 前缀匹配出发，系统梳理对话缓存的复用条件、常见失效模式，以及 append-only、按需工具加载和主动压缩等工程策略。
-tags:
-  - LLM
-  - 缓存
-  - Agent
-  - 对话系统
+tags: [Prompt Caching, KV Cache]
 pubDate: 2026-07-24
 ogImage: false
 toc: true

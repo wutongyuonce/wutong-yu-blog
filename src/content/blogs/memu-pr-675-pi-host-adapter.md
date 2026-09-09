@@ -2,7 +2,7 @@
 title: "memU PR #675：Pi Coding Agent 专用 Host Adapter 实现报告"
 description: "从 session 解析、记忆流水线、检索安装与调度边界，拆解 memU PR #675 的 Pi 适配器实现。"
 pubDate: 2026-09-06
-tags: [memU, Pi Coding Agent, Agent, 记忆系统]
+tags: [memU, Agent Memory, Pi]
 ogImage: false
 toc: true
 search: true
@@ -800,4 +800,3 @@ memu-pi 是否安装、backend 是否可用：memU 安装指南负责
 第六，脱敏应发生在 prepared 输出边界。这样可以同时保住原始 session、分类依据和 cursor，又能减少交给整理 Agent 的运行元数据。对会持续演化的 provider-native JSON，删除已知字段比重建固定白名单更能保持向前兼容。
 
 第七，review 修复要检查最终净 diff。共享行为修正不代表应顺手修改所有宿主文档；本 PR 曾扩到 Claude Code、Cursor、Hermes，随后主动撤回，只保留 Pi 与必要的共享 scheduler 改动。
-

@@ -2,7 +2,7 @@
 title: 云端 Agent
 description: 从存算分离、持久化工作区到沙箱执行，梳理云端 Agent 的架构设计。
 pubDate: 2026-08-14
-tags: [Agent, Cloudflare, Sandbox]
+tags: [Cloud Agent, VM/FS]
 ---
 
 ## “Your agent needs a computer, not a container.”
