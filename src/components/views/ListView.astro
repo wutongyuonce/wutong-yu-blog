@@ -115,12 +115,8 @@ const tagSummary = buildTagSummary(
   }
 
   .blog-browser__layout > :global(.tag-filter) {
-    position: sticky;
-    top: 7.75rem;
     align-self: start;
     margin-top: -9.3125rem;
-    max-height: calc(100dvh - 8rem);
-    overflow-y: auto;
   }
 
   .blog-browser__posts {
@@ -162,11 +158,8 @@ const tagSummary = buildTagSummary(
     }
 
     .blog-browser__layout > :global(.tag-filter) {
-      position: static;
       grid-row: 1;
       margin-top: 0;
-      max-height: none;
-      overflow: visible;
     }
 
     .blog-browser__posts {
