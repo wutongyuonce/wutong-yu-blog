@@ -101,5 +101,14 @@
     "desc": "AI Agent & Full-Stack Developer",
     "category": "独立博客",
     "order": 7
+  },
+  {
+    "id": "xnnehang",
+    "name": "XnneHang",
+    "link": "https://xnnehang.top",
+    "avatar": "https://xnnehang.top/avatar.jpg",
+    "desc": "写代码是因为爱。",
+    "category": "独立博客",
+    "order": 8
   }
 ]
