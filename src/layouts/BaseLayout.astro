@@ -31,7 +31,7 @@ const { title, description, ogImage, bgType, pubDate, lastModDate } =
 const pathname = Astro.url.pathname
 const currentPath = ensureTrailingSlash(pathname)
 const isHomePage = pathname === withBasePath('/')
-const isInsightsPage = pathname === resolvePath('/insights')
+const isFeedsPage = pathname === resolvePath('/feeds')
 const isFriendsPage = pathname === resolvePath('/friends')
 const isBlogDetailPage =
   currentPath.startsWith(resolvePath('/blogs')) &&
@@ -44,7 +44,7 @@ if (isFriendsPage) {
   footerClasses.push('w-full')
   footerStyle.width = 'min(68vw, 90rem)'
   footerStyle.maxWidth = '100%'
-} else if (isInsightsPage) {
+} else if (isFeedsPage) {
   footerClasses.push('w-full')
   footerStyle.width = '100%'
   footerStyle.maxWidth = '75rem'
@@ -101,10 +101,7 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
       <slot />
       {
         !isHomePage && (
-          <footer
-            class:list={footerClasses}
-            style={footerStyle}
-          >
+          <footer class:list={footerClasses} style={footerStyle}>
             <BackLink />
           </footer>
         )

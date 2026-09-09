@@ -13,7 +13,7 @@ export const SITE: Site = {
 }
 
 /**
- * Public X profile rendered on the Feed page.
+ * Public X profile rendered on the Feeds page.
  * Change only `username` to point the page at another public account.
  */
 export const FEED = {
@@ -45,10 +45,10 @@ export const UI: Ui = {
       text: 'Projects',
     },
     {
-      path: '/insights',
-      title: 'Feed',
+      path: '/feeds',
+      title: 'Feeds',
       displayMode: 'alwaysText',
-      text: 'Feed',
+      text: 'Feeds',
     },
     {
       path: '/friends',
