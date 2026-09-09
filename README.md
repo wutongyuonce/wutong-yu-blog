@@ -23,20 +23,20 @@
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
 </p>
-
 ## Blogs 页面
 
 `/blogs/` 会汇总当前 Blog 的全部标签与文章数，支持多标签 AND 筛选。宽屏标签面板位于文章左侧并与 `Blogs` 标题顶部对齐，页面滚动时随正文移出视口；容器宽度不足时自动移动到副标题与年份列表之间。完整设计和实现见 [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md)。
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
+  <img src="img/image-20260909230452633.png" alt="图片" width="800">
 </p>
 
 ### blog 页面
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-22-28.png" alt="图片" width="600">
+  <img src="img/image-20260909230625744.png" alt="图片" width="800">
 </p>
+
 ## Projects 页面
 
 项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
@@ -50,11 +50,10 @@
 
 ## Friends 页面
 
-友链申请区为左右双栏：左侧是交换标准与 GitHub PR 入口，右侧是本站参考格式；较窄屏幕自动变为单栏。
-
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
+  <img src="img/image-20260909230703276.png" alt="图片" width="800">
 </p>
+
 ## 概览
 
 - 框架：Astro 5 + TypeScript

@@ -29,13 +29,15 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 `/blogs/` aggregates every visible post tag with its post count and supports multi-tag AND filtering. On wide screens the tag panel sits to the left and aligns with the `Blogs` heading; it scrolls away with the document. When the container becomes narrow, it moves between the subtitle and year groups. See [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md) for the source-level design and implementation notes.
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
+  <img src="img/image-20260909230452633.png" alt="图片" width="800">
 </p>
+
 ### blog Page
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-22-28.png" alt="图片" width="600">
+  <img src="img/image-20260909230625744.png" alt="图片" width="800">
 </p>
+
 ## Projects Page
 
 Projects are grouped in a compact responsive grid with small category labels. The project `icon` field is optional, and the current project data is intentionally icon-free.
@@ -51,12 +53,9 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 
 ## Friends Page
 
-The request area is a two-column panel: exchange rules and a GitHub PR link on the left, this site's reference format on the right. It collapses to one column on narrower screens.
-
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
+  <img src="img/image-20260909230703276.png" alt="图片" width="800">
 </p>
-
 
 ## Overview
 
