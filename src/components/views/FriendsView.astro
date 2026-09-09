@@ -1,14 +1,14 @@
 ---
 import Link from '~/components/base/Link.astro'
 import FriendsApplyPanel from '~/components/views/FriendsApplyPanel.astro'
-import { getGroupedFriendsByCategory } from '~/utils/data'
+import { getSortedFriends } from '~/utils/data'
 
 function getInitial(name: string) {
   return name.trim().charAt(0).toUpperCase() || '?'
 }
 
-const groups = await getGroupedFriendsByCategory('friends')
-const isEmpty = groups.length === 0
+const friends = await getSortedFriends('friends')
+const isEmpty = friends.length === 0
 ---
 
 <section class="friends-page">
@@ -29,60 +29,43 @@ const isEmpty = groups.length === 0
     ) : (
       <section class="friends-shell slide-enter">
         <div class="friends-board">
-          <div class="friends-groups">
-            {groups.map((group) => (
-              <section class="friends-group">
-                <header class="friends-group__header">
-                  <div class="friends-group__title-wrap">
-                    <span class="friends-chip">{group.category}</span>
-                    <p class="friends-group__meta">
-                      {group.items.length} 个站点
-                    </p>
-                  </div>
-                </header>
-
-                <div class="friends-grid">
-                  {group.items.map((item) => (
-                    <Link
-                      href={item.data.link}
-                      external={true}
-                      class="friend-card"
-                      title={item.data.desc}
-                    >
-                      <div class="friend-card__avatar-wrap" aria-hidden="true">
-                        {item.data.avatar ? (
-                          <img
-                            class="friend-card__avatar"
-                            src={item.data.avatar}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            referrerpolicy="no-referrer"
-                          />
-                        ) : (
-                          <span class="friend-card__avatar-fallback">
-                            {getInitial(item.data.name)}
-                          </span>
-                        )}
-                      </div>
-
-                      <div class="friend-card__body">
-                        <div class="friend-card__topline">
-                          <h3>{item.data.name}</h3>
-                        </div>
-
-                        {item.data.siteLabel && (
-                          <p class="friend-card__label">
-                            {item.data.siteLabel}
-                          </p>
-                        )}
-
-                        <p class="friend-card__desc">{item.data.desc}</p>
-                      </div>
-                    </Link>
-                  ))}
+          <div class="friends-grid">
+            {friends.map((item) => (
+              <Link
+                href={item.data.link}
+                external={true}
+                class="friend-card"
+                title={item.data.desc}
+              >
+                <div class="friend-card__avatar-wrap" aria-hidden="true">
+                  {item.data.avatar ? (
+                    <img
+                      class="friend-card__avatar"
+                      src={item.data.avatar}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      referrerpolicy="no-referrer"
+                    />
+                  ) : (
+                    <span class="friend-card__avatar-fallback">
+                      {getInitial(item.data.name)}
+                    </span>
+                  )}
                 </div>
-              </section>
+
+                <div class="friend-card__body">
+                  <div class="friend-card__topline">
+                    <h3>{item.data.name}</h3>
+                  </div>
+
+                  {item.data.siteLabel && (
+                    <p class="friend-card__label">{item.data.siteLabel}</p>
+                  )}
+
+                  <p class="friend-card__desc">{item.data.desc}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -143,36 +126,10 @@ const isEmpty = groups.length === 0
     gap: 0.35rem;
   }
 
-  .friends-groups {
-    display: grid;
-    gap: 0;
-  }
-
-  .friends-group {
-    padding: 1.05rem 0.15rem 0.2rem;
-  }
-
-  .friends-group__header {
-    margin-bottom: 1rem;
-  }
-
-  .friends-group__title-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
   .friends-chip {
     color: var(--friends-subtle);
     font-size: 0.82rem;
     letter-spacing: 0.02em;
-  }
-
-  .friends-group__meta {
-    margin: 0;
-    color: var(--friends-muted);
-    font-size: 0.92rem;
   }
 
   .friends-grid {
@@ -366,10 +323,6 @@ const isEmpty = groups.length === 0
       width: 3.3rem;
       height: 3.3rem;
       box-shadow: 0 0 0 0.22rem var(--friends-avatar-ring);
-    }
-
-    .friends-group {
-      padding-inline: 0;
     }
   }
 </style>
