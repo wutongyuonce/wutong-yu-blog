@@ -16,11 +16,7 @@ import ListView from '~/components/views/ListView.astro'
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
-  <StandardLayout
-    class="prose"
-    title={frontmatter.title}
-    subtitle={frontmatter.subtitle}
-  >
+  <StandardLayout title={frontmatter.title} subtitle={frontmatter.subtitle}>
     <ListView collectionType="blogs" urlPath="blogs" />
   </StandardLayout>
 </BaseLayout>

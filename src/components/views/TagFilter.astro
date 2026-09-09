@@ -1,0 +1,192 @@
+---
+interface TagSummary {
+  tag: string
+  count: number
+  displayName: string
+}
+
+interface Props {
+  tags: TagSummary[]
+}
+
+const { tags } = Astro.props
+---
+
+<aside class="tag-filter" aria-labelledby="blog-tag-filter-title">
+  <div class="tag-filter__heading">
+    <h2 id="blog-tag-filter-title">Tags</h2>
+    <div class="tag-filter__actions">
+      <span class="tag-filter__selected" data-selected-count> 0 selected </span>
+      <button type="button" class="tag-filter__clear" data-clear-tags hidden>
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="tag-filter__items"
+    role="group"
+    aria-labelledby="blog-tag-filter-title"
+  >
+    {
+      tags.map(({ tag, count, displayName }) => (
+        <button
+          type="button"
+          class="tag-filter__chip"
+          data-tag={tag}
+          aria-label={`${tag}, ${count} ${count === 1 ? 'post' : 'posts'}`}
+          aria-pressed="false"
+          title={tag}
+        >
+          <span class="tag-filter__label">{displayName}</span>
+          <span class="tag-filter__count" aria-hidden="true">
+            {count}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+</aside>
+
+<style>
+  .tag-filter {
+    --tag-text: #4b5563;
+    --tag-bg: #00000008;
+    --tag-border: #00000018;
+    --tag-hover: #00000010;
+    --tag-selected-bg: #1f2937;
+    --tag-selected-text: #fff;
+
+    min-width: 0;
+    color: var(--tag-text);
+  }
+
+  :global(.dark) .tag-filter {
+    --tag-text: #d1d5db;
+    --tag-bg: #ffffff0d;
+    --tag-border: #ffffff20;
+    --tag-hover: #ffffff18;
+    --tag-selected-bg: #e5e7eb;
+    --tag-selected-text: #111827;
+  }
+
+  .tag-filter__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-filter__heading h2 {
+    margin: 0;
+    color: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .tag-filter__actions {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+  }
+
+  .tag-filter__selected {
+    opacity: 0.55;
+    white-space: nowrap;
+  }
+
+  .tag-filter__clear {
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .tag-filter__clear:hover {
+    opacity: 1;
+  }
+
+  .tag-filter__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tag-filter__chip {
+    position: relative;
+    min-width: 3.75rem;
+    max-width: 100%;
+    min-height: 2.05rem;
+    padding: 0.3rem 1.25rem 0.42rem 0.55rem;
+    overflow: hidden;
+    border: 1px solid var(--tag-border);
+    border-radius: 0.35rem;
+    color: inherit;
+    background: var(--tag-bg);
+    font: inherit;
+    line-height: 1.25;
+    text-align: start;
+    cursor: pointer;
+    transition:
+      transform 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .tag-filter__chip:hover {
+    background: var(--tag-hover);
+    transform: translateY(-1px);
+  }
+
+  .tag-filter__chip:active {
+    transform: scale(0.97);
+  }
+
+  .tag-filter__chip[aria-pressed='true'] {
+    border-color: var(--tag-selected-bg);
+    color: var(--tag-selected-text);
+    background: var(--tag-selected-bg);
+  }
+
+  .tag-filter__label {
+    display: block;
+    overflow: hidden;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tag-filter__count {
+    position: absolute;
+    right: 0.32rem;
+    bottom: 0.14rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5625rem;
+    line-height: 1;
+    opacity: 0.62;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tag-filter__chip {
+      transition: none;
+    }
+
+    .tag-filter__chip:hover,
+    .tag-filter__chip:active {
+      transform: none;
+    }
+  }
+</style>

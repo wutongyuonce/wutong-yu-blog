@@ -2,7 +2,7 @@
 title: "OpenViking PR #4736：VikingBot 跨会话有界并发实现报告"
 description: 从事件循环、消息队列、Task 调度、会话锁与全局 semaphore，拆解 VikingBot 的跨会话并发实现。
 pubDate: 2026-09-06
-tags: [OpenViking, VikingBot, asyncio, 并发]
+tags: [OpenViking, Agent, Memory, PR]
 ogImage: false
 toc: true
 search: true
@@ -732,4 +732,3 @@ AgentLoop.run() = 消费消息 + 创建独立 Task + 继续消费
 因此最终行为可以准确表述为：
 
 > VikingBot 仍由一个 AgentLoop 从一个全局队列接收所有 channel 的消息，但消息进入 AgentLoop 后不再全局逐条处理。每条消息被注册为独立 asyncio Task；不同 SessionKey 的 Task 可以在同一事件循环中异步并发，同一 SessionKey 的 Task 通过专属锁按到达顺序执行，所有 SessionKey 再共同受全局 semaphore 限制，默认最多同时执行 4 条消息。
-

@@ -2,7 +2,7 @@
 title: MCP（Model Context Protocol）
 description: MCP tutorial
 pubDate: 2026-05-15
-tags: [MCP, AI Agent, Function Calling]
+tags: [MCP]
 ogImage: false
 toc: true
 search: true
