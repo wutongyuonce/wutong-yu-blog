@@ -1,8 +1,14 @@
 ---
 import Categorizer from '~/components/base/Categorizer.astro'
 import ListItem from '~/components/views/ListItem.astro'
+import TagFilter from '~/components/views/TagFilter.astro'
 
 import { getGroupedPostsByYear } from '~/utils/data'
+import {
+  buildTagSummary,
+  normalizePostTags,
+  truncateTagLabel,
+} from '~/utils/blog-tag-filter.js'
 
 interface Props {
   collectionType: 'blogs'
@@ -12,44 +18,331 @@ interface Props {
 const { collectionType, urlPath = collectionType } = Astro.props
 
 const groupedBlogItems = await getGroupedPostsByYear(collectionType)
+const allBlogItems = groupedBlogItems.flatMap((group) => group.items)
+const tagSummary = buildTagSummary(
+  allBlogItems.map(({ data }) => data.tags)
+).map(({ tag, count }) => ({
+  tag,
+  count,
+  displayName: truncateTagLabel(tag),
+}))
 ---
 
-{
-  <div aria-label="Post list">
-    {groupedBlogItems.length === 0 ? (
-      <div class="py-2 op-50">nothing here yet</div>
-    ) : (
-      groupedBlogItems.map((group) => {
-        const idx = group.items[0].idx
+<div
+  class="blog-browser"
+  data-blog-browser
+  data-total-posts={allBlogItems.length}
+>
+  <div
+    class="blog-browser__layout"
+    data-has-tags={tagSummary.length > 0 ? '' : undefined}
+  >
+    {tagSummary.length > 0 && <TagFilter tags={tagSummary} />}
 
-        return (
-          <section data-year={group.year} class="blog-year-group mb-16">
-            <Categorizer {idx} text={group.year} />
+    <div class="blog-browser__posts prose">
+      <p class="sr-only" aria-live="polite" data-filter-status>
+        Showing all {allBlogItems.length} posts.
+      </p>
 
-            {group.items.map(({ data, id, minutesRead, idx }) => (
-              <ListItem
-                {idx}
-                urlPath={urlPath}
-                postSlug={id}
-                title={data.title}
-                tags={data.tags}
-                date={data.pubDate}
-                minutesRead={minutesRead}
-                radio={data.radio}
-                video={data.video}
-                platform={data.platform}
-                redirect={data.redirect}
-              />
-            ))}
-          </section>
-        )
-      })
-    )}
+      <div aria-label="Post list" data-post-list>
+        {
+          groupedBlogItems.length === 0 ? (
+            <div class="py-2 op-50">nothing here yet</div>
+          ) : (
+            groupedBlogItems.map((group) => {
+              const idx = group.items[0].idx
+
+              return (
+                <section
+                  data-year={group.year}
+                  data-year-group
+                  class="blog-year-group mb-16"
+                >
+                  <Categorizer {idx} text={group.year} />
+
+                  {group.items.map(({ data, id, minutesRead, idx }) => (
+                    <div
+                      data-blog-item
+                      data-tags={JSON.stringify(normalizePostTags(data.tags))}
+                    >
+                      <ListItem
+                        {idx}
+                        urlPath={urlPath}
+                        postSlug={id}
+                        title={data.title}
+                        tags={data.tags}
+                        date={data.pubDate}
+                        minutesRead={minutesRead}
+                        radio={data.radio}
+                        video={data.video}
+                        platform={data.platform}
+                        redirect={data.redirect}
+                      />
+                    </div>
+                  ))}
+                </section>
+              )
+            })
+          )
+        }
+      </div>
+
+      <div class="blog-browser__empty" data-filter-empty hidden>
+        <p>No posts match all selected tags.</p>
+        <button type="button" data-clear-tags>Clear filters</button>
+      </div>
+    </div>
   </div>
-}
+</div>
 
 <style>
+  .blog-browser {
+    width: 100%;
+    max-width: 100rem;
+    margin-inline: auto;
+    container: blog-browser / inline-size;
+  }
+
+  .blog-browser__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(14rem, 18rem)
+      65ch
+      minmax(14rem, 18rem);
+    justify-content: center;
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+    font-size: var(--blog-reading-size);
+  }
+
+  .blog-browser__layout > :global(.tag-filter) {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    max-height: calc(100dvh - 8rem);
+    overflow-y: auto;
+  }
+
+  .blog-browser__posts {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+  }
+
   .blog-year-group:last-child {
     margin-bottom: 0;
   }
+
+  .blog-browser__empty {
+    padding-block: 1rem 2rem;
+    text-align: center;
+    opacity: 0.62;
+  }
+
+  .blog-browser__empty p {
+    margin: 0 0 0.75rem;
+  }
+
+  .blog-browser__empty button {
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  @container blog-browser (max-width: 76rem) {
+    .blog-browser__layout {
+      grid-template-columns: minmax(0, 65ch);
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .blog-browser__layout > :global(.tag-filter) {
+      position: static;
+      grid-row: 1;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .blog-browser__posts {
+      grid-row: 2;
+      grid-column: 1;
+    }
+
+    .blog-browser__layout:not([data-has-tags]) .blog-browser__posts {
+      grid-row: 1;
+    }
+  }
+
+  @container blog-browser (max-width: 40rem) {
+    .blog-browser__layout {
+      gap: 2rem;
+    }
+  }
 </style>
+
+<script>
+  import { matchesAllTags } from '~/utils/blog-tag-filter.js'
+
+  const FILTER_DELAY_MS = 140
+  const FADE_OUT_MS = 90
+  const FADE_IN_MS = 140
+
+  const initializeBlogTagFilters = () => {
+    const roots = document.querySelectorAll<HTMLElement>(
+      '[data-blog-browser]:not([data-initialized])'
+    )
+
+    roots.forEach((root) => {
+      root.dataset.initialized = 'true'
+
+      const postList = root.querySelector<HTMLElement>('[data-post-list]')
+      const status = root.querySelector<HTMLElement>('[data-filter-status]')
+      const emptyState = root.querySelector<HTMLElement>('[data-filter-empty]')
+      const selectedCount = root.querySelector<HTMLElement>(
+        '[data-selected-count]'
+      )
+      const tagButtons = [
+        ...root.querySelectorAll<HTMLButtonElement>('[data-tag]'),
+      ]
+      const clearButtons = [
+        ...root.querySelectorAll<HTMLButtonElement>('[data-clear-tags]'),
+      ]
+
+      if (!postList || !status || !emptyState || !selectedCount) return
+
+      const posts = [
+        ...root.querySelectorAll<HTMLElement>('[data-blog-item]'),
+      ].map((element) => ({
+        element,
+        tags: JSON.parse(element.dataset.tags ?? '[]') as string[],
+      }))
+      const yearGroups = [
+        ...root.querySelectorAll<HTMLElement>('[data-year-group]'),
+      ]
+      const selectedTags = new Set<string>()
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+      let timer: number | undefined
+      let revision = 0
+      let animation: Animation | undefined
+
+      const updateControls = () => {
+        tagButtons.forEach((button) => {
+          button.setAttribute(
+            'aria-pressed',
+            selectedTags.has(button.dataset.tag ?? '') ? 'true' : 'false'
+          )
+        })
+
+        selectedCount.textContent = `${selectedTags.size} selected`
+        clearButtons.forEach((button) => {
+          button.hidden = selectedTags.size === 0
+        })
+      }
+
+      const updateVisibility = (selection: Set<string>) => {
+        let visiblePosts = 0
+
+        posts.forEach(({ element, tags }) => {
+          const visible = matchesAllTags(tags, selection)
+          element.hidden = !visible
+          if (visible) visiblePosts += 1
+        })
+
+        yearGroups.forEach((group) => {
+          group.hidden = !group.querySelector('[data-blog-item]:not([hidden])')
+        })
+
+        emptyState.hidden = visiblePosts !== 0
+        status.textContent =
+          selection.size === 0
+            ? `Showing all ${posts.length} posts.`
+            : `Showing ${visiblePosts} of ${posts.length} posts.`
+      }
+
+      const applyFilter = async (expectedRevision: number) => {
+        const selection = new Set(selectedTags)
+
+        if (reduceMotion.matches || typeof postList.animate !== 'function') {
+          if (expectedRevision === revision) updateVisibility(selection)
+          return
+        }
+
+        const fadeOut = postList.animate(
+          [
+            { opacity: 1, transform: 'translateY(0)' },
+            { opacity: 0.25, transform: 'translateY(2px)' },
+          ],
+          { duration: FADE_OUT_MS, easing: 'ease-out', fill: 'forwards' }
+        )
+        animation = fadeOut
+
+        try {
+          await fadeOut.finished
+        } catch {
+          return
+        }
+
+        if (expectedRevision !== revision) return
+        fadeOut.cancel()
+        updateVisibility(selection)
+
+        const fadeIn = postList.animate(
+          [
+            { opacity: 0.25, transform: 'translateY(2px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          { duration: FADE_IN_MS, easing: 'ease-out' }
+        )
+        animation = fadeIn
+
+        try {
+          await fadeIn.finished
+        } catch {
+          return
+        }
+
+        if (animation === fadeIn) animation = undefined
+      }
+
+      const queueFilter = () => {
+        revision += 1
+        const expectedRevision = revision
+        window.clearTimeout(timer)
+        animation?.cancel()
+        timer = window.setTimeout(
+          () => void applyFilter(expectedRevision),
+          FILTER_DELAY_MS
+        )
+      }
+
+      tagButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const tag = button.dataset.tag
+          if (!tag) return
+
+          if (selectedTags.has(tag)) selectedTags.delete(tag)
+          else selectedTags.add(tag)
+
+          updateControls()
+          queueFilter()
+        })
+      })
+
+      clearButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (selectedTags.size === 0) return
+          selectedTags.clear()
+          updateControls()
+          queueFilter()
+        })
+      })
+    })
+  }
+
+  initializeBlogTagFilters()
+  document.addEventListener('astro:page-load', initializeBlogTagFilters)
+</script>
