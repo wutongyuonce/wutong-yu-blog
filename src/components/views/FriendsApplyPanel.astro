@@ -1,8 +1,13 @@
 ---
-const email = '15088484799@163.com'
+import Link from '~/components/base/Link.astro'
+
+const dataFilePath = 'src/content/friends/data.json'
+const prUrl =
+  'https://github.com/wutongyuonce/wutong-yu-blog/edit/main/src/content/friends/data.json'
+
 const friendInfo = {
   name: 'Wutong Yu',
-  desc: 'Record of Technology, Open Source, and Personal Thoughts',
+  desc: 'Exploring technology and life',
   link: 'https://www.wutongyu.site/',
   avatar: 'https://www.wutongyu.site/avatar.webp',
 }
@@ -12,15 +17,41 @@ Desc: ${friendInfo.desc}
 Link: ${friendInfo.link}
 Avatar: ${friendInfo.avatar}`
 
-const referenceTemplate = `Name: 你的站点名称
-Desc: 一句话介绍你的站点
-Link: https://example.com
-Avatar: https://example.com/avatar.png`
+const referenceTemplate = `{
+  "id": "your-site-id",
+  "name": "你的站点名称",
+  "link": "https://example.com",
+  "avatar": "https://example.com/avatar.png",
+  "desc": "一句话介绍你的站点",
+  "category": "Friends"
+}`
 ---
 
 <aside class="friends-apply" aria-label="申请友链">
-  <section class="friends-apply__contact">
-    <div class="friends-apply__owner">
+  <section class="friends-apply__intro">
+    <p class="friends-apply__kicker">Apply</p>
+    <h3>交换友链</h3>
+    <ol class="friends-apply__rules">
+      <li>
+        <span class="friends-apply__index">01</span>
+        <span>先友后链</span>
+      </li>
+      <li>
+        <span class="friends-apply__index">02</span>
+        <span>站点使用 https 协议</span>
+      </li>
+    </ol>
+    <p class="friends-apply__hint">
+      在仓库的 <code>{dataFilePath}</code> 数组末尾追加一条对象，补上上一项的逗号，然后提交
+      Pull Request。
+    </p>
+    <Link href={prUrl} external={true} class="friends-apply__pr op-100">
+      在 GitHub 提交 PR
+    </Link>
+  </section>
+
+  <div class="friends-apply__blocks">
+    <section class="friends-apply__block">
       <h3>我的友链信息</h3>
       <div class="friends-apply__code-wrap">
         <pre id="friend-info">{friendTemplate}</pre>
@@ -28,22 +59,28 @@ Avatar: https://example.com/avatar.png`
           class="friends-apply__copy"
           type="button"
           data-copy-target="friend-info"
+          aria-label="复制我的友链信息"
         >
           复制
         </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="friends-apply__format">
-    <h3>参考格式</h3>
-    <textarea aria-label="友链参考格式" spellcheck="false"
-      >{referenceTemplate}</textarea
-    >
-    <p class="friends-apply__email">
-      欢迎发送至我的邮箱：<a href={`mailto:${email}`}>{email}</a>
-    </p>
-  </section>
+    <section class="friends-apply__block">
+      <h3>参考格式</h3>
+      <div class="friends-apply__code-wrap">
+        <pre id="friend-format">{referenceTemplate}</pre>
+        <button
+          class="friends-apply__copy"
+          type="button"
+          data-copy-target="friend-format"
+          aria-label="复制参考格式"
+        >
+          复制
+        </button>
+      </div>
+    </section>
+  </div>
 </aside>
 
 <script>
@@ -70,67 +107,121 @@ Avatar: https://example.com/avatar.png`
 <style>
   .friends-apply {
     display: grid;
-    grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
+    gap: 0;
     border: 1px solid var(--friends-border);
     border-radius: 1.8rem;
     background: var(--friends-panel-bg);
     overflow: hidden;
   }
 
-  .friends-apply__contact,
-  .friends-apply__format {
-    display: grid;
-    align-content: start;
-    gap: 1rem;
-    padding: 1.4rem 1.5rem;
+  .friends-apply__intro,
+  .friends-apply__block {
+    padding: 1.25rem 1.3rem 1.35rem;
   }
 
-  .friends-apply__format {
-    border-left: 1px solid var(--friends-border);
+  .friends-apply__intro {
+    display: grid;
+    justify-items: start;
+    gap: 0.7rem;
+    border-bottom: 1px solid var(--friends-border);
   }
 
-  .friends-apply__owner {
-    display: grid;
-    gap: 1rem;
+  .friends-apply__kicker {
+    margin: 0;
+    color: var(--friends-subtle);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
   }
 
   .friends-apply h3 {
     margin: 0;
     color: var(--friends-subtle);
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .friends-apply__intro h3 {
+    color: var(--c-text);
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .friends-apply__rules {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.15rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .friends-apply__rules li {
+    display: grid;
+    grid-template-columns: 1.7rem minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: baseline;
+    color: var(--c-text);
+    font-size: 0.95rem;
+  }
+
+  .friends-apply__index {
+    color: var(--friends-subtle);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .friends-apply__hint {
+    margin: 0.15rem 0 0;
+    color: var(--friends-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .friends-apply__hint code {
+    color: var(--c-text);
+    font-size: 0.84em;
+  }
+
+  .friends-apply__pr {
+    margin-top: 0.2rem;
+    color: var(--c-text);
+    text-underline-offset: 0.22rem;
+  }
+
+  .friends-apply__blocks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .friends-apply__block {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .friends-apply__block + .friends-apply__block {
+    border-left: 1px solid var(--friends-border);
   }
 
   .friends-apply__code-wrap {
     position: relative;
   }
 
-  .friends-apply pre,
-  .friends-apply textarea {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 8.4rem;
-    margin: 0;
-    padding: 0.9rem 1rem;
-    border: 1px solid var(--friends-border);
-    border-radius: 1rem;
-    background: color-mix(in srgb, var(--c-text) 4%, transparent);
-    color: color-mix(in srgb, var(--c-text) 88%, transparent);
-    font:
-      0.9rem/1.65 ui-monospace,
-      SFMono-Regular,
-      Menlo,
-      monospace;
-    overflow-wrap: anywhere;
-  }
-
   .friends-apply pre {
-    white-space: pre-wrap;
-  }
-
-  .friends-apply textarea {
-    resize: vertical;
+    margin: 0;
+    padding: 0.9rem 3.6rem 0.9rem 0.9rem;
+    border: 1px solid var(--friends-border);
+    border-radius: 0.9rem;
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-size: 0.84rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    white-space: pre;
   }
 
   .friends-apply__copy {
@@ -151,37 +242,27 @@ Avatar: https://example.com/avatar.png`
     color: var(--c-text);
   }
 
-  .friends-apply__email {
-    margin: 0;
-    color: var(--friends-muted);
-    font-size: 0.9rem;
-  }
-
-  .friends-apply__email a {
-    color: inherit;
-    overflow-wrap: anywhere;
-    text-underline-offset: 0.2rem;
-  }
-
   @media (max-width: 720px) {
     .friends-apply {
-      grid-template-columns: 1fr;
       border-radius: 1.25rem;
     }
 
-    .friends-apply__contact,
-    .friends-apply__format {
+    .friends-apply__intro,
+    .friends-apply__block {
       padding: 1.1rem;
     }
 
-    .friends-apply__format {
+    .friends-apply__blocks {
+      grid-template-columns: 1fr;
+    }
+
+    .friends-apply__block + .friends-apply__block {
       border-top: 1px solid var(--friends-border);
       border-left: 0;
     }
 
-    .friends-apply pre,
-    .friends-apply textarea {
-      padding: 0.8rem;
+    .friends-apply pre {
+      padding: 0.8rem 3.4rem 0.8rem 0.8rem;
       font-size: 0.82rem;
     }
   }

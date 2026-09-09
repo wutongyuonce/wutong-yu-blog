@@ -5,7 +5,7 @@
     "link": "https://antfu.me/",
     "avatar": "https://github.com/antfu.png?size=96",
     "desc": "Vue、Vite 与开源生态的长期建设者。",
-    "category": "大佬们",
+    "category": "Friends",
     "siteLabel": "站在巨人的肩膀上",
     "order": 1
   },
@@ -15,7 +15,7 @@
     "link": "https://www.pseudoyu.com/",
     "avatar": "https://github.com/Pseudoyu.png?size=96",
     "desc": "独立开发、区块链与长期写作的交汇点。",
-    "category": "大佬们",
+    "category": "Friends",
     "siteLabel": "Web3 / 写作 / Indie",
     "order": 2
   },
@@ -25,7 +25,7 @@
     "link": "https://www.ruanyifeng.com/blog/",
     "avatar": "",
     "desc": "长期更新的技术随笔与周刊，是很多人的固定入口。",
-    "category": "大佬们",
+    "category": "Friends",
     "siteLabel": "技术周刊入口",
     "order": 3
   },
@@ -35,7 +35,7 @@
     "link": "https://lucumr.pocoo.org/",
     "avatar": "https://lucumr.pocoo.org/static/avatar-large.jpg",
     "desc": "Founder of Earendil",
-    "category": "大佬们",
+    "category": "Friends",
     "siteLabel": "Earendil, pi",
     "order": 4
   },
@@ -44,8 +44,8 @@
     "name": "Hazenix的后端札记",
     "link": "https://blog.hazenix.top",
     "desc": "全栈偏后端，写技术也写生活。",
-    "category": "独立博客",
-    "order": 1
+    "category": "Friends",
+    "order": 5
   },
   {
     "id": "huizhi's Aside",
@@ -53,8 +53,8 @@
     "link": "https://blog.huizhi.ink",
     "avatar": "https://github.com/huizhiLLL.png",
     "desc": "也许只是些碎碎念吧。",
-    "category": "独立博客",
-    "order": 2
+    "category": "Friends",
+    "order": 6
   },
   {
     "id": "Seeridia's Home",
@@ -62,8 +62,8 @@
     "link": "https://blog.seeridia.top",
     "avatar": "https://www.github.com/Seeridia.png",
     "desc": "Seeridia 的小小小的大窝！",
-    "category": "独立博客",
-    "order": 3
+    "category": "Friends",
+    "order": 7
   },
   {
     "id": "miuo's blog",
@@ -71,8 +71,8 @@
     "link": "https://miuo.me",
     "avatar": "https://miuo.me/avatar.avif",
     "desc": "记录文章、笔记、实验和暂时不想丢掉的内容。",
-    "category": "独立博客",
-    "order": 4
+    "category": "Friends",
+    "order": 8
   },
   {
     "id": "wibus-log",
@@ -80,9 +80,9 @@
     "link": "https://blog.wibus.ren",
     "avatar": "https://avatars.githubusercontent.com/u/62133302?v=4",
     "desc": "Notes on Being Human",
-    "category": "独立博客",
+    "category": "Friends",
     "siteLabel": "Wibus",
-    "order": 5
+    "order": 9
   },
   {
     "id": "joye-personal-blog",
@@ -90,8 +90,8 @@
     "link": "https://joyehuang.me/",
     "avatar": "https://joyehuang.me/favicon/favicon.ico",
     "desc": "Stay hungry, stay foolish",
-    "category": "独立博客",
-    "order": 6
+    "category": "Friends",
+    "order": 10
   },
   {
     "id": "joshua-chen-blog",
@@ -99,8 +99,8 @@
     "link": "https://blog.joshua2008.top/",
     "avatar": "https://blog.joshua2008.top/images/avatar.webp",
     "desc": "AI Agent & Full-Stack Developer",
-    "category": "独立博客",
-    "order": 7
+    "category": "Friends",
+    "order": 11
   },
   {
     "id": "xnnehang",
@@ -108,8 +108,8 @@
     "link": "https://xnnehang.top",
     "avatar": "https://xnnehang.top/avatar.jpg",
     "desc": "写代码是因为爱。",
-    "category": "独立博客",
-    "order": 8
+    "category": "Friends",
+    "order": 12
   },
   {
     "id": "innei",
@@ -117,8 +117,8 @@
     "link": "https://innei.in/",
     "avatar": "https://avatars.githubusercontent.com/u/41265413?v=5",
     "desc": "Innei's personal blog on frontend and full-stack development — TypeScript, React, Next.js, AI engineering, indie hacking, travel and life.",
-    "category": "独立博客",
-    "order": 9
+    "category": "Friends",
+    "order": 13
   },
   {
     "id": "nyakku",
@@ -126,7 +126,7 @@
     "link": "https://nyakku.moe",
     "avatar": "https://nyakku.moe/avatar.jpg",
     "desc": "一个小透明的透明世界",
-    "category": "独立博客",
-    "order": 10
+    "category": "Friends",
+    "order": 14
   }
 ]
