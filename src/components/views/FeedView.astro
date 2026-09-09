@@ -1,0 +1,524 @@
+---
+import { FEED } from '~/config'
+
+const username = FEED.username.replace(/^@/, '')
+if (!/^[A-Za-z0-9_]{1,15}$/.test(username)) {
+  throw new Error('FEED.username must be a valid X username.')
+}
+
+if (FEED.postLimit < 1 || FEED.postLimit > 20) {
+  throw new Error('FEED.postLimit must be between 1 and 20.')
+}
+
+const profileUrl = `https://x.com/${username}`
+---
+
+<section
+  class="feed-page slide-enter"
+  data-feed-root
+  data-username={username}
+  data-post-limit={FEED.postLimit}
+  data-show-replies={String(FEED.showReplies)}
+  data-lang={FEED.lang}
+  data-dnt={String(FEED.dnt)}
+>
+  <header class="feed-header">
+    <div>
+      <p class="feed-kicker"><span aria-hidden="true"></span>Live notes</p>
+      <h1>Feed</h1>
+      <p class="feed-intro">Recent posts, links, and conversations from X.</p>
+    </div>
+
+    <a class="feed-account" href={profileUrl} rel="me">
+      <span aria-hidden="true">@</span>{username}
+      <span class="feed-account__arrow" aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <div class="feed-rule" aria-hidden="true"><span></span></div>
+
+  <div class="feed-frame" data-feed-frame data-state="loading">
+    <div class="feed-loading" data-feed-loading aria-live="polite">
+      <span class="sr-only">Loading posts from X</span>
+      {
+        Array.from({ length: 3 }).map(() => (
+          <div class="feed-skeleton" aria-hidden="true">
+            <span class="feed-skeleton__avatar" />
+            <span class="feed-skeleton__line feed-skeleton__line--short" />
+            <span class="feed-skeleton__line" />
+            <span class="feed-skeleton__line feed-skeleton__line--medium" />
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="feed-timeline" data-feed-timeline></div>
+
+    <div class="feed-fallback" data-feed-fallback hidden>
+      <p>Posts could not be loaded here.</p>
+      <a href={profileUrl}
+        >View @{username} on X <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </div>
+
+  <footer class="feed-footer">
+    <p>
+      Showing the latest {FEED.postLimit} public posts. Content is loaded from X.
+    </p>
+    <a href={profileUrl}>View all on X <span aria-hidden="true">→</span></a>
+  </footer>
+
+  <noscript>
+    <p class="feed-noscript">
+      JavaScript is required to load this feed. <a href={profileUrl}
+        >View it on X</a
+      >.
+    </p>
+  </noscript>
+</section>
+
+<script>
+  interface XWidgets {
+    widgets: {
+      load: (element?: HTMLElement) => void
+    }
+  }
+
+  declare global {
+    interface Window {
+      twttr?: XWidgets
+    }
+  }
+
+  const SCRIPT_ID = 'x-widgets-script'
+  const LOAD_TIMEOUT_MS = 12_000
+
+  function waitForWidgets(
+    isCancelled: () => boolean,
+    hasFailed: () => boolean
+  ): Promise<XWidgets> {
+    return new Promise((resolve, reject) => {
+      const startedAt = Date.now()
+      const check = () => {
+        if (isCancelled()) {
+          reject(new Error('X widgets loading was cancelled.'))
+          return
+        }
+
+        if (hasFailed()) {
+          reject(new Error('X widgets failed to load.'))
+          return
+        }
+
+        if (window.twttr?.widgets) {
+          resolve(window.twttr)
+          return
+        }
+
+        if (Date.now() - startedAt >= LOAD_TIMEOUT_MS) {
+          reject(new Error('X widgets timed out.'))
+          return
+        }
+
+        window.setTimeout(check, 50)
+      }
+      check()
+    })
+  }
+
+  function loadWidgets(isCancelled: () => boolean): Promise<XWidgets> {
+    if (window.twttr?.widgets) return Promise.resolve(window.twttr)
+
+    let script = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null
+    if (!script) {
+      const createdScript = document.createElement('script')
+      createdScript.id = SCRIPT_ID
+      createdScript.src = 'https://platform.x.com/widgets.js'
+      createdScript.async = true
+      createdScript.addEventListener(
+        'error',
+        () => {
+          createdScript.dataset.loadFailed = 'true'
+        },
+        { once: true }
+      )
+      document.head.append(createdScript)
+      script = createdScript
+    }
+
+    return waitForWidgets(
+      isCancelled,
+      () => script?.dataset.loadFailed === 'true'
+    )
+  }
+
+  function buildTimelineLink(root: HTMLElement, isDark: boolean) {
+    const username = root.dataset.username ?? ''
+    const link = document.createElement('a')
+    link.className = 'twitter-timeline'
+    link.href = `https://x.com/${username}`
+    link.textContent = `Posts by @${username}`
+    link.dataset.theme = isDark ? 'dark' : 'light'
+    link.dataset.tweetLimit = root.dataset.postLimit ?? '8'
+    link.dataset.showReplies = root.dataset.showReplies ?? 'true'
+    link.dataset.lang = root.dataset.lang ?? 'en'
+    link.dataset.dnt = root.dataset.dnt ?? 'true'
+    link.dataset.chrome = 'noheader nofooter noborders transparent'
+    link.dataset.ariaPolite = 'polite'
+    return link
+  }
+
+  function initFeed(root: HTMLElement) {
+    if (root.dataset.initialized === 'true') return
+    root.dataset.initialized = 'true'
+
+    const frame = root.querySelector<HTMLElement>('[data-feed-frame]')
+    const timeline = root.querySelector<HTMLElement>('[data-feed-timeline]')
+    const fallback = root.querySelector<HTMLElement>('[data-feed-fallback]')
+    if (!frame || !timeline || !fallback) return
+
+    let currentTheme = document.documentElement.classList.contains('dark')
+    let renderId = 0
+    let disposed = false
+
+    const showFallback = (id: number) => {
+      if (disposed || id !== renderId) return
+      frame.dataset.state = 'error'
+      fallback.hidden = false
+    }
+
+    const waitForTimeline = (id: number): Promise<'ready' | 'error'> =>
+      new Promise((resolve) => {
+        const startedAt = Date.now()
+        const check = () => {
+          if (disposed || id !== renderId) {
+            resolve('error')
+            return
+          }
+
+          if (timeline.querySelector('.twitter-timeline-error')) {
+            resolve('error')
+            return
+          }
+
+          // X currently uses either a light-DOM wrapper or a custom element.
+          // The host size works for both and does not depend on iframe internals.
+          const widget = timeline.querySelector<HTMLElement>(
+            'twitter-widget, .twitter-timeline-rendered'
+          )
+          if (widget && widget.getBoundingClientRect().height > 0) {
+            resolve('ready')
+            return
+          }
+
+          if (Date.now() - startedAt >= LOAD_TIMEOUT_MS) {
+            resolve('error')
+            return
+          }
+
+          window.setTimeout(check, 100)
+        }
+        check()
+      })
+
+    const render = async (isDark: boolean) => {
+      const id = ++renderId
+      frame.dataset.state = 'loading'
+      fallback.hidden = true
+      timeline.replaceChildren(buildTimelineLink(root, isDark))
+
+      try {
+        const widgets = await loadWidgets(() => disposed)
+        if (disposed || id !== renderId) return
+        widgets.widgets.load(timeline)
+        const result = await waitForTimeline(id)
+        if (disposed || id !== renderId) return
+        if (result === 'ready') frame.dataset.state = 'ready'
+        else showFallback(id)
+      } catch {
+        showFallback(id)
+      }
+    }
+
+    const themeObserver = new MutationObserver(() => {
+      const nextTheme = document.documentElement.classList.contains('dark')
+      if (nextTheme === currentTheme) return
+      currentTheme = nextTheme
+      void render(currentTheme)
+    })
+
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        disposed = true
+        renderId += 1
+        themeObserver.disconnect()
+      },
+      { once: true }
+    )
+
+    void render(currentTheme)
+  }
+
+  const initVisibleFeed = () => {
+    const root = document.querySelector<HTMLElement>('[data-feed-root]')
+    if (root) initFeed(root)
+  }
+
+  initVisibleFeed()
+  document.addEventListener('astro:page-load', initVisibleFeed)
+</script>
+
+<style>
+  .feed-page {
+    width: min(100%, 45rem);
+    margin: 0 auto;
+    color: var(--c-text);
+    --feed-muted: color-mix(in srgb, var(--c-text) 58%, transparent);
+    --feed-subtle: color-mix(in srgb, var(--c-text) 38%, transparent);
+    --feed-line: color-mix(in srgb, var(--c-text) 13%, transparent);
+    --feed-soft: color-mix(in srgb, var(--c-text) 5%, transparent);
+  }
+
+  .feed-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2.4rem 0 1.5rem;
+  }
+
+  .feed-kicker,
+  .feed-intro,
+  .feed-footer p,
+  .feed-fallback p,
+  .feed-noscript {
+    margin: 0;
+  }
+
+  .feed-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--feed-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .feed-kicker span {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 999px;
+    background: #1d9bf0;
+    box-shadow: 0 0 0 0.24rem color-mix(in srgb, #1d9bf0 14%, transparent);
+  }
+
+  .feed-header h1 {
+    margin: 0.7rem 0 0.4rem;
+    font-size: clamp(2.45rem, 7vw, 4.2rem);
+    font-weight: 650;
+    letter-spacing: -0.065em;
+    line-height: 0.95;
+  }
+
+  .feed-intro {
+    color: var(--feed-muted);
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  .feed-account,
+  .feed-footer a,
+  .feed-fallback a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .feed-account {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.18rem;
+    max-width: 17rem;
+    padding: 0.62rem 0.82rem;
+    overflow: hidden;
+    border: 1px solid var(--feed-line);
+    border-radius: 999px;
+    color: var(--feed-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .feed-account:hover {
+    border-color: color-mix(in srgb, var(--c-text) 24%, transparent);
+    background: var(--feed-soft);
+    color: var(--c-text);
+  }
+
+  .feed-account__arrow {
+    margin-left: 0.18rem;
+  }
+
+  .feed-rule {
+    height: 1px;
+    background: var(--feed-line);
+  }
+
+  .feed-rule span {
+    display: block;
+    width: 4.5rem;
+    height: 1px;
+    background: color-mix(in srgb, #1d9bf0 74%, var(--c-text));
+  }
+
+  .feed-frame {
+    position: relative;
+    min-height: 30rem;
+  }
+
+  .feed-timeline,
+  .feed-timeline :global(.twitter-timeline),
+  .feed-timeline :global(twitter-widget),
+  .feed-timeline :global(iframe) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  .feed-frame[data-state='ready'] .feed-loading,
+  .feed-frame[data-state='error'] .feed-loading {
+    display: none;
+  }
+
+  .feed-loading {
+    display: grid;
+  }
+
+  .feed-skeleton {
+    display: grid;
+    grid-template-columns: 2.8rem 1fr;
+    gap: 0.7rem 0.85rem;
+    min-height: 10.5rem;
+    padding: 1.35rem 0.9rem;
+    border-bottom: 1px solid var(--feed-line);
+  }
+
+  .feed-skeleton__avatar,
+  .feed-skeleton__line {
+    background: var(--feed-soft);
+  }
+
+  .feed-skeleton__avatar {
+    grid-row: 1 / span 3;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 999px;
+  }
+
+  .feed-skeleton__line {
+    height: 0.72rem;
+    border-radius: 999px;
+  }
+
+  .feed-skeleton__line--short {
+    width: 32%;
+  }
+
+  .feed-skeleton__line--medium {
+    width: 68%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .feed-frame[data-state='loading'] .feed-skeleton__avatar,
+    .feed-frame[data-state='loading'] .feed-skeleton__line {
+      animation: feed-pulse 1.5s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes feed-pulse {
+    to {
+      opacity: 0.42;
+    }
+  }
+
+  .feed-fallback {
+    margin: 3rem 0;
+    padding: 2.2rem;
+    border: 1px solid var(--feed-line);
+    border-radius: 1.2rem;
+    text-align: center;
+  }
+
+  .feed-fallback p {
+    color: var(--feed-muted);
+  }
+
+  .feed-fallback a {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-weight: 600;
+  }
+
+  .feed-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.35rem 0 0;
+    border-top: 1px solid var(--feed-line);
+    color: var(--feed-muted);
+    font-size: 0.78rem;
+  }
+
+  .feed-footer a {
+    flex: none;
+    color: var(--c-text);
+    font-weight: 600;
+  }
+
+  .feed-footer a:hover,
+  .feed-fallback a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .feed-noscript {
+    margin-top: 1rem;
+    color: var(--feed-muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 40rem) {
+    .feed-header {
+      align-items: start;
+      flex-direction: column;
+      gap: 1.15rem;
+      padding-top: 1.5rem;
+    }
+
+    .feed-account {
+      max-width: 100%;
+    }
+
+    .feed-skeleton {
+      padding-inline: 0.25rem;
+    }
+
+    .feed-footer {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>

@@ -12,6 +12,18 @@ export const SITE: Site = {
   imageDomains: [],
 }
 
+/**
+ * Public X profile rendered on the Feed page.
+ * Change only `username` to point the page at another public account.
+ */
+export const FEED = {
+  username: 'Yu2002964143523',
+  postLimit: 8,
+  showReplies: true,
+  lang: 'en',
+  dnt: true,
+} as const
+
 export const UI: Ui = {
   internalNavs: [
     {
@@ -34,9 +46,9 @@ export const UI: Ui = {
     },
     {
       path: '/insights',
-      title: 'Insights',
+      title: 'Feed',
       displayMode: 'alwaysText',
-      text: 'Insights',
+      text: 'Feed',
     },
     {
       path: '/friends',

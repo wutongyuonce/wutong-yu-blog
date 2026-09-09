@@ -1,14 +1,11 @@
 ---
-title: Insights
-description: Insights 页面预留空白内容，方便后续开发
+title: Feed
+description: Latest posts from Wutong Yu on X.
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import InsightsView from '~/components/views/InsightsView.astro'
+import FeedView from '~/components/views/FeedView.astro'
 
-<BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
->
-  <InsightsView />
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <FeedView />
 </BaseLayout>
