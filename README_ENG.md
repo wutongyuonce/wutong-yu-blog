@@ -26,6 +26,8 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 </p>
 ## Blogs Page
 
+`/blogs/` aggregates every visible post tag with its post count and supports multi-tag AND filtering. On wide screens the tag panel sits to the left and aligns with the `Blogs` heading; it scrolls away with the document. When the container becomes narrow, it moves between the subtitle and year groups. See [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md) for the source-level design and implementation notes.
+
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
 </p>
@@ -69,6 +71,7 @@ The request area uses a two-column email and submission-format panel that collap
 
 - Home page at `/`
 - Blog index at `/blogs/` and article pages at `/blogs/[slug]/`
+- Responsive blog tag counts and multi-tag AND filtering with light/dark themes
 - Project showcase page at `/projects/` with compact category grids and optional icons
 - Insights page at `/insights/`, currently kept as a blank placeholder route for future redevelopment
 - Friends page at `/friends/` with category-grouped cards, an email/submission-format panel, and light/dark theme support
@@ -109,6 +112,7 @@ pnpm dev          # start local development server
 pnpm check        # run Astro type/content checks
 pnpm build        # create production build
 pnpm preview      # preview the production build locally
+pnpm test:blog-tags # verify blog tag aggregation and AND matching
 pnpm lint         # run ESLint
 pnpm lint:fix     # fix lint issues where possible
 pnpm format       # check formatting with Prettier
@@ -120,7 +124,7 @@ pnpm format:write # format files with Prettier
 | Route | Purpose |
 | :--- | :--- |
 | `/` | Homepage with a custom header, retro desktop, and profile content |
-| `/blogs/` | Blog index |
+| `/blogs/` | Blog index with tag aggregation, counts, and multi-tag AND filtering |
 | `/blogs/[slug]/` | Blog post detail page |
 | `/projects/` | Compact categorized project grid with optional icons |
 | `/insights/` | Insights page: currently a blank placeholder route with only the base page shell |
@@ -156,7 +160,7 @@ src/
     home/         # HomeHeader, TinyDesktop
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
-    views/        # RenderPage, RenderPost, ListView, GroupView, InsightsView, FriendsView
+    views/        # page composition; ListView and TagFilter power the blog index filtering
     widgets/      # LogoButton, SearchSwitch, ThemeSwitch, BackLink
   content/
     blogs/        # Blog posts (Markdown / MDX)
@@ -168,7 +172,8 @@ src/
   layouts/        # BaseLayout, StandardLayout
   pages/          # Route definitions
   styles/         # main.css, prose.css, markdown.css
-  utils/          # path, datetime, data, misc, toc helpers
+  utils/          # path, datetime, data, blog tag filtering, misc, and TOC helpers
+test/             # Node built-in tests, currently covering blog tag logic
 plugins/          # remark/rehype plugins, OG helpers
 public/           # Static assets such as favicon, fonts, and generated images
 docs/             # Project notes and customization documents
@@ -198,6 +203,7 @@ src/components/* + styles/*  -> final UI output
 Project-specific notes are kept in `docs/`:
 
 - `docs/项目解析.md` - Full project architecture and data flow analysis
+- `docs/feature/Blogs标签汇聚与筛选说明.md` - Blog tag data, AND filtering, responsive layout, and maintenance notes
 - `docs/feature/Insights模块更新说明.md` - Current Insights module status, wiring, and restoration notes
 - `docs/feature/友链模块说明.md` - Friends module structure, data flow, and maintenance guide
 - `docs/feature/文章TOC与响应式导航说明.md` - TOC behavior and responsive navigation details

@@ -26,6 +26,8 @@
 
 ## Blogs 页面
 
+`/blogs/` 会汇总当前 Blog 的全部标签与文章数，支持多标签 AND 筛选。宽屏标签面板位于文章左侧并与 `Blogs` 标题顶部对齐，页面滚动时随正文移出视口；容器宽度不足时自动移动到副标题与年份列表之间。完整设计和实现见 [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md)。
+
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-20-34.png" alt="图片" width="600">
 </p>
@@ -66,6 +68,7 @@
 
 - 首页 `/`
 - 博客索引 `/blogs/` 与文章页 `/blogs/[slug]/`
+- 博客索引支持标签计数、响应式多标签 AND 筛选及明暗主题
 - 项目展示页 `/projects/`，支持紧凑分类网格和可选图标
 - Insights 页 `/insights/`，当前为预留空白页，保留独立路由，方便后续重新开发
 - Friends 页 `/friends/`，按分类展示友链卡片，包含邮箱与申请格式面板，并适配明暗主题
@@ -106,6 +109,7 @@ pnpm dev          # 启动本地开发服务器
 pnpm check        # 运行 Astro 类型与内容检查
 pnpm build        # 生成生产环境构建产物
 pnpm preview      # 本地预览生产构建
+pnpm test:blog-tags # 验证博客标签汇总与 AND 匹配逻辑
 pnpm lint         # 运行 ESLint 检查
 pnpm lint:fix     # 自动修复 lint 问题
 pnpm format       # 检查代码格式（Prettier）
@@ -117,7 +121,7 @@ pnpm format:write # 格式化代码（Prettier）
 | 路由 | 用途 |
 | :--- | :--- |
 | `/` | 首页：自定义标题区、复古桌面与个人内容 |
-| `/blogs/` | 博客索引页 |
+| `/blogs/` | 博客索引页：标签汇聚、计数与多标签 AND 筛选 |
 | `/blogs/[slug]/` | 博客文章详情页 |
 | `/projects/` | 项展示页：紧凑分类网格，图标可选 |
 | `/insights/` | Insights 页：当前为预留空白页，仅保留独立路由与基础页面壳 |
@@ -153,7 +157,7 @@ src/
     home/         # HomeHeader, TinyDesktop
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
-    views/        # RenderPage, RenderPost, ListView, GroupView, InsightsView, FriendsView
+    views/        # 页面组合；ListView 与 TagFilter 负责博客列表及标签筛选
     widgets/      # LogoButton, SearchSwitch, ThemeSwitch, BackLink
   content/
     blogs/        # 博客文章（Markdown / MDX）
@@ -165,7 +169,8 @@ src/
   layouts/        # BaseLayout, StandardLayout
   pages/          # 路由定义
   styles/         # main.css, prose.css, markdown.css
-  utils/          # 路径、日期、数据、杂项、目录工具函数
+  utils/          # 路径、日期、数据、标签筛选、杂项、目录工具函数
+test/             # Node 内置测试，目前覆盖博客标签纯逻辑
 plugins/          # remark/rehype 插件、OG 辅助
 public/           # 静态资源：favicon、字体、生成的图片等
 docs/             # 项目笔记与定制说明文档
@@ -195,6 +200,7 @@ src/components/* + styles/*  -> 最终 UI 输出
 项目相关说明文档存放在 `docs/` 目录下：
 
 - `docs/项目解析.md` — 完整的项目架构与数据流分析
+- `docs/feature/Blogs标签汇聚与筛选说明.md` — Blogs 标签数据、AND 筛选、响应式布局与维护方式
 - `docs/feature/Insights模块更新说明.md` — Insights 模块当前状态、链路与后续恢复说明
 - `docs/feature/友链模块说明.md` — Friends 模块结构、数据链路与维护说明
 - `docs/feature/文章TOC与响应式导航说明.md` — 目录行为与响应式导航细节
