@@ -41,7 +41,7 @@ tags: [Astro]
 1. Read the whole JSON array before editing. Each entry requires `id`, `name`, `link`, `desc`, and `category`; `avatar`, `siteLabel`, and `order` have defaults.
 2. Use a stable, unique `id`. Prefer a lowercase ASCII slug for new entries, while preserving the existing IDs already in the file.
 3. Require a complete `https://` or `http://` link. Use an HTTPS avatar URL when supplied; leave `avatar` as an empty string if no reliable avatar is available, because the UI has a text fallback.
-4. Preserve the existing category unless asked to recategorize. For a new entry, assign the next integer after the largest `order` in that category; use the requested order only when the user specifies placement.
+4. Use `category: "Friends"` for new entries unless asked otherwise. Assign the next integer after the largest `order` in the whole file; use the requested order only when the user specifies placement. The page renders one list, so category no longer creates visual groups.
 5. Keep `desc` short, specific, and respectful. Add `siteLabel` only when it adds a distinct compact label.
 6. Preserve valid JSON formatting and do not reorder entries merely for aesthetics. Display order is determined by `order`, then Chinese locale name sorting.
 
@@ -54,9 +54,9 @@ Example:
   "link": "https://example.com/",
   "avatar": "",
   "desc": "A focused technical blog.",
-  "category": "独立博客",
+  "category": "Friends",
   "siteLabel": "技术写作",
-  "order": 5
+  "order": 15
 }
 ```
 

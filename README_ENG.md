@@ -49,7 +49,7 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 
 ## Friends Page
 
-The request area uses a two-column email and submission-format panel that collapses to one column on mobile.
+The request area is a two-column panel: exchange rules and a GitHub PR link on the left, this site's reference format on the right. It collapses to one column on narrower screens.
 
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
@@ -71,7 +71,7 @@ The request area uses a two-column email and submission-format panel that collap
 - Blog index at `/blogs/` and article pages at `/blogs/[slug]/`
 - Project showcase page at `/projects/` with compact category grids and optional icons
 - Insights page at `/insights/`, currently kept as a blank placeholder route for future redevelopment
-- Friends page at `/friends/` with category-grouped cards, an email/submission-format panel, and light/dark theme support
+- Friends page at `/friends/` with a single card list, a GitHub PR application panel, and light/dark theme support
 - Full-text blog search powered by Pagefind
 - Right-side article TOC for blog detail pages
 - OG image generation remains available, but its global switch is currently disabled
@@ -124,7 +124,7 @@ pnpm format:write # format files with Prettier
 | `/blogs/[slug]/` | Blog post detail page |
 | `/projects/` | Compact categorized project grid with optional icons |
 | `/insights/` | Insights page: currently a blank placeholder route with only the base page shell |
-| `/friends/` | Friends page: category-grouped cards, email/submission format, and page-level `cd ..` alignment |
+| `/friends/` | Friends page: single card list, GitHub PR application, reference format, and page-level `cd ..` alignment |
 | `/search/` | Search page powered by Pagefind |
 
 ## Content And Customization

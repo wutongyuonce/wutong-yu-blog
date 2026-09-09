@@ -48,7 +48,7 @@
 
 ## Friends 页面
 
-友链申请区为邮箱与参考格式的双栏面板，移动端自动变为单栏。
+友链申请区为左右双栏：左侧是交换标准与 GitHub PR 入口，右侧是本站参考格式；较窄屏幕自动变为单栏。
 
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-24-31.png" alt="图片" width="600">
@@ -68,7 +68,7 @@
 - 博客索引 `/blogs/` 与文章页 `/blogs/[slug]/`
 - 项目展示页 `/projects/`，支持紧凑分类网格和可选图标
 - Insights 页 `/insights/`，当前为预留空白页，保留独立路由，方便后续重新开发
-- Friends 页 `/friends/`，按分类展示友链卡片，包含邮箱与申请格式面板，并适配明暗主题
+- Friends 页 `/friends/`，以同一列表展示友链卡片，包含 GitHub PR 申请面板，并适配明暗主题
 - 基于 Pagefind 的博客全文搜索
 - 文章详情页右侧目录
 - 保留 OG 图片生成能力，当前全局开关已关闭
@@ -121,7 +121,7 @@ pnpm format:write # 格式化代码（Prettier）
 | `/blogs/[slug]/` | 博客文章详情页 |
 | `/projects/` | 项展示页：紧凑分类网格，图标可选 |
 | `/insights/` | Insights 页：当前为预留空白页，仅保留独立路由与基础页面壳 |
-| `/friends/` | Friends 页：按分类展示友情链接卡片，支持申请邮箱、参考格式与页面级 `cd ..` 对齐 |
+| `/friends/` | Friends 页：同一列表展示友情链接卡片，支持 GitHub PR 申请、参考格式与页面级 `cd ..` 对齐 |
 | `/search/` | 基于 Pagefind 的搜索页 |
 
 ## 内容与定制
