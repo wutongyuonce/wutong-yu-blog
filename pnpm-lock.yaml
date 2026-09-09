@@ -32,6 +32,12 @@ importers:
       '@iconify/json':
         specifier: ^2.2.464
         version: 2.2.468
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@types/node':
         specifier: ^24.7.2
         version: 24.12.2
@@ -119,6 +125,9 @@ importers:
       unocss:
         specifier: 66.5.3
         version: 66.5.3(postcss@8.5.13)(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(yaml@2.8.3))
+      vfile:
+        specifier: ^6.0.3
+        version: 6.0.3
 
 packages:
 

@@ -30,6 +30,8 @@
     "@expressive-code/plugin-collapsible-sections": "^0.41.7",
     "@expressive-code/plugin-line-numbers": "^0.41.7",
     "@iconify/json": "^2.2.464",
+    "@types/hast": "^3.0.4",
+    "@types/mdast": "^4.0.4",
     "@types/node": "^24.7.2",
     "@typescript-eslint/parser": "^8.46.0",
     "@unocss/reset": "66.5.3",
@@ -58,7 +60,8 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.0",
     "unist-util-visit": "^5.1.0",
-    "unocss": "66.5.3"
+    "unocss": "66.5.3",
+    "vfile": "^6.0.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
