@@ -24,6 +24,7 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
 </p>
+
 ## Blogs Page
 
 `/blogs/` aggregates every visible post tag with its post count and supports multi-tag AND filtering. On wide screens the tag panel sits to the left and aligns with the `Blogs` heading; it scrolls away with the document. When the container becomes narrow, it moves between the subtitle and year groups. See [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md) for the source-level design and implementation notes.
