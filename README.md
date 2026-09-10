@@ -23,6 +23,7 @@
 <p align="center">
   <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
 </p>
+
 ## Blogs 页面
 
 `/blogs/` 会汇总当前 Blog 的全部标签与文章数，支持多标签 AND 筛选。宽屏标签面板位于文章左侧并与 `Blogs` 标题顶部对齐，页面滚动时随正文移出视口；容器宽度不足时自动移动到副标题与年份列表之间。完整设计和实现见 [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md)。
