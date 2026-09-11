@@ -88,7 +88,7 @@ importers:
         version: 7.1.0
       rehype-callouts:
         specifier: ^2.1.2
-        version: 2.1.2
+        version: 2.2.0
       rehype-external-links:
         specifier: ^3.0.0
         version: 3.0.0
@@ -2882,9 +2882,9 @@ packages:
   rehype-autolink-headings@7.1.0:
     resolution: {integrity: sha512-rItO/pSdvnvsP4QRB1pmPiNHUskikqtPojZKJPPPAVx9Hj8i8TwMBhofrrAYRhYOOBZH9tgmG5lPqDLuIWPWmw==}
 
-  rehype-callouts@2.1.2:
-    resolution: {integrity: sha512-ZZWZ6EknUHiSzr4pQ88C7db3su4DElfJRmphZJbXpDdwW3urTwlYZpHckoC9pjEvBmUEEiJAM0uuc2uxyLdTfg==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+  rehype-callouts@2.2.0:
+    resolution: {integrity: sha512-snwN1LkjLM3SuymqpsoLonoJ8gVy5yJN9WztBiyj8HAAj5Mv3Fez5vFzVwscLQdzMZo27xv2FycGzAGDkT4dNw==}
+    engines: {node: '>=18.0.0'}
 
   rehype-expressive-code@0.41.7:
     resolution: {integrity: sha512-25f8ZMSF1d9CMscX7Cft0TSQIqdwjce2gDOvQ+d/w0FovsMwrSt3ODP4P3Z7wO1jsIJ4eYyaDRnIR/27bd/EMQ==}
@@ -7076,7 +7076,7 @@ snapshots:
       unified: 11.0.5
       unist-util-visit: 5.1.0
 
-  rehype-callouts@2.1.2:
+  rehype-callouts@2.2.0:
     dependencies:
       '@types/hast': 3.0.5
       hast-util-from-html: 2.0.3
