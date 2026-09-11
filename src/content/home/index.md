@@ -1,6 +1,10 @@
-Hi! I'm ***WutongYu***. This is my open-source Astro Blog, which is inspired by *[lin-stephanie](https://github.com/lin-stephanie)‘s [astro-antfustyle-theme](https://github.com/lin-stephanie/astro-antfustyle-theme)*.
+Hi! I'm ***WutongYu***. I love coding and designing elegant systems.🐱
 
-I'm an student at :link[Hohai University]{id=https://www.hhu.edu.cn .square}. Recently i'm applying for Msc cs at :link[HKU]{id=https://www.hku.hk .square} / :link[CUHK]{id=https://www.cuhk.edu.hk img=/cuhk.png .square} / :link[HKUST]{id=https://hkust.edu.hk .square}.
+I am seeking an **internship** opportunity in AI agent development.
+
+- 🤖 **Now:** building **AI&Agent&Infra**
+- 🎓 **Education:** IoT @ :link[HHU]{id=https://www.hhu.edu.cn .square} ｜ Applying for MS CS @ :link[HKU]{id=https://www.hku.hk .square} / :link[CUHK]{id=https://www.cuhk.edu.hk img=/cuhk.png .square} / :link[HKUST]{id=https://hkust.edu.hk .square}
+- 🧑‍💻 **Internship:** prev @GIAN
 
 ![Skills](https://skillicons.dev/icons?i=git,github,linux,md,docker,c,html,css,javascript,typescript,nodejs,vue,react,astro,electron,java,python,spring,fastapi,mysql,sqlite,redis,kafka)
 
