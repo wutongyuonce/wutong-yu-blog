@@ -54,7 +54,7 @@
     "remark-directive": "^4.0.0",
     "remark-directive-sugar": "^2.0.0",
     "remark-math": "^6.0.0",
-    "satori": "^0.26.0",
+    "satori": "^0.33.0",
     "satori-html": "^0.3.2",
     "sharp": "^0.34.5",
     "typescript": "^5.9.3",
