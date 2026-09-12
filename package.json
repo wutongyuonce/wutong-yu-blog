@@ -1,7 +1,7 @@
 {
   "name": "wutong-yu",
   "version": "2.4.0",
-  "packageManager": "pnpm@10.34.5",
+  "packageManager": "pnpm@12.4.1",
   "type": "module",
   "private": true,
   "license": "MIT",
@@ -65,12 +65,6 @@
     "unist-util-visit": "^5.1.0",
     "unocss": "66.5.3",
     "vfile": "^6.0.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
   },
   "engines": {
     "node": "18.20.8 || ^20.9.0 || ^22.0.0 || ^24.0.0"
