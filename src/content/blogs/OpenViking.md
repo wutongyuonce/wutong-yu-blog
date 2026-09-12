@@ -14,13 +14,11 @@ search: true
 >
 > 参考资料：
 >
-> [https://github.com/volcengine/OpenViking/blob/main/README\_CN.md](https://github.com/volcengine/OpenViking/blob/main/README_CN.md)
-> https://docs.openviking.ai/zh/concepts
-> https://blog.openviking.ai/post/openviking-context-database/?lang=zh
-> https://blog.openviking.ai/post/agent-runtime/
-> https://blog.openviking.ai/post/openviking-context-database-architecture/
-> https://blog.openviking.ai/post/openviking-agent-memory-design/
-> https://blog.openviking.ai/post/openviking-user-peer-model/
+> * [README_CN](https://github.com/volcengine/OpenViking/blob/main/README_CN.md)
+> 
+> * https://docs.openviking.ai/zh/concepts
+> 
+> * https://blog.openviking.ai/post
 
 ## 1. TLDR：OpenViking 到底是什么
 

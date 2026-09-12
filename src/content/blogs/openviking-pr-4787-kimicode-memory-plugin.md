@@ -13,7 +13,7 @@ draft: true
 >
 > 关联 Issue：[[Feature]: 请做 zcode 和 kimicode 适配 #3442](https://github.com/volcengine/OpenViking/issues/3442)
 >
-> 本文默认读者已经读过《[看懂 OpenViking：从服务运行到上下文写入、检索与记忆提取](https://www.wutongyu.site/blogs/openviking-context-database/)》，因此不再重复 OpenViking Server、`viking://` 文件系统和长期记忆提取的内部原理。
+> 本文默认读者已经读过《[看懂 OpenViking：从服务运行到上下文写入、检索与记忆提取](https://www.wutongyu.site/blogs/openviking/)》，因此不再重复 OpenViking Server、`viking://` 文件系统和长期记忆提取的内部原理。
 >
 > 源码基线：PR 当前最终实现提交 [`0409529a`](https://github.com/volcengine/OpenViking/commit/0409529aa59c6812703490182ca50065085afb55)。Kimi Code 宿主协议按插件中记录的 CLI 0.41.0 实现。
 
