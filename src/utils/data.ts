@@ -63,6 +63,18 @@ export function getSortedPosts(
   )
 }
 
+async function getPublishedBlogPosts() {
+  return await getCollection('blogs', ({ data }) => !data.draft)
+}
+
+/**
+ * Retrieves the five newest published posts for the home page.
+ */
+export async function getRecentBlogPosts() {
+  const posts = await getPublishedBlogPosts()
+  return getSortedPosts(posts).slice(0, 5)
+}
+
 export interface BlogStats {
   postCount: number
   wordCount: number
@@ -73,7 +85,7 @@ export interface BlogStats {
  * Summarizes published blog content for the home page.
  */
 export async function getBlogStats(): Promise<BlogStats> {
-  const posts = await getCollection('blogs', ({ data }) => !data.draft)
+  const posts = await getPublishedBlogPosts()
   const renderedPosts = await Promise.all(posts.map((post) => render(post)))
 
   return {

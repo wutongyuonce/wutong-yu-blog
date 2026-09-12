@@ -10,6 +10,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
 import RenderPage from '~/components/views/RenderPage.astro'
 import HomeHeader from '~/components/home/HomeHeader.astro'
+import RecentWriting from '~/components/home/RecentWriting.astro'
 
 <BaseLayout
   title={frontmatter.title}
@@ -25,6 +26,7 @@ import HomeHeader from '~/components/home/HomeHeader.astro'
     />
     <div slot="article" class="home-content" style="margin-top: -1em;">
       <RenderPage collectionType="home" id="index" />
+      <RecentWriting />
     </div>
   </StandardLayout>
 </BaseLayout>
