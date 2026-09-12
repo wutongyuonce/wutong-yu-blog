@@ -1,5 +1,6 @@
 ---
 import LogoButton from '~/components/widgets/LogoButton.astro'
+import ProgressStats from '~/components/widgets/ProgressStats.astro'
 import Divider from '~/components/base/Divider.astro'
 import SearchSwitch from '~/components/widgets/SearchSwitch.astro'
 import ThemeSwitch from '~/components/widgets/ThemeSwitch.astro'
@@ -23,7 +24,10 @@ for (const item of new Set(left)) {
 <header
   class={`nav-bar flex items-center gap-6 p-[1.75rem_2rem_2rem] ${mergeOnMobile ? 'lt-md:px-7' : 'lt-md:(px-6 gap-3)'}`}
 >
-  <LogoButton />
+  <div class="nav-bar__brand">
+    <LogoButton />
+    <ProgressStats />
+  </div>
   <nav
     class={`nav-bar__nav flex items-center gap-4.8 w-full lt-md:justify-end
     ${left.length !== 0 ? (right.length !== 0 ? 'justify-between' : '') : 'justify-end'}`}
@@ -145,6 +149,12 @@ for (const item of new Set(left)) {
     gap: 1.2rem;
   }
 
+  .nav-bar__brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
   .nav-bar__group {
     display: grid;
     grid-auto-flow: column;
@@ -158,7 +168,8 @@ for (const item of new Set(left)) {
 
   @media (max-width: 767.9px) {
     .nav-bar {
-      padding-inline: 1.75rem;
+      gap: 0.75rem;
+      padding-inline: 1rem;
     }
 
     .nav-bar__nav {
