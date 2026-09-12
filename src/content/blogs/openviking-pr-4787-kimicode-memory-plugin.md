@@ -6,7 +6,7 @@ tags: [OpenViking, Kimi Code, Agent Memory, PR]
 ogImage: false
 toc: true
 search: true
-draft: true
+draft: false
 ---
 
 > 对应 PR：[feat(plugins): add Kimi Code CLI memory plugin #4787](https://github.com/volcengine/OpenViking/pull/4787)
