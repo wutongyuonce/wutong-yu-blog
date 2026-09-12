@@ -109,7 +109,8 @@ pnpm dev          # 启动本地开发服务器
 pnpm check        # 运行 Astro 类型与内容检查
 pnpm build        # 生成生产环境构建产物
 pnpm preview      # 本地预览生产构建
-pnpm test:blog-tags # 验证博客标签汇总与 AND 匹配逻辑
+pnpm test:blog-tags  # 验证博客标签汇总与 AND 匹配逻辑
+pnpm test:blog-stats # 验证首页 Blog 统计的字数、日期跨度与格式化逻辑
 pnpm lint         # 运行 ESLint 检查
 pnpm lint:fix     # 自动修复 lint 问题
 pnpm format       # 检查代码格式（Prettier）
@@ -170,7 +171,7 @@ src/
   pages/          # 路由定义
   styles/         # main.css, prose.css, markdown.css
   utils/          # 路径、日期、数据、标签筛选、杂项、目录工具函数
-test/             # Node 内置测试，目前覆盖博客标签纯逻辑
+test/             # Node 内置测试，覆盖博客标签与首页 Blog 统计纯逻辑
 plugins/          # remark/rehype 插件、OG 辅助
 public/           # 静态资源：favicon、字体、生成的图片等
 docs/             # 项目笔记与定制说明文档
