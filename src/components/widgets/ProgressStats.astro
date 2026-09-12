@@ -1,0 +1,134 @@
+<div class="progress-stats" role="group" aria-label="时间进度">
+  <div class="progress-stat progress-stat--day">
+    <strong data-progress-value="day">--</strong>
+    <span>今年第几天</span>
+  </div>
+  <div class="progress-stat">
+    <strong><span data-progress-value="year">--</span><small>%</small></strong>
+    <span>年度进度</span>
+  </div>
+  <div class="progress-stat">
+    <strong><span data-progress-value="today">--</span><small>%</small></strong>
+    <span>今日进度</span>
+  </div>
+</div>
+
+<script>
+  import { getProgressStats } from '~/utils/progress-stats.js'
+
+  const updateProgressStats = () => {
+    const stats = getProgressStats()
+
+    document
+      .querySelectorAll<HTMLElement>('[data-progress-value="day"]')
+      .forEach((element) => (element.textContent = String(stats.dayOfYear)))
+    document
+      .querySelectorAll<HTMLElement>('[data-progress-value="year"]')
+      .forEach(
+        (element) =>
+          (element.textContent = String(Math.round(stats.yearProgress)))
+      )
+    document
+      .querySelectorAll<HTMLElement>('[data-progress-value="today"]')
+      .forEach(
+        (element) =>
+          (element.textContent = String(Math.round(stats.dayProgress)))
+      )
+  }
+
+  const startProgressClock = () => {
+    updateProgressStats()
+
+    if (document.documentElement.dataset.progressClock) return
+    document.documentElement.dataset.progressClock = 'active'
+    window.setInterval(updateProgressStats, 30_000)
+  }
+
+  document.addEventListener('astro:page-load', startProgressClock)
+  startProgressClock()
+</script>
+
+<style>
+  .progress-stats {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.9rem, 1.8vw, 1.5rem);
+    padding-left: clamp(0.9rem, 1.8vw, 1.5rem);
+    border-left: 1px solid color-mix(in srgb, var(--c-text) 14%, transparent);
+    color: color-mix(in srgb, var(--c-text) 58%, transparent);
+    white-space: nowrap;
+  }
+
+  .progress-stat {
+    display: grid;
+    gap: 0.12rem;
+  }
+
+  .progress-stat strong {
+    color: color-mix(in srgb, var(--c-text) 78%, transparent);
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1.12rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .progress-stat--day strong {
+    color: #ad526c;
+  }
+
+  .progress-stat > span {
+    font-family: 'LXGWWenKai-Regular', sans-serif;
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .progress-stat small {
+    margin-left: 0.08em;
+    font-size: 0.62em;
+    letter-spacing: -0.02em;
+    opacity: 0.72;
+  }
+
+  :global(html.dark) .progress-stats {
+    border-left-color: color-mix(in srgb, var(--c-text) 18%, transparent);
+    color: color-mix(in srgb, var(--c-text) 55%, transparent);
+  }
+
+  :global(html.dark) .progress-stat--day strong {
+    color: #e7a1b5;
+  }
+
+  @media (max-width: 767.9px) {
+    .progress-stats {
+      gap: 0.65rem;
+      padding-left: 0.7rem;
+    }
+
+    .progress-stat strong {
+      font-size: 0.82rem;
+    }
+
+    .progress-stat > span {
+      font-size: 0.5rem;
+      letter-spacing: 0;
+    }
+  }
+
+  @media (max-width: 389.9px) {
+    .progress-stats {
+      gap: 0.5rem;
+    }
+
+    .progress-stat strong {
+      font-size: 0.76rem;
+    }
+
+    .progress-stat > span {
+      font-size: 0.46rem;
+    }
+  }
+</style>
