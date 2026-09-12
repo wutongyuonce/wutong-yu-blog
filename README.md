@@ -17,34 +17,37 @@
 首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。正文展示个人介绍、技术栈、GitHub 统计和社交链接。
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-18-40.png" alt="图片" width="600">
+  <img src="img/image-20260912223918526.png" alt="图片" width="750">
 </p>
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
+  <img src="img/image-20260912224017446.png" alt="图片" width="750">
 </p>
+
 
 ## Blogs 页面
 
 `/blogs/` 会汇总当前 Blog 的全部标签与文章数，支持多标签 AND 筛选。宽屏标签面板位于文章左侧并与 `Blogs` 标题顶部对齐，页面滚动时随正文移出视口；容器宽度不足时自动移动到副标题与年份列表之间。完整设计和实现见 [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md)。
 
 <p align="center">
-  <img src="img/image-20260909230452633.png" alt="图片" width="800">
+  <img src="img/PixPin_2026-09-12_22-42-02.png" alt="图片" width="800">
 </p>
 
 ### blog 页面
 
 <p align="center">
-  <img src="img/image-20260909230625744.png" alt="图片" width="800">
+  <img src="img/PixPin_2026-09-12_22-43-14.png" alt="图片" width="800">
 </p>
+
 
 ## Projects 页面
 
 项目按分类以紧凑网格展示，分类标题使用小型标签。项目 `icon` 字段为可选项，当前数据不使用图标。
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-23-54.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-09-12_22-44-28.png" alt="图片" width="600">
 </p>
+
 ## Insights 页面
 
 当前 `/insights/` 页面已清空为预留开发页，仅保留基础页面壳与空白主体，方便后续重新设计和开发。
@@ -52,8 +55,9 @@
 ## Friends 页面
 
 <p align="center">
-  <img src="img/image-20260909230703276.png" alt="图片" width="800">
+  <img src="img/image-20260912224403728.png" alt="图片" width="800">
 </p>
+
 
 ## 概览
 

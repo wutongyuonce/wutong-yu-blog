@@ -17,12 +17,11 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-18-40.png" alt="图片" width="600">
+  <img src="img/image-20260912223918526.png" alt="图片" width="750">
 </p>
 
-
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-19-54.png" alt="图片" width="600">
+  <img src="img/image-20260912224017446.png" alt="图片" width="750">
 </p>
 
 ## Blogs Page
@@ -30,13 +29,13 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 `/blogs/` aggregates every visible post tag with its post count and supports multi-tag AND filtering. On wide screens the tag panel sits to the left and aligns with the `Blogs` heading; it scrolls away with the document. When the container becomes narrow, it moves between the subtitle and year groups. See [`docs/feature/Blogs标签汇聚与筛选说明.md`](docs/feature/Blogs标签汇聚与筛选说明.md) for the source-level design and implementation notes.
 
 <p align="center">
-  <img src="img/image-20260909230452633.png" alt="图片" width="800">
+  <img src="img/PixPin_2026-09-12_22-42-02.png" alt="图片" width="800">
 </p>
 
 ### blog Page
 
 <p align="center">
-  <img src="img/image-20260909230625744.png" alt="图片" width="800">
+  <img src="img/PixPin_2026-09-12_22-43-14.png" alt="图片" width="800">
 </p>
 
 ## Projects Page
@@ -44,7 +43,7 @@ The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustr
 Projects are grouped in a compact responsive grid with small category labels. The project `icon` field is optional, and the current project data is intentionally icon-free.
 
 <p align="center">
-  <img src="img/PixPin_2026-08-16_00-23-54.png" alt="图片" width="600">
+  <img src="img/PixPin_2026-09-12_22-44-28.png" alt="图片" width="600">
 </p>
 
 
@@ -55,7 +54,7 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 ## Friends Page
 
 <p align="center">
-  <img src="img/image-20260909230703276.png" alt="图片" width="800">
+  <img src="img/image-20260912224403728.png" alt="图片" width="800">
 </p>
 
 ## Overview
