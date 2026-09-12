@@ -15,6 +15,7 @@
     "test:blog-tags": "node --test test/blog-tag-filter.test.mjs",
     "test:blog-stats": "node --test test/blog-stats.test.mjs",
     "test:progress-stats": "node --test test/progress-stats.test.mjs",
+    "test:recent-post-date": "node --test test/recent-post-date.test.mjs",
     "format": "prettier . --check --ignore-unknown",
     "format:write": "prettier . --write --ignore-unknown --cache",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0 --cache",
