@@ -25,11 +25,11 @@ Avatar: ${friendInfo.avatar}`
     <ol class="friends-apply__rules">
       <li>
         <span class="friends-apply__index">01</span>
-        <span>先友后链</span>
+        <span class="friends-apply__rule-text">先友后链</span>
       </li>
       <li>
         <span class="friends-apply__index">02</span>
-        <span>站点使用 https 协议</span>
+        <span class="friends-apply__rule-text">站点使用 https 协议</span>
       </li>
     </ol>
     <p class="friends-apply__hint">
@@ -151,6 +151,13 @@ Avatar: ${friendInfo.avatar}`
     font-size: 0.78rem;
     letter-spacing: 0.04em;
     font-variant-numeric: tabular-nums;
+  }
+
+  .friends-apply__rule-text {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
   }
 
   .friends-apply__hint {
