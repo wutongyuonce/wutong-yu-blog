@@ -1,5 +1,7 @@
 ---
 import TinyDesktop from '~/components/home/TinyDesktop.astro'
+import { getBlogStats } from '~/utils/data'
+import { formatChineseCount } from '~/utils/blog-stats'
 
 interface Props {
   title: string
@@ -7,12 +9,20 @@ interface Props {
 }
 
 const { title, subtitle } = Astro.props
+const stats = await getBlogStats()
 ---
 
 <div class="home-title-row">
   <div class="home-title-copy">
     <h1 class="page-title">{title}</h1>
     {subtitle && <p class="home-title-subtitle op-50 italic">{subtitle}</p>}
+    <p class="home-title-stats" aria-label="Blog 统计">
+      <span>{stats.postCount}篇</span>
+      <span aria-hidden="true">·</span>
+      <span>{formatChineseCount(stats.wordCount)}字</span>
+      <span aria-hidden="true">·</span>
+      <span>{stats.daySpan}天</span>
+    </p>
   </div>
   <TinyDesktop />
 </div>
@@ -32,6 +42,24 @@ const { title, subtitle } = Astro.props
 
   .home-title-subtitle {
     margin-top: -2rem !important;
+  }
+
+  .home-title-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 1.15rem 0 0 !important;
+    color: color-mix(in srgb, var(--c-text) 46%, transparent);
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.045em;
+    line-height: 1;
+  }
+
+  .home-title-stats span[aria-hidden='true'] {
+    color: color-mix(in srgb, var(--c-text) 24%, transparent);
   }
 
   @media (max-width: 720px) {

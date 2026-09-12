@@ -1,6 +1,7 @@
 import { getCollection, render } from 'astro:content'
 
 import { getYear } from '~/utils/datetime'
+import { getCalendarDaySpan } from '~/utils/blog-stats'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -60,6 +61,29 @@ export function getSortedPosts(
   return [...posts].sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   )
+}
+
+export interface BlogStats {
+  postCount: number
+  wordCount: number
+  daySpan: number
+}
+
+/**
+ * Summarizes published blog content for the home page.
+ */
+export async function getBlogStats(): Promise<BlogStats> {
+  const posts = await getCollection('blogs', ({ data }) => !data.draft)
+  const renderedPosts = await Promise.all(posts.map((post) => render(post)))
+
+  return {
+    postCount: posts.length,
+    wordCount: renderedPosts.reduce(
+      (total, post) => total + (post.remarkPluginFrontmatter.wordCount ?? 0),
+      0
+    ),
+    daySpan: getCalendarDaySpan(posts.map(({ data }) => data.pubDate)),
+  }
 }
 
 export interface GroupedBlogItem {
