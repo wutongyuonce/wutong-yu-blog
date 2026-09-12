@@ -13,8 +13,6 @@ I‘m seeking an **internship** opportunity in agent development.
   <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=wutongyuonce&layout=compact" alt="GitHub Stats" style="width: calc(43% - 0.5rem); margin: 0;" />
 </div>
 
----
-
 <p>
   <span class="inline-block mr-1.5 mb-2">Feel free to chat with me on</span>
   <span class="inline-flex flex-wrap gap-2 op-75">
