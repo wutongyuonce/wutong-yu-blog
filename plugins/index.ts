@@ -1,6 +1,7 @@
 import { visit } from 'unist-util-visit'  // 遍历 AST 树节点的工具函数
 
 // ==================== Remark 插件（Markdown → MDAST） ====================
+import remarkCjkFriendly from 'remark-cjk-friendly'      // CJK 标点旁的 **加粗**（Typora 能渲染，CommonMark 默认不能）
 import remarkDirective from 'remark-directive'           // 支持通用指令语法（::name, :name）
 import remarkDirectiveSugar from 'remark-directive-sugar' // 提供 :badge、:link、:image 等内置指令
 import remarkMath from 'remark-math'                     // 解析数学公式（$...$ 和 $$...$$）
@@ -112,6 +113,9 @@ const headingAnchorProperties: BuildProperties = (el) => {
 
 // ==================== 导出 Remark 插件配置 ====================
 export const remarkPlugins: RemarkPlugins = [
+  // 0. CJK 友好的强调语法（**术语（中文）**后接汉字）
+  remarkCjkFriendly,
+
   // 1. 基础指令支持
   remarkDirective,  // 解析 :::warning 这类自定义指令
 
