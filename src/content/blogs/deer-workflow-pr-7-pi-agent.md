@@ -10,7 +10,6 @@ search: true
 
 > 对应 PR：[feat: support Pi Coding Agent 0.84.1 #7](https://github.com/deerwork-ai/deer-workflow/pull/7)  
 > 关联 Issue：[feat: 支持 Pi Coding Agent 0.84.1 #6](https://github.com/deerwork-ai/deer-workflow/issues/6)  
-> 合并提交：[`b208230`](https://github.com/deerwork-ai/deer-workflow/commit/b20823012eeec15d41f4969f09964401e00f56e0)  
 > 阅读前提：本文只解释 PR #7 怎样把 Pi 接入 Deer Workflow 已有的 Agent seam，不重复展开 Workflow、Flow、Runner 和 TUI 的通用实现。
 
 ## 1. 本质总结
@@ -476,39 +475,7 @@ CLI 测试把 `codex`、`claude` 和 `pi` stub 放到 PATH，再启动真实 `sr
 - Codex 仍是默认值；
 - 被移除的通用 `deer-workflow agent` 命令没有被重新引入。
 
-## 13. 验证结果与证据边界
-
-### 13.1 PR 合并时证据
-
-| 证据 | 状态 |
-| --- | --- |
-| PR 描述 | 声明 `bun run check` 通过，89 tests passed、0 failed |
-| 人工真实 Pi 0.84.1 smoke | PR 描述声明成功返回 `{ "ok": true }` |
-| Review | `MagicCube` 于 2026-08-09 对最终 head `5a5f22e` APPROVED |
-| 合并 | 2026-08-09 合并为 `b208230` |
-| GitHub status checks | API 当前没有返回附着在最终 head 上的 check runs |
-| Inline review comments | API 当前没有返回 inline review comment |
-
-所以可以确认 reviewer 批准并已合并；不能仅凭 GitHub 页面声称 CI workflow 运行过。`bun run check` 和真实 Pi smoke 的依据是 PR 作者记录。
-
-### 13.2 本次本地复核
-
-当前本地源码快照执行：
-
-```text
-bun test
-→ 89 pass
-→ 0 fail
-→ 299 expect() calls
-```
-
-其中 Pi Harness、create CLI 和 Skill 的聚焦测试为 30 pass、0 fail。
-
-`bun run check` 没有完整通过：本地快照没有 `node_modules`，`bunx tsc` 使用了 TypeScript 6 工具链，并因现有 `baseUrl` 配置缺少 `ignoreDeprecations: "6.0"` 而在 typecheck 阶段失败。lint、format check 和后续 test 因此没有由该串联命令执行。本文只声明实际运行成功的 `bun test`，不把 PR 作者当时的完整检查结果冒充为本次验证。
-
-本地目录也没有 `.git`，因此文件统计、base/head、commit 和 review 状态来自 GitHub API，而不是本地 Git 历史。
-
-## 14. 当前设计的明确限制
+## 13. 当前设计的明确限制
 
 第一，`read-only` 和 `workspace-write` 是 Harness 工具策略，不是 OS Sandbox。Pi 进程、模型 provider、显式 Extension 或未来新增能力仍需要版本兼容审查；高风险执行应放入外部隔离环境。
 
@@ -520,7 +487,7 @@ bun test
 
 第五，最终仓库没有真实 Pi 集成测试。stub tests 能证明 Deer 的参数构造、解析和清理逻辑，但不能自动证明某个新 Pi 版本仍接受这些参数和事件契约。
 
-## 15. 最终结论
+## 14. 最终结论
 
 PR #7 的核心不是“支持第三个 CLI”，而是保持一个统一终态契约：
 
