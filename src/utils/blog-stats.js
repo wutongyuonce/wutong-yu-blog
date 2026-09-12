@@ -18,6 +18,27 @@ export function countReadableUnits(text) {
 }
 
 /**
+ * Sums rendered word counts and rejects incomplete content metadata.
+ *
+ * @param {(number | undefined)[]} counts
+ */
+export function sumWordCounts(counts) {
+  let total = 0
+
+  for (const [index, count] of counts.entries()) {
+    if (count === undefined) {
+      throw new Error(
+        `Blog at index ${index} is missing its rendered word count`
+      )
+    }
+
+    total += count
+  }
+
+  return total
+}
+
+/**
  * Returns the number of calendar days between the earliest and latest date.
  *
  * @param {Date[]} dates

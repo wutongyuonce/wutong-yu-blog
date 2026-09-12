@@ -5,6 +5,7 @@ import {
   countReadableUnits,
   formatChineseCount,
   getCalendarDaySpan,
+  sumWordCounts,
 } from '../src/utils/blog-stats.js'
 
 test('counts CJK characters and non-CJK words without whitespace', () => {
@@ -26,4 +27,11 @@ test('formats large Chinese counts in ten-thousands', () => {
   assert.equal(formatChineseCount(9_999), '9,999')
   assert.equal(formatChineseCount(12_300), '1.2万')
   assert.equal(formatChineseCount(1_370_000), '137万')
+})
+
+test('rejects incomplete rendered word counts instead of publishing zero', () => {
+  assert.throws(
+    () => sumWordCounts([1_200, undefined, 800]),
+    /missing its rendered word count/
+  )
 })

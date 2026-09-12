@@ -145,7 +145,9 @@ export const remarkPlugins: RemarkPlugins = [
   remarkMath,  // 解析 $inline$ 和 $$block$$ 语法
 
   // 4. 阅读时间计算
-  remarkReadingTime,  // 统计文章字数，计算预计阅读时间
+  // Astro includes plugin options in its content-cache digest. Bump this value
+  // whenever the plugin adds or changes persisted frontmatter fields.
+  [remarkReadingTime, { cacheVersion: 1 }],  // 统计文章字数，计算预计阅读时间
 
   // 5. OG 图片生成（条件启用，根据 FEATURES 配置）
   ...(Array.isArray(FEATURES.ogImage) && FEATURES.ogImage[0]

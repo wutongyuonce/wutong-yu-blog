@@ -1,7 +1,7 @@
 import { getCollection, render } from 'astro:content'
 
 import { getYear } from '~/utils/datetime'
-import { getCalendarDaySpan } from '~/utils/blog-stats'
+import { getCalendarDaySpan, sumWordCounts } from '~/utils/blog-stats'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -78,9 +78,8 @@ export async function getBlogStats(): Promise<BlogStats> {
 
   return {
     postCount: posts.length,
-    wordCount: renderedPosts.reduce(
-      (total, post) => total + (post.remarkPluginFrontmatter.wordCount ?? 0),
-      0
+    wordCount: sumWordCounts(
+      renderedPosts.map((post) => post.remarkPluginFrontmatter.wordCount)
     ),
     daySpan: getCalendarDaySpan(posts.map(({ data }) => data.pubDate)),
   }
