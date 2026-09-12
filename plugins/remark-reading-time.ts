@@ -29,7 +29,7 @@ function estimateReadingMinutes(text: string) {
   return Math.max(1, Math.round(countReadableUnits(text) / WORDS_PER_MINUTE))
 }
 
-function remarkReadingTime(_options?: { cacheVersion: number }) {
+function remarkReadingTime() {
   return (tree: Root, file: VFile) => {
     const astroFile = file as AstroReadingTimeFile
     const { frontmatter } = astroFile.data.astro

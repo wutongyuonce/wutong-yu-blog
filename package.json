@@ -10,7 +10,7 @@
     "sync": "astro sync",
     "dev": "astro dev",
     "check": "astro check",
-    "build": "astro build",
+    "build": "astro build --force",
     "preview": "astro preview",
     "test:blog-tags": "node --test test/blog-tag-filter.test.mjs",
     "test:blog-stats": "node --test test/blog-stats.test.mjs",
