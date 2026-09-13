@@ -7,14 +7,14 @@
 [![UnoCSS](https://img.shields.io/badge/UnoCSS-66-656565?logo=unocss&logoColor=white)](https://unocss.dev)
 [![MDX](https://img.shields.io/badge/MDX-ok-1b1f24?logo=mdx&logoColor=white)](https://mdxjs.com)
 [![Pagefind](https://img.shields.io/badge/Pagefind-search-4b32c3)](https://pagefind.app)
-[![pnpm](https://img.shields.io/badge/pnpm-10.28-f69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![pnpm](https://img.shields.io/badge/pnpm-12.4-f69220?logo=pnpm&logoColor=white)](https://pnpm.io)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 一个精简的 Astro 5 个人站点，视觉风格受 Antfu 风格启发。专注于一个小而精的功能集：首页 Home、博客 Blogs、项目 Projects、启发 Insights、友链 Friends 和搜索 Search，保持代码库易于扩展。
 
 ## Home 页面
 
-首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。正文展示个人介绍、技术栈、GitHub 统计和社交链接。
+首页使用独立的 `HomeHeader`，在标题右侧展示纯 CSS 绘制的复古桌面，窄屏下自动切换为纵向布局。副标题下展示已发布 Blog 的篇数、字数与首末篇日期间隔；正文后是最近 5 篇已发布文章的时间线。导航栏 Logo 旁显示今年第几天、年度进度和今日进度。正文展示个人介绍、技术栈、GitHub 统计和社交链接。完整实现见 [`docs/feature/首页与导航近期功能说明.md`](docs/feature/首页与导航近期功能说明.md)。
 
 <p align="center">
   <img src="img/image-20260912223918526.png" alt="图片" width="750">
@@ -70,7 +70,8 @@
 
 ## 功能亮点
 
-- 首页 `/`
+- 首页 `/`，含 Blog 统计与最近 5 篇写作时间线
+- 导航栏 Logo 旁的年积日、年度进度与今日进度
 - 博客索引 `/blogs/` 与文章页 `/blogs/[slug]/`
 - 博客索引支持标签计数、响应式多标签 AND 筛选及明暗主题
 - 项目展示页 `/projects/`，支持紧凑分类网格和可选图标
@@ -94,8 +95,8 @@
 
 ## 环境要求
 
-- Node.js `18.20.8`、`20.9.0+` 或 `22+`
-- `pnpm@10.28.0`
+- Node.js `18.20.8`、`20.9.0+`、`22+` 或 `24+`
+- `pnpm@12.4.1`
 
 ## 快速开始
 
@@ -113,8 +114,11 @@ pnpm dev          # 启动本地开发服务器
 pnpm check        # 运行 Astro 类型与内容检查
 pnpm build        # 生成生产环境构建产物
 pnpm preview      # 本地预览生产构建
-pnpm test:blog-tags  # 验证博客标签汇总与 AND 匹配逻辑
-pnpm test:blog-stats # 验证首页 Blog 统计的字数、日期跨度与格式化逻辑
+pnpm test:blog-tags        # 验证博客标签汇总与 AND 匹配逻辑
+pnpm test:blog-stats       # 验证首页 Blog 统计的字数、日期跨度与格式化逻辑
+pnpm test:recent-post-date # 验证首页近期写作的相对/绝对日期
+pnpm test:progress-stats   # 验证导航栏年积日与进度百分比
+pnpm test:cjk-emphasis     # 验证 CJK 标点旁的 Markdown 强调语法
 pnpm lint         # 运行 ESLint 检查
 pnpm lint:fix     # 自动修复 lint 问题
 pnpm format       # 检查代码格式（Prettier）
@@ -125,7 +129,7 @@ pnpm format:write # 格式化代码（Prettier）
 
 | 路由 | 用途 |
 | :--- | :--- |
-| `/` | 首页：自定义标题区、复古桌面与个人内容 |
+| `/` | 首页：自定义标题区、Blog 统计、复古桌面、个人内容与近期写作 |
 | `/blogs/` | 博客索引页：标签汇聚、计数与多标签 AND 筛选 |
 | `/blogs/[slug]/` | 博客文章详情页 |
 | `/projects/` | 项展示页：紧凑分类网格，图标可选 |
@@ -159,11 +163,11 @@ src/
   components/
     backgrounds/  # Background, Dot, Plum, Rose, Snow
     base/         # Head, Link, Footer, Backdrop, PostMeta, Divider
-    home/         # HomeHeader, TinyDesktop
+    home/         # HomeHeader, TinyDesktop, RecentWriting
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
     views/        # 页面组合；ListView 与 TagFilter 负责博客列表及标签筛选
-    widgets/      # LogoButton, SearchSwitch, ThemeSwitch, BackLink
+    widgets/      # LogoButton, ProgressStats, SearchSwitch, ThemeSwitch, BackLink
   content/
     blogs/        # 博客文章（Markdown / MDX）
     home/         # 首页内容
@@ -174,8 +178,8 @@ src/
   layouts/        # BaseLayout, StandardLayout
   pages/          # 路由定义
   styles/         # main.css, prose.css, markdown.css
-  utils/          # 路径、日期、数据、标签筛选、杂项、目录工具函数
-test/             # Node 内置测试，覆盖博客标签与首页 Blog 统计纯逻辑
+  utils/          # 路径、日期、数据、标签筛选、Blog 统计、近期日期、时间进度、杂项、目录工具函数
+test/             # Node 内置测试，覆盖博客标签、首页统计、近期日期、时间进度与 CJK 强调
 plugins/          # remark/rehype 插件、OG 辅助
 public/           # 静态资源：favicon、字体、生成的图片等
 docs/             # 项目笔记与定制说明文档
@@ -205,6 +209,7 @@ src/components/* + styles/*  -> 最终 UI 输出
 项目相关说明文档存放在 `docs/` 目录下：
 
 - `docs/项目解析.md` — 完整的项目架构与数据流分析
+- `docs/feature/首页与导航近期功能说明.md` — 首页 Blog 统计、近期笔墨与导航时间进度
 - `docs/feature/Blogs标签汇聚与筛选说明.md` — Blogs 标签数据、AND 筛选、响应式布局与维护方式
 - `docs/feature/Insights模块更新说明.md` — Insights 模块当前状态、链路与后续恢复说明
 - `docs/feature/友链模块说明.md` — Friends 模块结构、数据链路与维护说明

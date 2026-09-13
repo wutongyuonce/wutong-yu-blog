@@ -5,14 +5,14 @@
 [![UnoCSS](https://img.shields.io/badge/UnoCSS-66-656565?logo=unocss&logoColor=white)](https://unocss.dev)
 [![MDX](https://img.shields.io/badge/MDX-ok-1b1f24?logo=mdx&logoColor=white)](https://mdxjs.com)
 [![Pagefind](https://img.shields.io/badge/Pagefind-search-4b32c3)](https://pagefind.app)
-[![pnpm](https://img.shields.io/badge/pnpm-10.28-f69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![pnpm](https://img.shields.io/badge/pnpm-12.4-f69220?logo=pnpm&logoColor=white)](https://pnpm.io)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 A streamlined Astro 5 personal site inspired by the Antfu-style visual language. This repository focuses on a small, opinionated feature set: homepage, blog, projects, insights, friends, and search, while keeping the codebase easy to extend.
 
 ## Home Page
 
-The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustration. It switches to a vertical layout on narrow screens, while the body presents the profile, stack, GitHub stats, and social links.
+The homepage uses a dedicated `HomeHeader` with a pure-CSS retro desktop illustration. It switches to a vertical layout on narrow screens. Below the subtitle it shows published blog count, word count, and the span from first to latest post; below the introduction it lists the five newest published posts. The navbar shows day-of-year plus annual and daily progress beside the logo. The body presents the profile, stack, GitHub stats, and social links. See [`docs/feature/首页与导航近期功能说明.md`](docs/feature/首页与导航近期功能说明.md) for the source-level notes.
 
 
 
@@ -68,7 +68,8 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 
 ## Feature Highlights
 
-- Home page at `/`
+- Home page at `/`, with blog statistics and a five-post recent-writing timeline
+- Day-of-year, annual progress, and daily progress beside the navbar logo
 - Blog index at `/blogs/` and article pages at `/blogs/[slug]/`
 - Responsive blog tag counts and multi-tag AND filtering with light/dark themes
 - Project showcase page at `/projects/` with compact category grids and optional icons
@@ -92,8 +93,8 @@ The `/insights/` page is currently cleared into a blank placeholder page. The ro
 
 ## Requirements
 
-- Node.js `18.20.8`, `20.9.0+`, or `22+`
-- `pnpm@10.28.0`
+- Node.js `18.20.8`, `20.9.0+`, `22+`, or `24+`
+- `pnpm@12.4.1`
 
 ## Quick Start
 
@@ -111,7 +112,11 @@ pnpm dev          # start local development server
 pnpm check        # run Astro type/content checks
 pnpm build        # create production build
 pnpm preview      # preview the production build locally
-pnpm test:blog-tags # verify blog tag aggregation and AND matching
+pnpm test:blog-tags        # verify blog tag aggregation and AND matching
+pnpm test:blog-stats       # verify home blog word counts, date span, and formatting
+pnpm test:recent-post-date # verify recent-writing relative and absolute dates
+pnpm test:progress-stats   # verify navbar day-of-year and progress percentages
+pnpm test:cjk-emphasis     # verify Markdown emphasis next to CJK punctuation
 pnpm lint         # run ESLint
 pnpm lint:fix     # fix lint issues where possible
 pnpm format       # check formatting with Prettier
@@ -122,7 +127,7 @@ pnpm format:write # format files with Prettier
 
 | Route | Purpose |
 | :--- | :--- |
-| `/` | Homepage with a custom header, retro desktop, and profile content |
+| `/` | Homepage with a custom header, blog stats, retro desktop, profile content, and recent writing |
 | `/blogs/` | Blog index with tag aggregation, counts, and multi-tag AND filtering |
 | `/blogs/[slug]/` | Blog post detail page |
 | `/projects/` | Compact categorized project grid with optional icons |
@@ -156,11 +161,11 @@ src/
   components/
     backgrounds/  # Background, Dot, Plum, Rose, Snow
     base/         # Head, Link, Footer, Backdrop, PostMeta, Divider
-    home/         # HomeHeader, TinyDesktop
+    home/         # HomeHeader, TinyDesktop, RecentWriting
     nav/          # NavBar, NavItem, NavSwitch
     toc/          # Toc, TocSidebar, TocItem
     views/        # page composition; ListView and TagFilter power the blog index filtering
-    widgets/      # LogoButton, SearchSwitch, ThemeSwitch, BackLink
+    widgets/      # LogoButton, ProgressStats, SearchSwitch, ThemeSwitch, BackLink
   content/
     blogs/        # Blog posts (Markdown / MDX)
     home/         # Homepage content
@@ -171,8 +176,8 @@ src/
   layouts/        # BaseLayout, StandardLayout
   pages/          # Route definitions
   styles/         # main.css, prose.css, markdown.css
-  utils/          # path, datetime, data, blog tag filtering, misc, and TOC helpers
-test/             # Node built-in tests, currently covering blog tag logic
+  utils/          # path, datetime, data, blog tag filtering, blog stats, recent dates, progress stats, misc, and TOC helpers
+test/             # Node built-in tests covering blog tags, home stats, recent dates, progress stats, and CJK emphasis
 plugins/          # remark/rehype plugins, OG helpers
 public/           # Static assets such as favicon, fonts, and generated images
 docs/             # Project notes and customization documents
@@ -202,6 +207,7 @@ src/components/* + styles/*  -> final UI output
 Project-specific notes are kept in `docs/`:
 
 - `docs/项目解析.md` - Full project architecture and data flow analysis
+- `docs/feature/首页与导航近期功能说明.md` - Home blog statistics, recent writing, and navbar progress
 - `docs/feature/Blogs标签汇聚与筛选说明.md` - Blog tag data, AND filtering, responsive layout, and maintenance notes
 - `docs/feature/Insights模块更新说明.md` - Current Insights module status, wiring, and restoration notes
 - `docs/feature/友链模块说明.md` - Friends module structure, data flow, and maintenance guide
