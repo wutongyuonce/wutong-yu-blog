@@ -1,6 +1,6 @@
 # Blogs 标签汇聚与筛选说明
 
-本文档以当前代码为准，说明 `/blogs/` 标签汇聚、多标签筛选、响应式布局和后续维护方式。最初设计、实现讨论与验收记录见 [Issue #19](https://github.com/wutongyuonce/wutong-yu-blog/issues/19)。
+本文档以当前代码为准，说明 `/blogs/` 标签汇聚、多标签筛选、响应式布局和后续维护方式。最初设计、实现讨论与验收记录见 [Issue #19](https://github.com/wutongyuonce/YuBlog/issues/19)。
 
 ## 1. 用户可见行为
 
@@ -185,6 +185,6 @@ pnpm build
 ## 9. 后续修改入口
 
 - 先阅读本文档了解当前代码事实。
-- 查看 [Issue #19](https://github.com/wutongyuonce/wutong-yu-blog/issues/19) 了解设计取舍、实现偏差和验收背景。
+- 查看 [Issue #19](https://github.com/wutongyuonce/YuBlog/issues/19) 了解设计取舍、实现偏差和验收背景。
 - 修改筛选语义时同步更新纯函数与 `test/blog-tag-filter.test.mjs`。
 - 修改响应式断点、标签尺寸或标题对齐时同步检查 1280px、1024px 和 390px。

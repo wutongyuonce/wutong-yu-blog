@@ -4,9 +4,9 @@
 
 ## 1. 核心规则
 
-1. 进入项目后，必须先读取 `wutong-yu-blog/README.md`
+1. 进入项目后，必须先读取 `README.md`
 2. 先用 `README.md` 理解项目定位、技术栈、路由、内容结构、配置入口和目录分层
-3. 任务明确后，再按需读取 `wutong-yu-blog/docs` 下的相关文档
+3. 任务明确后，再按需读取 `docs` 下的相关文档
 4. 不要默认通读整个 `docs/`，除非任务本身就是全局梳理、架构审查或文档盘点
 5. 一切以项目当前源代码为准，文档只作为辅助上下文，内容可能过时
 
@@ -22,7 +22,7 @@
 
 必读文件：
 
-- `/Users/a/Desktop/WorkSpace/ALL/我的Github项目/wutong-yu-blog/README.md`
+- `README.md`
 
 按需补读：
 

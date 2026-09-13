@@ -1,4 +1,4 @@
-# Wutong-Yu-Blog
+# YuBlog
 
 [English](README_ENG.md) | [1w5+字数博客项目解析，深入了解 Astro](docs/)
 

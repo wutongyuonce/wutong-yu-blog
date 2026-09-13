@@ -47,7 +47,7 @@ export const UI: Ui = {
   ],
   socialLinks: [
     {
-      link: 'https://github.com/wutongyuonce/wutong-yu-blog',
+      link: 'https://github.com/wutongyuonce/YuBlog',
       title: 'GitHub',
       displayMode: 'alwaysIcon',
       icon: 'i-uil-github-alt',
